@@ -17,6 +17,7 @@ cc_library(
         "//mediapipe/framework/port:status",
         "//mediapipe/framework/port:statusor",
         "//mediapipe/framework/port:threadpool",
+        "//mediapipe/framework/port:logging",
         "//mediapipe/framework:calculator_graph",
         "//mediapipe/gpu:gl_base",
         "//mediapipe/gpu:gpu_buffer",

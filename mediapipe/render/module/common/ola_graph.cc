@@ -5,7 +5,7 @@
 #include "mediapipe/framework/formats/image.h"
 #include "mediapipe/framework/formats/image_frame.h"
 #include "mediapipe/framework/graph_service.h"
-
+#include "mediapipe/framework/port/logging.h"
 #include "mediapipe/gpu/gl_base.h"
 #include "mediapipe/gpu/gpu_shared_data_internal.h"
 
@@ -115,6 +115,7 @@ namespace Opipe
         absl::Status status = _graph->Initialize(_config);
         if (!status.ok())
         {
+            LOG(ERROR) << status;
             return status;
         }
         for (const auto &service_packet : _servicePackets)
@@ -122,6 +123,7 @@ namespace Opipe
             status = _graph->SetServicePacket(*service_packet.first, service_packet.second);
             if (!status.ok())
             {
+                LOG(ERROR) << status;
                 return status;
             }
         }
@@ -129,6 +131,7 @@ namespace Opipe
 //        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
         if (!status.ok())
         {
+            LOG(ERROR) << status;
             return status;
         }
         return status;
@@ -139,6 +142,9 @@ namespace Opipe
     {
         absl::Status status = _graph->AddPacketToInputStream(streamName, packet);
 //        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
+        if (!status.ok()) {
+            LOG(ERROR) << status;
+        }
         return status.ok();
     }
 
@@ -146,6 +152,9 @@ namespace Opipe
     {
         absl::Status status = _graph->AddPacketToInputStream(streamName, std::move(packet));
 //        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
+        if (!status.ok()) {
+            LOG(ERROR) << status;
+        }
         return status.ok();
     }
 

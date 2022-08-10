@@ -1,15 +1,23 @@
 #include "face_mesh_module_imp.h"
 #include "mediapipe/render/core/Context.hpp"
 #include "mediapipe/render/core/math/vec2.hpp"
+
 #if TestTemplateFace
 #include "mediapipe/render/core/CVFramebuffer.hpp"
 #import <UIKit/UIKit.h>
+#else
+#if defined(__APPLE__)
+#include "mediapipe/render/core/CVFramebuffer.hpp"
+#endif
 #endif
 
 static const char* kNumFacesInputSidePacket = "num_faces";
 static const char* kLandmarksOutputStream = "multi_face_landmarks";
 static const char* kDetectionsOutputStream = "face_detections";
 static const char* kOutputVideo = "output_video";
+static const char* kInputVideo = "input_video";
+static const char* kSegmentation = "filtered_segmentation_mask";
+static const char* kUseSegmentation = "use_segmentation";
 
 namespace Opipe
 {
@@ -25,12 +33,18 @@ namespace Opipe
     void FaceMeshCallFrameDelegate::outputPixelbuffer(OlaGraph *graph, CVPixelBufferRef pixelbuffer,
                                                       const std::string &streamName, int64_t timestamp)
     {
-//        _imp->currentDispatch()->runSync([&] {
-//            IOSurfaceRef surface = CVPixelBufferGetIOSurface(pixelbuffer);
-//            IOSurfaceID surfaceId = IOSurfaceGetID(surface);
-//            Log("Opipe", "streamName %s timeStamp:%ld iosurfaceid:%d", streamName.c_str(), timestamp, surfaceId);
-//        });
-        
+        if (streamName == kSegmentation) {
+            _imp->currentDispatch()->runSync([&] {
+                IOSurfaceRef surface = CVPixelBufferGetIOSurface(pixelbuffer);
+                IOSurfaceID surfaceId = IOSurfaceGetID(surface);
+                
+                CVFramebuffer *framebuffer = (CVFramebuffer *)_imp->getOutputFilter()->getFramebuffer();
+                CVPixelBufferRef pbuffer = framebuffer->renderTarget;
+                Log("Opipe", "streamName %s timeStamp:%ld iosurfaceid:%d width:%d originWidth:%d", streamName.c_str(), timestamp, surfaceId,
+                    (int)IOSurfaceGetWidth(surface), (int)CVPixelBufferGetWidth(pbuffer));
+                
+            });
+        }
     }
 #endif
 
@@ -59,6 +73,15 @@ namespace Opipe
             } else {
                 _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
             }
+            
+//            if (streamName == kSegmentation) {
+//                // 人脸分割的数据
+//                const auto& buffer = packet.Get<GpuBuffer>();
+//                GlTextureView textureView = buffer.GetReadView<GlTextureView>(0);
+//                
+//                
+//            }
+            
         }, Opipe::Context::IOContext);
     }
 
@@ -156,9 +179,11 @@ namespace Opipe
         _graph = std::make_unique<OlaGraph>(config);
         _graph->setDelegate(_delegate);
         _graph->setSidePacket(mediapipe::MakePacket<int>(1), kNumFacesInputSidePacket);
+//        _graph->setSidePacket(mediapipe::MakePacket<bool>(false), kUseSegmentation);
         _graph->addFrameOutputStream(kLandmarksOutputStream, MPPPacketTypeRaw);
 #if defined(__APPLE__)
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypePixelBuffer);
+        _graph->addFrameOutputStream(kSegmentation, MPPPacketTypePixelBuffer);
 #endif
         _isInit = true;
         if (_render == nullptr) {
@@ -217,6 +242,11 @@ namespace Opipe
         _graph->waitUntilDone();
     }
 
+    void FaceMeshModuleIMP::setSegmentationEnable(bool segEnable)
+    {
+        _segEnable = segEnable;
+    }
+
 #if defined(__APPLE__)
     void FaceMeshModuleIMP::processVideoFrame(CVPixelBufferRef pixelbuffer,
                                               int64_t timeStamp)
@@ -226,19 +256,18 @@ namespace Opipe
             return;
         }
         Timestamp ts(timeStamp * 1000);
-
-        
+        _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
 #if TestTemplateFace
         auto *framebuffer = dynamic_cast<CVFramebuffer *>(_templateFace->getFramebuffer());
         CVPixelBufferRef renderTarget = framebuffer->renderTarget;
         framebuffer->lockAddress();
-        _graph->sendPixelBuffer(renderTarget, "input_video",
+        _graph->sendPixelBuffer(renderTarget, kInputVideo,
         MPPPacketTypePixelBuffer,
         ts);
         framebuffer->unlockAddress();
 #else
         CVPixelBufferLockBaseAddress(pixelbuffer, 0);
-        _graph->sendPixelBuffer(pixelbuffer, "input_video",
+        _graph->sendPixelBuffer(pixelbuffer, kInputVideo,
         MPPPacketTypePixelBuffer,
         ts);
         CVPixelBufferUnlockBaseAddress(pixelbuffer, 0);

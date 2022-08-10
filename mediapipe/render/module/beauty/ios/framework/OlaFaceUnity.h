@@ -22,6 +22,7 @@ typedef struct {
 @property (nonatomic) CGFloat eyeFactor;
 @property (nonatomic, weak) OlaFURenderView *renderView;
 @property (nonatomic) BOOL useGLRender; //测试用开关
+@property (nonatomic) BOOL useSegmentation; //是否打开背景分割
 
 - (void)initModule;
 

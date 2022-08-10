@@ -58,6 +58,12 @@ cc_library(
         "//mediapipe/calculators/core:flow_limiter_calculator",
         "//mediapipe/graphs/face_mesh/subgraphs:face_renderer_gpu",
         "//mediapipe/modules/face_landmark:face_landmark_front_gpu",
+        "//mediapipe/modules/selfie_segmentation:selfie_segmentation_gpu",
+        "//mediapipe/calculators/core:gate_calculator",
+        "//mediapipe/calculators/core:previous_loopback_calculator",
+        "//mediapipe/calculators/image:segmentation_smoothing_calculator",
+        "//mediapipe/calculators/util:from_image_calculator",
+        "//mediapipe/modules/pose_landmark:pose_segmentation_filtering",
     ],
 )
 

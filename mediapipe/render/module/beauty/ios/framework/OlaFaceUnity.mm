@@ -227,6 +227,18 @@ using namespace Opipe;
     _face_module->setNose(nose);
 }
 
+- (BOOL)useSegmentation
+{
+    return _face_module->getSegmentation();
+}
+
+- (void)setUseSegmentation:(BOOL)useSegmentation
+{
+    _face_module->runInContextSync([&] {
+        _face_module->setSegmentationEnable(useSegmentation);
+    });
+}
+
 - (void)resume
 {
     if (!_face_module) {

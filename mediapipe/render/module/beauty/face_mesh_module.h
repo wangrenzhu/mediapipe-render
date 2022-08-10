@@ -142,6 +142,10 @@ namespace Opipe
                 /// 美白
                 /// @param whitening 美白 0.0 - 1.0
                 virtual void setWhitening(float whitening) = 0;
+            
+                virtual bool getSegmentation() = 0;
+            
+                virtual void setSegmentationEnable(bool segEnable) = 0;
 
                 virtual TextureInfo renderTexture(TextureInfo inputTexture) = 0;
             

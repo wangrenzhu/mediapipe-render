@@ -53,3 +53,5 @@ mediapipe/render/module/beauty/ios/framework/FaceUnityFramework.xcodeproj/.tulsi
 mediapipe/render/module/beauty/ios/framework/FaceUnityFramework.xcodeproj/.tulsi/Scripts/update_symbol_cache.py
 mediapipe/render/module/beauty/ios/framework/FaceUnityFramework.xcodeproj/.tulsi/Scripts/user_build.py
 mediapipe/render/module/beauty/ios/framework/FaceUnityFramework.xcodeproj/.tulsi/Utils/lldbinit
+mediapipe/examples/android/solutions/.gradle/7.4/checksums/md5-checksums.bin
+mediapipe/examples/android/solutions/.gradle/7.4/checksums/sha1-checksums.bin
