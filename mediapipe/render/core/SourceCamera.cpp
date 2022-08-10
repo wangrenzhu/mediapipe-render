@@ -19,7 +19,7 @@
 #include <math.h>
 #include "SourceCamera.hpp"
 #include "Context.hpp"
-#include "util.h"
+// #include "util.h"
 #if defined(__APPLE__)
 #include "CVFramebuffer.hpp"
 #endif

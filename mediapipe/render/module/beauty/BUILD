@@ -1,4 +1,5 @@
 package(default_visibility = ["//visibility:public"])
+
 load(
     "@build_bazel_rules_apple//apple:ios.bzl",
     "ios_application", "ios_framework", "ios_static_framework"
@@ -35,6 +36,15 @@ FACEUNITY_HDRS = [
         "face_mesh_module_imp.h",
 ]
 
+cc_binary(
+    name = "FaceMeshGPULibrary.so",
+    linkshared = 1,
+    linkstatic = 1,
+    deps = [
+        ":FaceMeshGPULibrary",
+    ],
+)
+
 cc_library(
     name = "FaceMeshGPULibrary",
     srcs = FACEUNITY_SRCS,
@@ -56,12 +66,9 @@ cc_library(
             "//mediapipe/graphs/face_mesh:mobile_calculators",
             "//mediapipe/framework/formats:landmark_cc_proto",
             "//mediapipe/render/module/beauty/filters:BeautyFilters",
+            "//mediapipe/util/android:asset_manager_util",
         ],
         "//conditions:default": [
-            "//mediapipe/render/core:core",
-            "//mediapipe/graphs/face_mesh:mobile_calculators",
-            "//mediapipe/framework/formats:landmark_cc_proto",
-            "//mediapipe/render/module/beauty/filters:BeautyFilters",
         ],
     }),
     copts = select({
@@ -69,6 +76,7 @@ cc_library(
             "-x objective-c++",
             # "-fobjc-arc",  # enable reference-counting
         ],
+         "//mediapipe:android": [],
         "//conditions:default": ["-std=c++17"],
     }),
 )

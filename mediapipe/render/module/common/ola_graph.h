@@ -59,6 +59,7 @@ namespace Opipe
 
         absl::Status AddCallbackHandler(std::string output_stream_name,
                                         void *callback);
+
         absl::Status AddMultiStreamCallbackHandler(std::vector<std::string> output_stream_names,
                                                    void *callback,
                                                    bool observe_timestamp_bounds);
@@ -95,7 +96,10 @@ namespace Opipe
 
         virtual bool start();
 
-        virtual bool sendPacket(const mediapipe::Packet &packet,
+        virtual bool sendPacket(int textureId, int width, int height,
+                                const std::string &streamName);
+
+        virtual bool sendPacket( unsigned char *data, int width, int height,
                                 const std::string &streamName);
 
         virtual bool movePacket(mediapipe::Packet &&packet, const std::string &streamName);

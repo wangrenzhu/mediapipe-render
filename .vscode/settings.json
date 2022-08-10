@@ -101,7 +101,19 @@
         "csignal": "cpp",
         "memory_resource": "cpp",
         "future": "cpp",
-        "cfenv": "cpp"
+        "cfenv": "cpp",
+        "span": "cpp",
+        "*.inc": "cpp",
+        "__bits": "cpp",
+        "any": "cpp",
+        "coroutine": "cpp",
+        "scoped_allocator": "cpp",
+        "strstream": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "rope": "cpp",
+        "slist": "cpp",
+        "*.ipp": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

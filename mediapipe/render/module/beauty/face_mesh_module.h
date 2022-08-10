@@ -150,11 +150,16 @@ namespace Opipe
                 virtual void processVideoFrame(CVPixelBufferRef pixelbuffer, int64_t timeStamp) = 0;
 #endif
 
-                virtual void processVideoFrame(char *pixelbuffer,
+                virtual void processVideoFrame(unsigned char *pixelBuffer,
+                                               int size,
                                                int width,
                                                int height,
-                                               int step,
                                                int64_t timeStamp) = 0;
+
+                virtual void processVideoFrame(int textureId,
+                                       int width,
+                                       int height,
+                                       int64_t timeStamp) = 0;
             
                 virtual void runInContextSync(std::function<void(void)> func) = 0;
 

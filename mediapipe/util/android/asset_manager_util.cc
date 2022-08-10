@@ -153,7 +153,7 @@ bool AssetManager::ReadFile(const std::string& filename, std::string* output) {
 
 absl::StatusOr<std::string> AssetManager::CachedFileFromAsset(
     const std::string& asset_path) {
-  RET_CHECK(cache_dir_path_.size()) << "asset manager not initialized";
+  RET_CHECK(cache_dir_path_.size()) << "----asset manager not initialized";
 
   std::string file_path =
       absl::StrCat(cache_dir_path_, "/mediapipe_asset_cache/", asset_path);

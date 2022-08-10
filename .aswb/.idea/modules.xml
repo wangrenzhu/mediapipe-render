@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/.blaze/modules/mediapipe.examples.android.solutions.hands.src.main.hands.iml" filepath="$PROJECT_DIR$/.blaze/modules/mediapipe.examples.android.solutions.hands.src.main.hands.iml" />
       <module fileurl="file://$PROJECT_DIR$/.blaze/modules/mediapipe.examples.android.src.java.com.google.mediapipe.apps.basic.basic_lib.iml" filepath="$PROJECT_DIR$/.blaze/modules/mediapipe.examples.android.src.java.com.google.mediapipe.apps.basic.basic_lib.iml" />
       <module fileurl="file://$PROJECT_DIR$/.blaze/modules/mediapipe.examples.android.src.java.com.google.mediapipe.apps.instantmotiontracking.instantmotiontracking_lib.iml" filepath="$PROJECT_DIR$/.blaze/modules/mediapipe.examples.android.src.java.com.google.mediapipe.apps.instantmotiontracking.instantmotiontracking_lib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.blaze/modules/mediapipe.render.demo.android.java.com.ola.olamerademo.olamerademo.iml" filepath="$PROJECT_DIR$/.blaze/modules/mediapipe.render.demo.android.java.com.ola.olamerademo.olamerademo.iml" />
     </modules>
   </component>
 </project>

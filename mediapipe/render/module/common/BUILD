@@ -22,7 +22,6 @@ cc_library(
         "//mediapipe/gpu:gpu_buffer",
         "//mediapipe/gpu:gpu_shared_data_internal",
         "//mediapipe/gpu:graph_support",
-        "//mediapipe/gpu:pixel_buffer_pool_util",
         "//mediapipe/util:cpu_util",
         "@com_google_absl//absl/base:core_headers",
         "@com_google_absl//absl/memory",
@@ -31,9 +30,12 @@ cc_library(
         "@google_toolbox_for_mac//:GTM_Defines",
     ] + select({
         "//mediapipe:ios": [
+            "//mediapipe/gpu:pixel_buffer_pool_util",
             "//mediapipe/objc:CFHolder",
             "//mediapipe/objc:Weakify",
             "//mediapipe/objc:util",
+        ],
+        "//conditions:default": [
         ],
     }),
     copts = select({
@@ -84,6 +86,8 @@ objc_library(
             "//mediapipe/objc:CFHolder",
             "//mediapipe/objc:Weakify",
             "//mediapipe/objc:util",
+        ],
+        "//mediapipe:android": [
         ],
     }),
     copts = [

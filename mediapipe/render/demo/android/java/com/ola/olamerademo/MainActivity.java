@@ -1,29 +1,61 @@
 package com.ola.olamerademo;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.os.Build;
+import android.os.Bundle;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-
+import com.google.common.io.ByteStreams;
 import com.ola.olamera.render.view.CameraVideoView;
+import com.ola.frameworks.OlaBeauty;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class MainActivity extends AppCompatActivity {
 
     private CameraVideoView mCameraVideoView;
     private ActivityCameraSession mActivityCameraSession;
+    private QStreamWrapper mQStreamWrapper;
+    private long graph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        graph = OlaBeauty.nativeCreate();
+        mQStreamWrapper = new QStreamWrapper(graph);
         mCameraVideoView = new CameraVideoView(this, null);
         setContentView(mCameraVideoView);
         mActivityCameraSession = new ActivityCameraSession(this);
         mActivityCameraSession.setCameraPreview(mCameraVideoView);
         requestPermission(() -> mActivityCameraSession.onWindowCreate());
+
+        mCameraVideoView.postDelayed(() -> {
+            mCameraVideoView.getExpansionManager().addRenderExpansion(QStreamWrapper.class, mQStreamWrapper);
+        }, 1000);
+
+
+        OlaBeauty.nativeInit(graph, getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb"));
+    }
+
+    public static byte[] getAssetBytes(AssetManager assets, String assetName) {
+        byte[] assetData;
+        try {
+            InputStream stream = assets.open(assetName);
+            assetData = ByteStreams.toByteArray(stream);
+            stream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return assetData;
     }
 
 
@@ -50,20 +82,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         mActivityCameraSession.onWindowActive();
+        OlaBeauty.nativeStartModule(graph);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         mActivityCameraSession.onWindowInactive();
+        OlaBeauty.nativeStopModule(graph);
+
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mActivityCameraSession.onWindowDestroy();
+        OlaBeauty.nativeRelease(graph);
     }
 
     /**

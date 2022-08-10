@@ -1,9 +1,4 @@
 package com.ola.olamerademo;
-/*
- *
- *  Creation    :  20-11-25
- *  Author      : jiaming.wjm@
- */
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,16 +17,13 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
-
 import com.ola.olamera.camera.Camera2Manager;
 import com.ola.olamera.camera.camera.CameraState;
 import com.ola.olamera.camera.concurrent.MainThreadExecutor;
 import com.ola.olamera.camera.preview.IPreviewSurfaceProvider;
-import com.ola.olamera.camera.preview.IPreviewView;
 import com.ola.olamera.camera.preview.SurfaceTextureWrapper;
 import com.ola.olamera.camera.session.CameraCaptureCallback;
 import com.ola.olamera.camera.session.CameraCaptureCallbackHandlerWrapper;
-import com.ola.olamera.camera.session.CameraCaptureResult;
 import com.ola.olamera.camera.session.CameraSelector;
 import com.ola.olamera.camera.session.PreviewConfig;
 import com.ola.olamera.camera.session.SessionConfig;
@@ -187,7 +179,7 @@ public class ActivityCameraSession {
     private final IPreviewSurfaceProvider mPreviewSurfaceProvider = new IPreviewSurfaceProvider() {
 
         @Override
-        public Surface provide(@NonNull SurfaceRequest request) {
+        public Surface provide(@NonNull IPreviewSurfaceProvider.SurfaceRequest request) {
             synchronized (mSurfaceLock) {
                 //释放当前surface texture
                 onUseComplete(null);

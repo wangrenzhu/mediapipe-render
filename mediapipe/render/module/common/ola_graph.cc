@@ -5,145 +5,146 @@
 #include "mediapipe/framework/formats/image.h"
 #include "mediapipe/framework/formats/image_frame.h"
 #include "mediapipe/framework/graph_service.h"
-
+#include "mediapipe/gpu/gl_texture_buffer.h"
 #include "mediapipe/gpu/gl_base.h"
 #include "mediapipe/gpu/gpu_shared_data_internal.h"
 
 
 using namespace mediapipe;
 
-namespace Opipe
-{
+namespace Opipe {
 
     void CallFrameDelegate(void *wrapperVoid, const std::string &streamName, MPPPacketType packetType,
-                           const mediapipe::Packet &packet)
-    {
-        OlaGraph *graph = (OlaGraph *)wrapperVoid;
+                           const mediapipe::Packet &packet) {
+        OlaGraph *graph = (OlaGraph *) wrapperVoid;
 #if defined(__APPLE__)
         @autoreleasepool {
 #endif
-            if (graph->_delegate.expired())
-            {
-                return;
-            }
-            
-            graph->_delegate.lock()->outputPacket(graph, packet, streamName);
-            
-            if (packetType == MPPPacketTypeRaw && !graph->_delegate.expired())
-            {
-                graph->_delegate.lock()->outputPacket(graph, packet, packetType, streamName);
-            } else if (packetType == MPPPacketTypeImageFrame && !graph->_delegate.expired()) {
-                graph->_framesInFlight--;
-            }
-    #if defined(__APPLE__)
-            else if ((packetType == MPPPacketTypePixelBuffer ||
-                     packetType == MPPPacketTypeImage) && !graph->_delegate.expired())
-            {
-                graph->_framesInFlight--;
-                CVPixelBufferRef pixelBuffer;
-                if (packetType == MPPPacketTypePixelBuffer)
-                    pixelBuffer = mediapipe::GetCVPixelBufferRef(packet.Get<mediapipe::GpuBuffer>());
-                else
-                    pixelBuffer = packet.Get<mediapipe::Image>().GetCVPixelBufferRef();
-                
-                graph->_delegate.lock()->outputPixelbuffer(graph, pixelBuffer, streamName, packet.Timestamp().Value());
-            }
+        if (graph->_delegate.expired()) {
+            return;
         }
+
+        graph->_delegate.lock()->outputPacket(graph, packet, streamName);
+
+        if (packetType == MPPPacketTypeRaw && !graph->_delegate.expired()) {
+            graph->_delegate.lock()->outputPacket(graph, packet, packetType, streamName);
+        } else if (packetType == MPPPacketTypeImageFrame && !graph->_delegate.expired()) {
+            graph->_framesInFlight--;
+        }
+#if defined(__APPLE__)
+        else if ((packetType == MPPPacketTypePixelBuffer ||
+                 packetType == MPPPacketTypeImage) && !graph->_delegate.expired())
+        {
+            graph->_framesInFlight--;
+            CVPixelBufferRef pixelBuffer;
+            if (packetType == MPPPacketTypePixelBuffer)
+                pixelBuffer = mediapipe::GetCVPixelBufferRef(packet.Get<mediapipe::GpuBuffer>());
+            else
+                pixelBuffer = packet.Get<mediapipe::Image>().GetCVPixelBufferRef();
+
+            graph->_delegate.lock()->outputPixelbuffer(graph, pixelBuffer, streamName, packet.Timestamp().Value());
+        }
+    }
 #endif
-        
-        
+
+
     }
 
-    OlaGraph::OlaGraph(const mediapipe::CalculatorGraphConfig &config)
-    {
+    OlaGraph::OlaGraph(const mediapipe::CalculatorGraphConfig &config) {
         _config = config;
         _graph = absl::make_unique<mediapipe::CalculatorGraph>();
     }
 
-    OlaGraph::~OlaGraph()
-    {
+    OlaGraph::~OlaGraph() {
     }
 
-    mediapipe::ProfilingContext *OlaGraph::getProfiler()
-    {
+    mediapipe::ProfilingContext *OlaGraph::getProfiler() {
         return _graph->profiler();
     }
 
-    void OlaGraph::setHeaderPacket(const mediapipe::Packet &packet, std::string streamName)
-    {
+    void OlaGraph::setHeaderPacket(const mediapipe::Packet &packet, std::string streamName) {
         _streamHeaders[streamName] = packet;
     }
 
-    void OlaGraph::setSidePacket(const mediapipe::Packet &packet, std::string name)
-    {
+    void OlaGraph::setSidePacket(const mediapipe::Packet &packet, std::string name) {
         _inputSidePackets[name] = packet;
     }
 
-    void OlaGraph::setServicePacket(mediapipe::Packet &packet, const mediapipe::GraphServiceBase &service)
-    {
+    void OlaGraph::setServicePacket(mediapipe::Packet &packet, const mediapipe::GraphServiceBase &service) {
         _servicePackets[&service] = std::move(packet);
     }
 
-    void OlaGraph::addSidePackets(const std::map<std::string, mediapipe::Packet> &extraSidePackets)
-    {
+    void OlaGraph::addSidePackets(const std::map <std::string, mediapipe::Packet> &extraSidePackets) {
         _inputSidePackets.insert(extraSidePackets.begin(), extraSidePackets.end());
     }
 
     void OlaGraph::addFrameOutputStream(const std::string &outputStreamName,
-                                        MPPPacketType packetType)
-    {
+                                        MPPPacketType packetType) {
         std::string callbackInputName;
         mediapipe::tool::AddCallbackCalculator(outputStreamName, &_config, &callbackInputName,
-                                               /*use_std_function=*/true);
+                /*use_std_function=*/true);
         // No matter what ownership qualifiers are put on the pointer, NewPermanentCallback will
         // still end up with a strong pointer to MPPGraph*. That is why we use void* instead.
         void *wrapperVoid = this;
-        _inputSidePackets[callbackInputName] =
-            mediapipe::MakePacket<std::function<void(const mediapipe::Packet &)>>([wrapperVoid, outputStreamName, packetType](const mediapipe::Packet &packet)
-                                                                                  { CallFrameDelegate(wrapperVoid, outputStreamName, packetType, packet); });
+        _inputSidePackets[callbackInputName] = mediapipe::MakePacket<std::function<void(const mediapipe::Packet &)>>(
+                [wrapperVoid, outputStreamName, packetType](const mediapipe::Packet &packet) {
+                    CallFrameDelegate(wrapperVoid, outputStreamName, packetType, packet);
+        });
     }
 
-    bool OlaGraph::start()
-    {
+
+
+    bool OlaGraph::start() {
         absl::Status status = performStart();
         _started = status.ok();
         return status.ok();
     }
 
-    absl::Status OlaGraph::performStart()
-    {
+    absl::Status OlaGraph::performStart() {
         absl::Status status = _graph->Initialize(_config);
-        if (!status.ok())
-        {
+        if (!status.ok()) {
             return status;
         }
-        for (const auto &service_packet : _servicePackets)
-        {
+        for (const auto &service_packet: _servicePackets) {
             status = _graph->SetServicePacket(*service_packet.first, service_packet.second);
-            if (!status.ok())
-            {
+            if (!status.ok()) {
                 return status;
             }
         }
         status = _graph->StartRun(_inputSidePackets, _streamHeaders);
 //        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
-        if (!status.ok())
-        {
+        if (!status.ok()) {
             return status;
         }
         return status;
     }
 
-    bool OlaGraph::sendPacket(const mediapipe::Packet &packet,
-                              const std::string &streamName)
-    {
+
+
+    bool OlaGraph::sendPacket(unsigned char *data, int width, int height, const std::string &streamName) {
+        auto buffer_or = GlTextureBuffer::Create(width, height, mediapipe::GpuBufferFormat::kBGRA32, data, 4);
+        mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::Image>(std::move(buffer_or));
+        absl::Status status = _graph->AddPacketToInputStream(streamName, std::move(packet));
+        return status.ok();
+    }
+
+  mediapipe::GpuBuffer createPacket(int textureId, int width, int height){
+        return mediapipe::GpuBuffer(mediapipe::GlTextureBuffer::Wrap(
+      GL_TEXTURE_2D, textureId, width, height, mediapipe::GpuBufferFormat::kBGRA32, nullptr, nullptr));
+
+    //  return absl::make_unique<GlTextureBuffer>(GL_TEXTURE_2D, textureId, width, height, mediapipe::GpuBufferFormat::kBGRA32,nullptr, context)
+    }
+
+    bool OlaGraph::sendPacket(int textureId, int width, int height, const std::string &streamName) {
+        auto buffer_or = createPacket(textureId, width, height);
+        mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::Image>(std::move(buffer_or));
         absl::Status status = _graph->AddPacketToInputStream(streamName, packet);
 //        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
         return status.ok();
     }
 
-    bool OlaGraph::movePacket(mediapipe::Packet &&packet, const std::string &streamName)
-    {
+
+    bool OlaGraph::movePacket(mediapipe::Packet &&packet, const std::string &streamName) {
         absl::Status status = _graph->AddPacketToInputStream(streamName, std::move(packet));
 //        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
         return status.ok();
@@ -153,8 +154,7 @@ namespace Opipe
     /// only supported for graph input streams. Should be called before starting the
     /// graph.
     bool OlaGraph::setMaxQueueSize(int maxQueueSize,
-                                   const std::string &streamName)
-    {
+                                   const std::string &streamName) {
         absl::Status status = _graph->SetInputStreamMaxQueueSize(streamName, maxQueueSize);
         return status.ok();
     }
@@ -267,30 +267,26 @@ namespace Opipe
 #endif
 
     /// Cancels a graph run. You must still call waitUntilDoneWithError: after this.
-    void OlaGraph::cancel()
-    {
+    void OlaGraph::cancel() {
         _graph->Cancel();
     }
 
     /// Check if the graph contains this input stream
-    bool OlaGraph::hasInputStream(const std::string &inputName)
-    {
+    bool OlaGraph::hasInputStream(const std::string &inputName) {
         return _graph->HasInputStream(inputName);
     }
 
     /// Closes an input stream.
     /// You must close all graph input streams before stopping the graph.
     /// @return YES if successful.
-    bool OlaGraph::closeInputStream(const std::string &inputName)
-    {
+    bool OlaGraph::closeInputStream(const std::string &inputName) {
         absl::Status status = _graph->CloseInputStream(inputName);
         return status.ok();
     }
 
     /// Closes all graph input streams.
     /// @return YES if successful.
-    bool OlaGraph::closeAllInputStreams()
-    {
+    bool OlaGraph::closeAllInputStreams() {
         absl::Status status = _graph->CloseAllInputStreams();
         return status.ok();
     }
@@ -300,16 +296,14 @@ namespace Opipe
     /// closed. This call does not time out, so you should not call it from the main
     /// thread.
     /// @return YES if successful.
-    bool OlaGraph::waitUntilDone()
-    {
+    bool OlaGraph::waitUntilDone() {
         absl::Status status = _graph->WaitUntilDone();
         _started = false;
         return status.ok();
     }
 
     /// Waits for the graph to become idle.
-    bool OlaGraph::waitUntilIdle()
-    {
+    bool OlaGraph::waitUntilIdle() {
         absl::Status status = _graph->WaitUntilIdle();
         return status.ok();
     }

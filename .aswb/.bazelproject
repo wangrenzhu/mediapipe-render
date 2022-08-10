@@ -13,6 +13,7 @@ additional_languages:
   # dart
   # kotlin
   # python
+  c
 
 
 # Please uncomment an android-SDK platform. Available SDKs are:

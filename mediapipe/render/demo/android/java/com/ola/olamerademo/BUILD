@@ -18,11 +18,11 @@ package(default_visibility = ["//visibility:private"])
 
 cc_binary(
     name = "libola_render_jni.so",
-    linkshared = 1,
-    linkstatic = 1,
     srcs = [
         "//mediapipe/render/module/render_queue:olarender",
     ],
+    linkshared = 1,
+    linkstatic = 1,
 )
 
 cc_library(
@@ -31,21 +31,27 @@ cc_library(
     alwayslink = 1,
 )
 
+aar_import(
+    name = "opipe_jni.aar",
+    aar = "//mediapipe/render/module/beauty/android/java/com/ola/frameworks:opipe_jni",
+)
+
 android_binary(
     name = "olamerademo",
     srcs = glob(["*.java"]),
-    manifest = ":AndroidManifest.xml",
-    resource_files = glob(["res/**"]),
-    visibility = ["//visibility:public"],
     assets = [
         ":rbga_2_yuv_frag.frag",
         ":rgba_2_yuv_vertex.vert",
     ],
     assets_dir = "",
+    manifest = ":AndroidManifest.xml",
     multidex = "native",
+    resource_files = glob(["res/**"]),
+    visibility = ["//visibility:public"],
     deps = [
         # ":ola_render_jni_lib",
         "//mediapipe/render/android/camera/java/com/ola/olamera:camera_core",
+        "opipe_jni.aar",
         "//third_party:androidx_annotation",
         "//third_party:lifecycle_livedata",
         "//third_party:androidx_appcompat",
@@ -53,5 +59,6 @@ android_binary(
         "//third_party:androidx_core",
         "//third_party:androidx_lifecycle_common",
         "//third_party:androidx_lifecycle_runtime",
+        "@maven//:com_google_guava_guava",
     ],
 )
