@@ -74,13 +74,12 @@ namespace Opipe
                 _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
             }
             
-//            if (streamName == kSegmentation) {
-//                // 人脸分割的数据
-//                const auto& buffer = packet.Get<GpuBuffer>();
-//                GlTextureView textureView = buffer.GetReadView<GlTextureView>(0);
-//                
-//                
-//            }
+            if (streamName == kSegmentation) {
+                // 人脸分割的数据
+                const auto& image = packet.Get<Image>();
+                auto buffer = image.GetGpuBuffer();
+
+            }
             
         }, Opipe::Context::IOContext);
     }
@@ -169,22 +168,23 @@ namespace Opipe
         config.ParseFromArray(binaryData, size);
         _olaContext = new OlaContext();
         _context = _olaContext->glContext();
+        
 #if defined(__ANDROID__)
-    _context->initEGLContext(env);
+        _context->initEGLContext(env);
 #endif
         
 
         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, nullptr);
 
-        _graph = std::make_unique<OlaGraph>(config);
+        _graph = std::make_unique<OlaGraph>(config, _context->getEglContext());
         _graph->setDelegate(_delegate);
         _graph->setSidePacket(mediapipe::MakePacket<int>(1), kNumFacesInputSidePacket);
 //        _graph->setSidePacket(mediapipe::MakePacket<bool>(false), kUseSegmentation);
         _graph->addFrameOutputStream(kLandmarksOutputStream, MPPPacketTypeRaw);
 #if defined(__APPLE__)
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypePixelBuffer);
-        _graph->addFrameOutputStream(kSegmentation, MPPPacketTypePixelBuffer);
 #endif
+        _graph->addFrameOutputStream(kSegmentation, MPPPacketTypeImage);
         _isInit = true;
         if (_render == nullptr) {
             _dispatch->runSync([&] {

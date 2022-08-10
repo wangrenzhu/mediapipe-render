@@ -49,15 +49,38 @@ namespace Opipe
                 graph->_delegate.lock()->outputPixelbuffer(graph, pixelBuffer, streamName, packet.Timestamp().Value());
             }
         }
-#endif
+    #else
+        else if (packetType == MPPPacketTypeImage && !graph->_delegate.expired()) {
+            // android 处理输出
+        }
+    #endif
         
         
     }
 
-    OlaGraph::OlaGraph(const mediapipe::CalculatorGraphConfig &config)
+    OlaGraph::OlaGraph(const mediapipe::CalculatorGraphConfig &config, void* glContext)
     {
         _config = config;
         _graph = absl::make_unique<mediapipe::CalculatorGraph>();
+        
+#if defined(__APPLE__)
+        EAGLContext *context = (__bridge EAGLContext *)glContext;
+//        ASSIGN_OR_RETURN(gpu_resources_,
+//                           mediapipe::GpuResources::Create(context));
+        absl::StatusOr<std::shared_ptr<GpuResources>> statusOrResources = mediapipe::GpuResources::Create(context);
+        if (statusOrResources.ok()) {
+            gpu_resources_ = statusOrResources.value();
+        }
+        
+//        gpu_resources_ = mediapipe::GpuResources::Create(context);
+#else
+        absl::StatusOr<std::shared_ptr<GpuResources>> statusOrResources = mediapipe::GpuResources::Create(reinterpret_cast<EGLContext>(glContext));
+        if (statusOrResources.ok()) {
+            gpu_resources_ = statusOrResources.value();
+        }
+#endif
+        
+        
     }
 
     OlaGraph::~OlaGraph()
@@ -105,8 +128,16 @@ namespace Opipe
 
     bool OlaGraph::start()
     {
-        absl::Status status = performStart();
-        _started = status.ok();
+        absl::Status status;
+        if (gpu_resources_) {
+            status = _graph->SetGpuResources(gpu_resources_);
+        }
+        
+        if (status.ok()) {
+            status = performStart();
+
+            _started = status.ok();
+        }
         return status.ok();
     }
 

@@ -129,16 +129,12 @@ node {
   calculator: "PoseSegmentationFiltering"
   input_side_packet: "ENABLE:enable"
   input_stream: "SEGMENTATION_MASK:segmentation_mask"
-  output_stream: "FILTERED_SEGMENTATION_MASK:filtered_mask"
+  output_stream: "FILTERED_SEGMENTATION_MASK:filtered_segmentation_mask"
 }
 
 # Converts the incoming segmentation mask represented as an Image into the
 # corresponding GpuBuffer type.
-node: {
-  calculator: "FromImageCalculator"
-  input_stream: "IMAGE:filtered_mask"
-  output_stream: "IMAGE_GPU:filtered_segmentation_mask"
-}
+
 
 
 # Subgraph that renders face-landmark annotation onto the input image.  //画标记 用于调试
