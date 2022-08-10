@@ -81,6 +81,12 @@
                                     <action selector="beautyChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="WZa-J4-ckO"/>
                                 </connections>
                             </slider>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="2eR-fH-C2W">
+                                <rect key="frame" x="345" y="100" width="51" height="31"/>
+                                <connections>
+                                    <action selector="switchSegmentation:" destination="BYZ-38-t0r" eventType="valueChanged" id="MIa-hP-Sma"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -88,6 +94,7 @@
                             <constraint firstItem="Mom-9E-xEB" firstAttribute="top" secondItem="wEp-us-rWn" secondAttribute="bottom" constant="10" id="AJK-dn-fkm"/>
                             <constraint firstItem="vgF-XJ-zVO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DZZ-ez-8TZ"/>
                             <constraint firstItem="vhS-oS-Fej" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JJ0-gj-buS"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="2eR-fH-C2W" secondAttribute="trailing" constant="20" id="MCI-dP-HD0"/>
                             <constraint firstItem="wEp-us-rWn" firstAttribute="top" secondItem="vgF-XJ-zVO" secondAttribute="bottom" constant="10" id="NHk-jR-ewD"/>
                             <constraint firstItem="vhS-oS-Fej" firstAttribute="top" secondItem="S8B-AB-YC8" secondAttribute="bottom" constant="10" id="PL7-5c-jQt"/>
                             <constraint firstItem="Mom-9E-xEB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="TYW-Gr-uFp"/>
@@ -99,6 +106,7 @@
                             <constraint firstItem="Xqq-mI-Nvq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="elq-CK-DpX"/>
                             <constraint firstItem="S8B-AB-YC8" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="frG-6h-1EA"/>
                             <constraint firstItem="Qqv-lK-sGM" firstAttribute="top" secondItem="Xqq-mI-Nvq" secondAttribute="bottom" constant="10" id="juk-TL-vmD"/>
+                            <constraint firstItem="2eR-fH-C2W" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="100" id="oPS-22-aVx"/>
                             <constraint firstItem="wEp-us-rWn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="of9-0R-JYD"/>
                             <constraint firstItem="Qqv-lK-sGM" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vqt-Eo-Zus"/>
                         </constraints>
@@ -181,6 +189,12 @@
                                     <action selector="beautyChanged:" destination="yrz-vH-i0Q" eventType="valueChanged" id="Q5q-Vw-rup"/>
                                 </connections>
                             </slider>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="og3-3c-HNE">
+                                <rect key="frame" x="345" y="188" width="51" height="31"/>
+                                <connections>
+                                    <action selector="useSegmentation:" destination="yrz-vH-i0Q" eventType="valueChanged" id="NTS-aA-nAN"/>
+                                </connections>
+                            </switch>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="u5f-5F-W1h"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -190,6 +204,7 @@
                             <constraint firstItem="u5f-5F-W1h" firstAttribute="bottom" secondItem="6xB-Eo-lBl" secondAttribute="bottom" constant="300" id="8lL-qV-6tL"/>
                             <constraint firstItem="J2z-bb-kLy" firstAttribute="top" secondItem="2h0-fS-bnd" secondAttribute="bottom" constant="10" id="EDF-0h-rrz"/>
                             <constraint firstItem="2h0-fS-bnd" firstAttribute="top" secondItem="Te0-GB-88y" secondAttribute="bottom" constant="10" id="F3e-TP-K2Q"/>
+                            <constraint firstItem="og3-3c-HNE" firstAttribute="top" secondItem="u5f-5F-W1h" secondAttribute="top" constant="100" id="JTx-Kb-jaL"/>
                             <constraint firstItem="eKK-cR-qWi" firstAttribute="centerX" secondItem="l81-mV-pGY" secondAttribute="centerX" id="PMC-Fg-LQU"/>
                             <constraint firstItem="6xB-Eo-lBl" firstAttribute="centerX" secondItem="l81-mV-pGY" secondAttribute="centerX" id="Q1X-fl-6aY"/>
                             <constraint firstItem="NuP-6R-LJf" firstAttribute="centerX" secondItem="l81-mV-pGY" secondAttribute="centerX" id="SHc-90-q9D"/>
@@ -197,6 +212,7 @@
                             <constraint firstItem="cmM-JY-yOC" firstAttribute="centerX" secondItem="l81-mV-pGY" secondAttribute="centerX" id="a8d-q3-rWA"/>
                             <constraint firstItem="cmM-JY-yOC" firstAttribute="top" secondItem="NuP-6R-LJf" secondAttribute="bottom" constant="10" id="bBi-3C-d5E"/>
                             <constraint firstItem="Te0-GB-88y" firstAttribute="top" secondItem="6xB-Eo-lBl" secondAttribute="bottom" constant="10" id="don-6B-EaW"/>
+                            <constraint firstItem="u5f-5F-W1h" firstAttribute="trailing" secondItem="og3-3c-HNE" secondAttribute="trailing" constant="20" id="idx-hl-uay"/>
                             <constraint firstItem="J0f-oC-AR1" firstAttribute="top" secondItem="cmM-JY-yOC" secondAttribute="bottom" constant="10" id="kAS-pi-lJc"/>
                             <constraint firstItem="2h0-fS-bnd" firstAttribute="centerX" secondItem="l81-mV-pGY" secondAttribute="centerX" id="pdF-HV-7EA"/>
                             <constraint firstItem="J2z-bb-kLy" firstAttribute="centerX" secondItem="l81-mV-pGY" secondAttribute="centerX" id="wWF-ie-2o1"/>

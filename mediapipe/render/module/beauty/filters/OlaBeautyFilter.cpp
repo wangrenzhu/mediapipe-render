@@ -101,7 +101,7 @@ namespace Opipe {
         _bilateralFilter->setTexelSpacingMultiplier(2.7);
         _unSharpMaskFilter->setBlurRadiusInPixel(4.0f, true);
         _unSharpMaskFilter->setBlurRadiusInPixel(2.0f, false);
-        _unSharpMaskFilter->setIntensity(1.365);
+        _unSharpMaskFilter->setIntensity(2.365);
 
         _alphaBlendFilter->addTarget(_faceDistortFilter);
 

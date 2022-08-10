@@ -30,7 +30,7 @@ OlaCameraSource::OlaCameraSource(Context *context, SourceType sourceType) : Sour
     }
     if (_yuvTexture) {
         _scaleTexture = OlaShareTextureFilter::create(context);
-        _scaleTexture->setFramebufferScale(0.5);
+//        _scaleTexture->setFramebufferScale(0.5);
         addTarget(_yuvTexture);
         _yuvTexture->addTarget(_scaleTexture);
     } else {

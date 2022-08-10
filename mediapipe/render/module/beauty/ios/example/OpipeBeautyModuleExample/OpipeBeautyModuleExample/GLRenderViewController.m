@@ -58,7 +58,7 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.pixelFormatType = kCVPixelFormatType_420YpCbCr8BiPlanarFullRange;
-    _cameraSize = CGSizeMake(1280, 720);
+    _cameraSize = CGSizeMake(1920, 1080);
     if (fabs(_currentRunTIme - 0) < 0.0001) {
         _startRunTime = CFAbsoluteTimeGetCurrent();
         _currentRunTIme = 0.;
@@ -213,6 +213,10 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
         }
         [self.captureSession commitConfiguration];
     }
+}
+
+- (IBAction)useSegmentation:(UISwitch *)sender {
+    [OlaFaceUnity sharedInstance].useSegmentation = sender.isOn;
 }
 
 - (void)startCapture {

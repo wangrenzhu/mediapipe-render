@@ -18,7 +18,7 @@ namespace Opipe
     enum MPPPacketType
     {
         MPPPacketTypeRaw,
-        MPPPacketTypeImage,
+        MPPPacketTypeImage, //即可是GPUBuffer 也可以是 ImageFrame
         MPPPacketTypeImageFrame,
         MPPPacketTypeImageFrameBGRANoSwap,
 #if defined(__APPLE__)
@@ -54,7 +54,7 @@ namespace Opipe
     {
 
     public:
-        OlaGraph(const mediapipe::CalculatorGraphConfig &config);
+        OlaGraph(const mediapipe::CalculatorGraphConfig &config, void *glContext = nullptr);
         ~OlaGraph();
 
         absl::Status AddCallbackHandler(std::string output_stream_name,
@@ -198,6 +198,7 @@ namespace Opipe
 
         /// Number of frames currently being processed by the graph.
         mediapipe::Timestamp _frameTimestamp;
+        std::shared_ptr<mediapipe::GpuResources> gpu_resources_;
 
         int64 _frameNumber;
 

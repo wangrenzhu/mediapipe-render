@@ -229,6 +229,10 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
     }
 }
 
+- (IBAction)switchSegmentation:(UISwitch *)sender {
+    [OlaFaceUnity sharedInstance].useSegmentation = sender.isOn;
+}
+
 - (void)stopCapture {
     self.isCapturePaused = YES;
     if (self.captureSession) {

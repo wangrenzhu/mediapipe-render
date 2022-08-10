@@ -139,6 +139,12 @@ namespace Opipe
             _render->setNoseFactor(nose);
         }
         
+        bool getSegmentation() override {
+            return _segEnable;
+        }
+        
+        void setSegmentationEnable(bool segEnable) override;
+        
         OpipeDispatch* currentDispatch() {
             return _dispatch.get();
         }
@@ -156,10 +162,12 @@ namespace Opipe
         std::unique_ptr<OlaGraph> _graph;
         Context *_context = nullptr;
         bool _isInit = false;
+        bool _segEnable = false;
         NormalizedLandmarkList _lastLandmark;
         std::shared_ptr<FaceMeshCallFrameDelegate> _delegate;
         FaceMeshBeautyRender *_render = nullptr;
         OlaContext *_olaContext = nullptr;
+        Timestamp _lastTs = Timestamp::Unset();
 #if TestTemplateFace
         SourceImage *_templateFace = nullptr;
 #endif
