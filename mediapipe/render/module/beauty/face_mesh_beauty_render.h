@@ -2,9 +2,12 @@
 #define OPIPE_FaceMeshBeautyRender
 #include "face_mesh_common.h"
 #include "mediapipe/render/module/beauty/filters/OlaBeautyFilter.hpp"
+#include "mediapipe/render/module/beauty/filters/SegmentationFilter.hpp"
 #include "mediapipe/render/core/OlaShareTextureFilter.hpp"
 #include "mediapipe/render/core/SourceImage.hpp"
 #include "mediapipe/render/core/math/vec2.hpp"
+
+
 namespace Opipe {
     class FaceMeshBeautyRender {
         public:
@@ -63,11 +66,18 @@ namespace Opipe {
                 return _outputFilter;
             }
         
-            void setInputSource(Source *source);             
+            void setInputSource(Source *source);
+
+            void setUseSegmentation(bool useSegmentation);    
+
+            void setSegmentationBackground(SourceImage *background);
+
+            void setSegmentationMask(Framebuffer *maskbuffer);        
         
         private:
             Source *_source = nullptr;
             OlaBeautyFilter *_olaBeautyFilter = nullptr;
+            SegmentationFilter *_segmentationFilter = nullptr;
             OlaShareTextureFilter *_outputFilter = nullptr;
             Framebuffer *_inputFramebuffer = nullptr;
             float _smoothing = 0.0;
@@ -78,6 +88,7 @@ namespace Opipe {
             bool _isRendering = false;
             Context *_context = nullptr;
             SourceImage *_lutImage = nullptr;
+            bool _useSegmentation = false;
 
     };
     

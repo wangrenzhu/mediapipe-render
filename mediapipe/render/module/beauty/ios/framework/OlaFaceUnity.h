@@ -48,4 +48,5 @@ typedef struct {
 
 - (void)dispose;
 
+- (void)setSegmentBackground:(UIImage *)image;
 @end

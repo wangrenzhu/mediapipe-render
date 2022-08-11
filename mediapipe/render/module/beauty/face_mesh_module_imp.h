@@ -64,6 +64,8 @@ namespace Opipe
 
         virtual void stopModule() override;
 
+        
+
         // 外部共享Context用
         virtual OlaContext* currentContext() override {
             return _olaContext;
@@ -75,6 +77,10 @@ namespace Opipe
         /// @param pixelbuffer pixelbuffer description
         /// @param timeStamp timeStamp description
         virtual void processVideoFrame(CVPixelBufferRef pixelbuffer, int64_t timeStamp) override;
+
+        virtual void setSegmentationBackground(UIImage *image) override;
+#else
+        virtual void setSegmentationBackground(OMat background) override;
 #endif
 
         virtual void processVideoFrame(char *pixelbuffer,
@@ -138,6 +144,8 @@ namespace Opipe
         }
         
         void setSegmentationEnable(bool segEnable) override;
+
+        void setSegmentationMask(mediapipe::GpuBuffer segMask);
         
         OpipeDispatch* currentDispatch() {
             return _dispatch.get();

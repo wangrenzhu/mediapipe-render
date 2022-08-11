@@ -33,6 +33,9 @@ namespace Opipe {
                       GLuint handle, IOSurfaceID surfaceID,
                       const TextureAttributes textureAttributes = defaultTextureAttribures);
         
+        CVFramebuffer(Context *context, int width, int height, IOSurfaceID surfaceID,
+                      const TextureAttributes textureAttributes = defaultTextureAttribures);
+        
         void SetRenderTarget(CVPixelBufferRef pixel_buffer);
         virtual ~CVFramebuffer();
         

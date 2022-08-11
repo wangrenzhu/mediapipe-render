@@ -8,6 +8,7 @@
 #import <OpenGLES/ES3/gl.h>
 #import <OpenGLES/ES3/glext.h>
 #import <CoreVideo/CoreVideo.h>
+#import <UIKit/UIImage.h>
 #elif defined(__ANDROID__) || defined(ANDROID)
 #include <GLES3/gl3.h>
 #include <GLES3/gl3ext.h>
@@ -21,7 +22,7 @@ namespace Opipe
         {
                 int width = 0;
                 int height = 0;
-                char *data = 0;
+                void *data = 0;
                 int widthStep = 0;
                 int channels = 4; //暂时只支持4
                 bool create = false;
@@ -80,7 +81,7 @@ namespace Opipe
                 {
                         if (create)
                         {
-                                delete data;
+                                delete (char *)data;
                         }
                         data = 0;
                 }
@@ -152,6 +153,11 @@ namespace Opipe
 
 #if defined(__APPLE__)
                 virtual void processVideoFrame(CVPixelBufferRef pixelbuffer, int64_t timeStamp) = 0;
+            
+                virtual void setSegmentationBackground(UIImage *image) = 0;
+#else
+            
+                virtual void setSegmentationBackground(OMat background) = 0;
 #endif
 
                 virtual void processVideoFrame(char *pixelbuffer,

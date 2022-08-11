@@ -106,6 +106,54 @@ CVFramebuffer::CVFramebuffer(Context *context,
     
 }
 
+CVFramebuffer::CVFramebuffer(Context *context, int width, int height, IOSurfaceID surfaceID,
+                const TextureAttributes textureAttributes): Opipe::Framebuffer() {
+    _context = context;
+    useTextureCache = true;
+    _width = width;
+    _height = height;
+    _textureAttributes = textureAttributes;
+    _ioSurfaceId = surfaceID;
+    _generateTexture();
+    if (@available(iOS 11.0, *)) {
+        renderIOSurface = IOSurfaceLookup(surfaceID); //可能为空
+        if (renderIOSurface) {
+            NSDictionary *cvBufferProperties = @{(id)kCVPixelBufferIOSurfacePropertiesKey : @{},
+                                                 (id)kCVPixelBufferIOSurfaceOpenGLESTextureCompatibilityKey: @(YES),
+                                                 (id)kCVPixelBufferOpenGLCompatibilityKey : @(YES),
+            };
+            
+            CVPixelBufferCreateWithIOSurface(kCFAllocatorDefault, renderIOSurface,
+                                             (__bridge CFDictionaryRef)cvBufferProperties, &renderTarget);
+            GLenum internalFormat = textureAttributes.internalFormat;
+            GLenum extformat = GL_BGRA_EXT;
+            
+            if (internalFormat == GL_LUMINANCE) {
+                extformat = GL_R16F_EXT;
+            }
+            
+    #if !TARGET_OS_SIMULATOR
+            CHECK_GL(glBindTexture(GL_TEXTURE_2D, _texture));
+            EAGLContext *currentContext = this->getContext()->getEglContext();
+            [EAGLContext setCurrentContext:currentContext];
+            BOOL rs = [currentContext texImageIOSurface:renderIOSurface target:GL_TEXTURE_2D
+                                         internalFormat:internalFormat
+                                                  width:_width height:_height
+                                                 format:extformat
+                                                   type:_textureAttributes.type plane:0];
+            
+            if (rs) {
+                LogE("CVFramebuffer", "IOSurface binding 成功");
+            }
+    #endif
+        }
+
+    } else {
+        
+        assert(0);
+    }
+}
+
 void CVFramebuffer::SetRenderTarget(CVPixelBufferRef pixel_buffer) {
     if (renderTarget) {
         CVPixelBufferRelease(renderTarget);
@@ -188,12 +236,20 @@ void CVFramebuffer::lockAddress()
     if (renderTarget != NULL) {
         CVPixelBufferLockBaseAddress(renderTarget, kCVPixelBufferLock_ReadOnly);
     }
+    
+    if (renderIOSurface != NULL) {
+        IOSurfaceLock(renderIOSurface, kIOSurfaceLockAvoidSync, 0);
+    }
 }
 
 void CVFramebuffer::unlockAddress()
 {
     if (renderTarget != NULL) {
         CVPixelBufferUnlockBaseAddress(renderTarget, kCVPixelBufferLock_ReadOnly);
+    }
+    
+    if (renderIOSurface != NULL) {
+        IOSurfaceUnlock(renderIOSurface, kIOSurfaceLockAvoidSync, 0);
     }
 }
 

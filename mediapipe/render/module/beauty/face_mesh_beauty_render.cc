@@ -12,8 +12,11 @@ namespace Opipe
         _olaBeautyFilter = OlaBeautyFilter::create(context);
         _isRendering = false;
 
+        _segmentationFilter = SegmentationFilter::create(context);
+        _segmentationFilter->setEnable(false);
+
         _outputFilter = OlaShareTextureFilter::create(context);
-        _olaBeautyFilter->addTarget(_outputFilter);
+        _olaBeautyFilter->addTarget(_segmentationFilter)->addTarget(_outputFilter);
         
 #if defined(__APPLE__)
         
@@ -35,6 +38,11 @@ namespace Opipe
         {
             _olaBeautyFilter->release();
             _olaBeautyFilter = nullptr;
+        }
+
+        if (_segmentationFilter) {
+            _segmentationFilter->release();
+            _segmentationFilter = nullptr;
         }
 
         if (_outputFilter)
@@ -135,6 +143,25 @@ namespace Opipe
         if (_olaBeautyFilter) {
             _olaBeautyFilter->setProperty("face", facePoints);
 
+        }
+    }
+
+    void FaceMeshBeautyRender::setUseSegmentation(bool useSegmentation) {
+        if (_segmentationFilter) {
+            _segmentationFilter->setEnable(useSegmentation);
+        }
+    }
+
+    void FaceMeshBeautyRender::setSegmentationBackground(SourceImage *background) {
+        if (_segmentationFilter) {
+            _segmentationFilter->setBackgroundImage(background);
+        }
+    }
+
+    void FaceMeshBeautyRender::setSegmentationMask(Framebuffer *maskbuffer) {
+        if (_segmentationFilter) {
+            // 有个异步问题 需要外部处理WaitOnGPU
+            _segmentationFilter->updateSegmentationMask(maskbuffer);
         }
     }
 

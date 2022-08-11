@@ -276,5 +276,12 @@ using namespace Opipe;
     }
 }
 
+- (void)setSegmentBackground:(UIImage *)image
+{
+    if (_face_module) {
+        _face_module->setSegmentationBackground(image);
+    }
+}
+
 
 @end

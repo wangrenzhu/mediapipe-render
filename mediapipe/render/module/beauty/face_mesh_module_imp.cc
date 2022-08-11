@@ -33,18 +33,18 @@ namespace Opipe
     void FaceMeshCallFrameDelegate::outputPixelbuffer(OlaGraph *graph, CVPixelBufferRef pixelbuffer,
                                                       const std::string &streamName, int64_t timestamp)
     {
-        if (streamName == kSegmentation) {
-            _imp->currentDispatch()->runSync([&] {
-                IOSurfaceRef surface = CVPixelBufferGetIOSurface(pixelbuffer);
-                IOSurfaceID surfaceId = IOSurfaceGetID(surface);
-                
-                CVFramebuffer *framebuffer = (CVFramebuffer *)_imp->getOutputFilter()->getFramebuffer();
-                CVPixelBufferRef pbuffer = framebuffer->renderTarget;
-                Log("Opipe", "streamName %s timeStamp:%ld iosurfaceid:%d width:%d originWidth:%d", streamName.c_str(), timestamp, surfaceId,
-                    (int)IOSurfaceGetWidth(surface), (int)CVPixelBufferGetWidth(pbuffer));
-                
-            });
-        }
+//        if (streamName == kSegmentation) {
+//            _imp->currentDispatch()->runSync([&] {
+//                IOSurfaceRef surface = CVPixelBufferGetIOSurface(pixelbuffer);
+//                IOSurfaceID surfaceId = IOSurfaceGetID(surface);
+//                
+//                CVFramebuffer *framebuffer = (CVFramebuffer *)_imp->getOutputFilter()->getFramebuffer();
+//                CVPixelBufferRef pbuffer = framebuffer->renderTarget;
+//                Log("Opipe", "streamName %s timeStamp:%ld iosurfaceid:%d width:%d originWidth:%d", streamName.c_str(), timestamp, surfaceId,
+//                    (int)IOSurfaceGetWidth(surface), (int)CVPixelBufferGetWidth(pbuffer));
+//                
+//            });
+//        }
     }
 #endif
 
@@ -53,35 +53,36 @@ namespace Opipe
         if (_imp == nullptr) {
             return;
         }
-        _imp->currentDispatch()->runSync([&] {
-            if (streamName == kLandmarksOutputStream) {
-                _last_landmark_ts = packet.Timestamp().Value();
-                _hasFace = true;
-                const auto& multi_face_landmarks = packet.Get<std::vector<::mediapipe::NormalizedLandmarkList>>();
-                _lastLandmark = multi_face_landmarks[0];
-            }
-            Log("FaceMeshModule", "landmarkts:%ld", _last_landmark_ts);
+        if (streamName == kLandmarksOutputStream) {
+            _last_landmark_ts = packet.Timestamp().Value();
+            _hasFace = true;
+            const auto& multi_face_landmarks = packet.Get<std::vector<::mediapipe::NormalizedLandmarkList>>();
+            _lastLandmark = multi_face_landmarks[0];
+        }
+        Log("FaceMeshModule", "landmarkts:%ld", _last_landmark_ts);
+        
+        if (packet.Timestamp().Value() != _last_landmark_ts) {
+            _hasFace = false;
+            _last_landmark_ts = 0; //输出过一次的时间戳 不再输出
+        }
+        
+        if (_hasFace) {
             
-            if (packet.Timestamp().Value() != _last_landmark_ts) {
-                _hasFace = false;
-                _last_landmark_ts = 0; //输出过一次的时间戳 不再输出
-            }
-            
-            if (_hasFace) {
-                
-                _imp->setLandmark(_lastLandmark, packet.Timestamp().Value());
-            } else {
-                _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
-            }
-            
-            if (streamName == kSegmentation) {
+            _imp->setLandmark(_lastLandmark, packet.Timestamp().Value());
+        } else {
+            _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
+        }
+        
+        if (streamName == kSegmentation) {
+            _imp->currentDispatch()->runSync([&] {
                 // 人脸分割的数据
                 const auto& image = packet.Get<Image>();
-                auto buffer = image.GetGpuBuffer();
-
-            }
-            
-        }, Opipe::Context::IOContext);
+                if (image.UsesGpu()) {
+                    auto gpubuffer = image.GetGpuBuffer();
+                    _imp->setSegmentationMask(gpubuffer);
+                }
+            });
+        }
     }
 
     void FaceMeshCallFrameDelegate::outputPacket(OlaGraph *graph, const mediapipe::Packet &packet,
@@ -245,6 +246,28 @@ namespace Opipe
     void FaceMeshModuleIMP::setSegmentationEnable(bool segEnable)
     {
         _segEnable = segEnable;
+        if (_render) {
+            _render->setUseSegmentation(_segEnable);
+        }
+    }
+
+    void FaceMeshModuleIMP::setSegmentationMask(mediapipe::GpuBuffer segMask)
+    {
+#if defined(__APPLE__)
+        
+        CVPixelBufferRef maskBuffer = mediapipe::GetCVPixelBufferRef(segMask);
+        IOSurfaceRef maskSurface = CVPixelBufferGetIOSurface(maskBuffer);
+        int width = (int)IOSurfaceGetWidth(maskSurface);
+        int height = (int)IOSurfaceGetHeight(maskSurface);
+        _context->useAsCurrent();
+        CVFramebuffer *framebuffer = new CVFramebuffer(_context, width, height,
+                                                       IOSurfaceGetID(maskSurface));
+        _render->setSegmentationMask(std::move(framebuffer));
+        
+#else
+        //这里需要好好写一下 怎么消费 mask
+        //Android 需要异步渲染 需要waitOnGPU
+#endif
     }
 
 #if defined(__APPLE__)
@@ -283,6 +306,22 @@ namespace Opipe
             }
             _render->setFacePoints(facePoints);
         }, Context::IOContext);
+    }
+    
+    void FaceMeshModuleIMP::setSegmentationBackground(UIImage *image) {
+        if (_render) {
+            _context->useAsCurrent();
+            SourceImage *sourceImage = SourceImage::create(_context, image);
+            _render->setSegmentationBackground(std::move(sourceImage));
+        }
+    }
+
+#else
+    void FaceMeshModuleIMP::setSegmentationBackground(OMat background) {
+        if (_render) {
+            SourceImage *image = SourceImage::create(_context, background.width, background.height, background.data);
+            _render->setSegmentationBackground(std::move(image));
+        }
     }
 #endif
 
@@ -336,4 +375,6 @@ namespace Opipe
             _render->setInputSource(source);
         });
     }
+
+
 }

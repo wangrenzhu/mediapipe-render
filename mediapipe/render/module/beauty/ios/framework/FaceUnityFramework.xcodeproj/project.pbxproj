@@ -121,6 +121,8 @@
 		AE997BA0707970A400000001 /* Target.cpp in core */ = {isa = PBXBuildFile; fileRef = F61D6960707970A400000000 /* Target.cpp */; };
 		AE997BA0707970A400000002 /* Target.cpp in core */ = {isa = PBXBuildFile; fileRef = F61D6960707970A400000000 /* Target.cpp */; };
 		AE997BA0707970A400000003 /* Target.cpp in core */ = {isa = PBXBuildFile; fileRef = F61D6960707970A400000000 /* Target.cpp */; };
+		AE997BA072DF081500000000 /* SegmentationFilter.cpp in filters */ = {isa = PBXBuildFile; fileRef = F61D696072DF081500000000 /* SegmentationFilter.cpp */; };
+		AE997BA072DF081500000001 /* SegmentationFilter.cpp in filters */ = {isa = PBXBuildFile; fileRef = F61D696072DF081500000000 /* SegmentationFilter.cpp */; };
 		AE997BA0751396F200000000 /* cpu_util.cc in util */ = {isa = PBXBuildFile; fileRef = F61D6960751396F200000000 /* cpu_util.cc */; };
 		AE997BA0751396F200000001 /* cpu_util.cc in util */ = {isa = PBXBuildFile; fileRef = F61D6960751396F200000000 /* cpu_util.cc */; };
 		AE997BA078063C3800000000 /* rectangle_util.cc in util */ = {isa = PBXBuildFile; fileRef = F61D696078063C3800000000 /* rectangle_util.cc */; };
@@ -530,6 +532,7 @@
 		F61D69606968050B00000000 /* OlaYUVTexture.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = OlaYUVTexture.hpp; path = mediapipe/render/core/OlaYUVTexture.hpp; sourceTree = "<group>"; };
 		F61D696069B54FAC00000000 /* mat4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = mat4.hpp; path = mediapipe/render/core/math/mat4.hpp; sourceTree = "<group>"; };
 		F61D69606A652E2D00000000 /* SourceImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SourceImage.cpp; path = mediapipe/render/core/SourceImage.cpp; sourceTree = "<group>"; };
+		F61D69606BEB512E00000000 /* SegmentationFilter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = SegmentationFilter.hpp; path = mediapipe/render/module/beauty/filters/SegmentationFilter.hpp; sourceTree = "<group>"; };
 		F61D69606C1A9B2400000000 /* landmarks_refinement_calculator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = landmarks_refinement_calculator.h; path = mediapipe/calculators/util/landmarks_refinement_calculator.h; sourceTree = "<group>"; };
 		F61D69606CC28E9A00000000 /* vec3.inl */ = {isa = PBXFileReference; lastKnownFileType = "public.c-plus-plus-inline-header"; name = vec3.inl; path = mediapipe/render/core/math/vec3.inl; sourceTree = "<group>"; };
 		F61D69606D1809A000000000 /* BUILD */ = {isa = PBXFileReference; lastKnownFileType = text; name = BUILD; path = mediapipe/render/core/BUILD; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
@@ -541,6 +544,7 @@
 		F61D696070814BF400000000 /* MPPGraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MPPGraph.h; path = mediapipe/objc/MPPGraph.h; sourceTree = "<group>"; };
 		F61D696070B6484F00000000 /* vec2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = vec2.hpp; path = mediapipe/render/core/math/vec2.hpp; sourceTree = "<group>"; };
 		F61D696072656E3900000000 /* rectangle_util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = rectangle_util.h; path = mediapipe/util/rectangle_util.h; sourceTree = "<group>"; };
+		F61D696072DF081500000000 /* SegmentationFilter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = SegmentationFilter.cpp; path = mediapipe/render/module/beauty/filters/SegmentationFilter.cpp; sourceTree = "<group>"; };
 		F61D6960751396F200000000 /* cpu_util.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = cpu_util.cc; path = mediapipe/util/cpu_util.cc; sourceTree = "<group>"; };
 		F61D69607646CF2100000000 /* OlaContext.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = OlaContext.hpp; path = mediapipe/render/core/OlaContext.hpp; sourceTree = "<group>"; };
 		F61D696078063C3800000000 /* rectangle_util.cc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = rectangle_util.cc; path = mediapipe/util/rectangle_util.cc; sourceTree = "<group>"; };
@@ -802,6 +806,8 @@
 				F61D69605AEAFD9600000000 /* FaceDistortionFilter.hpp */,
 				F61D6960E517D16500000000 /* OlaBeautyFilter.cpp */,
 				F61D6960D7D39E6100000000 /* OlaBeautyFilter.hpp */,
+				F61D696072DF081500000000 /* SegmentationFilter.cpp */,
+				F61D69606BEB512E00000000 /* SegmentationFilter.hpp */,
 				F61D69602E49E54600000000 /* UnSharpMaskFilter.cpp */,
 				F61D696087754BA200000000 /* UnSharpMaskFilter.hpp */,
 			);
@@ -1296,9 +1302,9 @@
 			);
 			dependencies = (
 				96CB8695F572188100000000 /* PBXTargetDependency */,
+				96CB86951F9008DF00000000 /* PBXTargetDependency */,
 				96CB8695D7F864AB00000000 /* PBXTargetDependency */,
 				96CB86952B7EF91100000000 /* PBXTargetDependency */,
-				96CB86951F9008DF00000000 /* PBXTargetDependency */,
 			);
 			name = _idx_OlaFaceUnityLibrary_FaceMeshGPULibrary_93661737_ios_min11.0;
 			productName = _idx_OlaFaceUnityLibrary_FaceMeshGPULibrary_93661737_ios_min11.0;
@@ -1347,8 +1353,8 @@
 			);
 			dependencies = (
 				96CB8695F572188100000000 /* PBXTargetDependency */,
-				96CB8695871ABF4500000000 /* PBXTargetDependency */,
 				96CB86950BC7B9B300000000 /* PBXTargetDependency */,
+				96CB8695871ABF4500000000 /* PBXTargetDependency */,
 			);
 			name = _idx_to_image_calculator_association_norm_rect_calculator_collection_has_min_size_calculator_constant_side_packet_calculator_detections_to_rects_calculator_detections_to_render_data_etc_93FD46FE_ios_min15.5;
 			productName = _idx_to_image_calculator_association_norm_rect_calculator_collection_has_min_size_calculator_constant_side_packet_calculator_detections_to_rects_calculator_detections_to_render_data_etc_93FD46FE_ios_min15.5;
@@ -1391,7 +1397,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 822BF5A49E1F1C6B00000000 /* Build configuration list for PBXNativeTarget "_idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min11.0" */;
 			buildPhases = (
-				6F9A5431000000000000001C /* Sources */,
+				6F9A5431000000000000001D /* Sources */,
 			);
 			buildRules = (
 			);
@@ -1407,7 +1413,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 822BF5A414F59B9400000000 /* Build configuration list for PBXNativeTarget "_idx_ref_gpuimagemath_9317A94E_ios_min15.5" */;
 			buildPhases = (
-				6F9A54310000000000000008 /* Sources */,
+				6F9A54310000000000000007 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -1462,10 +1468,10 @@
 			);
 			dependencies = (
 				96CB8695F572188100000000 /* PBXTargetDependency */,
-				96CB8695E2CED38900000000 /* PBXTargetDependency */,
+				96CB8695B980DC9900000000 /* PBXTargetDependency */,
 				96CB8695E2CED38900000000 /* PBXTargetDependency */,
 				96CB86956C57782F00000000 /* PBXTargetDependency */,
-				96CB8695B980DC9900000000 /* PBXTargetDependency */,
+				96CB8695E2CED38900000000 /* PBXTargetDependency */,
 			);
 			name = "_idx_core_core-ios_604A8CB0_ios_min11.0";
 			productName = "_idx_core_core-ios_604A8CB0_ios_min11.0";
@@ -1483,9 +1489,9 @@
 			dependencies = (
 				96CB8695F572188100000000 /* PBXTargetDependency */,
 				96CB86954464C97D00000000 /* PBXTargetDependency */,
+				96CB8695F2EE6F9300000000 /* PBXTargetDependency */,
 				96CB86954464C97D00000000 /* PBXTargetDependency */,
 				96CB8695126F416500000000 /* PBXTargetDependency */,
-				96CB8695F2EE6F9300000000 /* PBXTargetDependency */,
 				96CB8695126F416500000000 /* PBXTargetDependency */,
 				96CB86954464C97D00000000 /* PBXTargetDependency */,
 			);
@@ -1522,11 +1528,11 @@
 			dependencies = (
 				96CB8695F572188100000000 /* PBXTargetDependency */,
 				96CB86954052F06700000000 /* PBXTargetDependency */,
-				96CB86959D607F7B00000000 /* PBXTargetDependency */,
-				96CB86959D607F7B00000000 /* PBXTargetDependency */,
-				96CB86954052F06700000000 /* PBXTargetDependency */,
 				96CB8695A3FC4B9F00000000 /* PBXTargetDependency */,
+				96CB86959D607F7B00000000 /* PBXTargetDependency */,
 				96CB86954052F06700000000 /* PBXTargetDependency */,
+				96CB86954052F06700000000 /* PBXTargetDependency */,
+				96CB86959D607F7B00000000 /* PBXTargetDependency */,
 			);
 			name = _idx_cpu_op_resolver_B0A1CA1E_ios_min15.5;
 			productName = _idx_cpu_op_resolver_B0A1CA1E_ios_min15.5;
@@ -1800,7 +1806,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 822BF5A4B71AADE900000000 /* Build configuration list for PBXNativeTarget "_idx_math_5D9DF4A8_ios_min11.0" */;
 			buildPhases = (
-				6F9A54310000000000000003 /* Sources */,
+				6F9A54310000000000000004 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -1839,10 +1845,10 @@
 			);
 			dependencies = (
 				96CB8695F572188100000000 /* PBXTargetDependency */,
-				96CB8695BE5B59C500000000 /* PBXTargetDependency */,
-				96CB8695158CE27700000000 /* PBXTargetDependency */,
 				96CB8695158CE27700000000 /* PBXTargetDependency */,
 				96CB8695F175FE9300000000 /* PBXTargetDependency */,
+				96CB8695158CE27700000000 /* PBXTargetDependency */,
+				96CB8695BE5B59C500000000 /* PBXTargetDependency */,
 			);
 			name = "_idx_core_core-ios_604A8CB0_ios_min15.5";
 			productName = "_idx_core_core-ios_604A8CB0_ios_min15.5";
@@ -1908,8 +1914,8 @@
 			);
 			dependencies = (
 				96CB8695F572188100000000 /* PBXTargetDependency */,
-				96CB8695605488E900000000 /* PBXTargetDependency */,
 				96CB869581B9216100000000 /* PBXTargetDependency */,
+				96CB8695605488E900000000 /* PBXTargetDependency */,
 				96CB86957F1DC96300000000 /* PBXTargetDependency */,
 			);
 			name = _idx_OlaFaceUnityLibrary_FaceMeshGPULibrary_93661737_ios_min15.5;
@@ -1969,7 +1975,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 822BF5A47ACFDF5A00000000 /* Build configuration list for PBXNativeTarget "_idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min15.5" */;
 			buildPhases = (
-				6F9A54310000000000000020 /* Sources */,
+				6F9A54310000000000000021 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -2001,7 +2007,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 822BF5A45BEE0EDB00000000 /* Build configuration list for PBXNativeTarget "_idx_transpose_conv_bias_3067A367_ios_min15.5" */;
 			buildPhases = (
-				6F9A54310000000000000021 /* Sources */,
+				6F9A54310000000000000020 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -2033,7 +2039,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 822BF5A4304EA78B00000000 /* Build configuration list for PBXNativeTarget "_idx_gpuimageutil_1E0253A1_ios_min11.0" */;
 			buildPhases = (
-				6F9A54310000000000000004 /* Sources */,
+				6F9A54310000000000000002 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -2065,7 +2071,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 822BF5A49D5AEFF900000000 /* Build configuration list for PBXNativeTarget "_idx_math_5D9DF4A8_ios_min15.5" */;
 			buildPhases = (
-				6F9A54310000000000000007 /* Sources */,
+				6F9A54310000000000000009 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -2164,7 +2170,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 822BF5A4292F0CCC00000000 /* Build configuration list for PBXNativeTarget "_idx_ref_gpuimagemath_9317A94E_ios_min11.0" */;
 			buildPhases = (
-				6F9A54310000000000000002 /* Sources */,
+				6F9A54310000000000000003 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -2246,7 +2252,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 822BF5A44A424B4000000000 /* Build configuration list for PBXNativeTarget "_idx_gpuimageutil_1E0253A1_ios_min15.5" */;
 			buildPhases = (
-				6F9A54310000000000000009 /* Sources */,
+				6F9A54310000000000000008 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -2262,7 +2268,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 822BF5A4BA092A1E00000000 /* Build configuration list for PBXNativeTarget "_idx_transpose_conv_bias_3067A367_ios_min11.0" */;
 			buildPhases = (
-				6F9A5431000000000000001D /* Sources */,
+				6F9A5431000000000000001C /* Sources */,
 			);
 			buildRules = (
 			);
@@ -2284,8 +2290,8 @@
 			);
 			dependencies = (
 				96CB8695F572188100000000 /* PBXTargetDependency */,
-				96CB86953F27AE8B00000000 /* PBXTargetDependency */,
 				96CB86956BC8230B00000000 /* PBXTargetDependency */,
+				96CB86953F27AE8B00000000 /* PBXTargetDependency */,
 			);
 			name = _idx_mediapipe_framework_ios_6D5EF268_ios_min11.0;
 			productName = _idx_mediapipe_framework_ios_6D5EF268_ios_min11.0;
@@ -2419,6 +2425,7 @@
 				AE997BA08C50DB7E00000000 /* FaceDistortionFilter.cpp in filters */,
 				AE997BA0E517D16500000000 /* OlaBeautyFilter.cpp in filters */,
 				AE997BA02E49E54600000000 /* UnSharpMaskFilter.cpp in filters */,
+				AE997BA072DF081500000000 /* SegmentationFilter.cpp in filters */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2485,12 +2492,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
+				AE997BA0CF27FA5700000000 /* GPUImageUtil.cpp in core */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6F9A54310000000000000003 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
 				AE997BA04B528BBD00000000 /* Ref.cpp in core */,
 				AE997BA00113F21300000000 /* math.cpp in core */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6F9A54310000000000000003 /* Sources */ = {
+		6F9A54310000000000000004 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
@@ -2502,14 +2517,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6F9A54310000000000000004 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				AE997BA0CF27FA5700000000 /* GPUImageUtil.cpp in core */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6F9A54310000000000000005 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
@@ -2518,6 +2525,7 @@
 				AE997BA08C50DB7E00000001 /* FaceDistortionFilter.cpp in filters */,
 				AE997BA0E517D16500000001 /* OlaBeautyFilter.cpp in filters */,
 				AE997BA02E49E54600000001 /* UnSharpMaskFilter.cpp in filters */,
+				AE997BA072DF081500000001 /* SegmentationFilter.cpp in filters */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2584,11 +2592,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				AE997BA0D1A3B03C00000001 /* mat4.cpp in math */,
-				AE997BA03B33AD4E00000001 /* math_utils.cpp in math */,
-				AE997BA00799F27F00000001 /* vec2.cpp in math */,
-				AE997BA042DEFBF200000001 /* vec3.cpp in math */,
-				AE997BA056E265C500000001 /* vec4.cpp in math */,
+				AE997BA04B528BBD00000001 /* Ref.cpp in core */,
+				AE997BA00113F21300000001 /* math.cpp in core */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2596,8 +2601,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				AE997BA04B528BBD00000001 /* Ref.cpp in core */,
-				AE997BA00113F21300000001 /* math.cpp in core */,
+				AE997BA0CF27FA5700000001 /* GPUImageUtil.cpp in core */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2605,7 +2609,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				AE997BA0CF27FA5700000001 /* GPUImageUtil.cpp in core */,
+				AE997BA0D1A3B03C00000001 /* mat4.cpp in math */,
+				AE997BA03B33AD4E00000001 /* math_utils.cpp in math */,
+				AE997BA00799F27F00000001 /* vec2.cpp in math */,
+				AE997BA042DEFBF200000001 /* vec3.cpp in math */,
+				AE997BA056E265C500000001 /* vec4.cpp in math */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2767,8 +2775,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				AE997BA0D836782B00000000 /* max_unpooling.cc in operations */,
-				AE997BA0083A88CB00000000 /* max_pool_argmax.cc in operations */,
+				AE997BA0C88DDB9B00000000 /* transpose_conv_bias.cc in operations */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2776,7 +2783,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				AE997BA0C88DDB9B00000000 /* transpose_conv_bias.cc in operations */,
+				AE997BA0D836782B00000000 /* max_unpooling.cc in operations */,
+				AE997BA0083A88CB00000000 /* max_pool_argmax.cc in operations */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2802,8 +2810,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				AE997BA0D836782B00000001 /* max_unpooling.cc in operations */,
-				AE997BA0083A88CB00000001 /* max_pool_argmax.cc in operations */,
+				AE997BA0C88DDB9B00000001 /* transpose_conv_bias.cc in operations */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2811,7 +2818,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				AE997BA0C88DDB9B00000001 /* transpose_conv_bias.cc in operations */,
+				AE997BA0D836782B00000001 /* max_unpooling.cc in operations */,
+				AE997BA0083A88CB00000001 /* max_pool_argmax.cc in operations */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3265,8 +3273,8 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
 				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_ref_gpuimagemath_9317A94E_ios_min11.0;
+				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_gpuimageutil_1E0253A1_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -3276,10 +3284,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_math_5D9DF4A8_ios_min11.0;
+				PRODUCT_NAME = _idx_ref_gpuimagemath_9317A94E_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -3289,10 +3297,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_gpuimageutil_1E0253A1_ios_min11.0;
+				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_math_5D9DF4A8_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -3328,10 +3336,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_math_5D9DF4A8_ios_min15.5;
+				PRODUCT_NAME = _idx_ref_gpuimagemath_9317A94E_ios_min15.5;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -3343,8 +3351,8 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
 				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
-				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_ref_gpuimagemath_9317A94E_ios_min15.5;
+				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_gpuimageutil_1E0253A1_ios_min15.5;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -3354,10 +3362,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
-				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_gpuimageutil_1E0253A1_ios_min15.5;
+				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_math_5D9DF4A8_ios_min15.5;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -3607,10 +3615,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				OTHER_CFLAGS = "-DEIGEN_MAX_ALIGN_BYTES=64 -DEIGEN_MPL2_ONLY -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -DTFLITE_WITH_RUY -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min11.0;
+				PRODUCT_NAME = _idx_transpose_conv_bias_3067A367_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -3620,10 +3628,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				OTHER_CFLAGS = "-DEIGEN_MAX_ALIGN_BYTES=64 -DEIGEN_MPL2_ONLY -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -DTFLITE_WITH_RUY -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_transpose_conv_bias_3067A367_ios_min11.0;
+				PRODUCT_NAME = _idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -3659,10 +3667,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				OTHER_CFLAGS = "-DEIGEN_MAX_ALIGN_BYTES=64 -DEIGEN_MPL2_ONLY -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -DTFLITE_WITH_RUY -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min15.5;
+				PRODUCT_NAME = _idx_transpose_conv_bias_3067A367_ios_min15.5;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -3672,10 +3680,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				OTHER_CFLAGS = "-DEIGEN_MAX_ALIGN_BYTES=64 -DEIGEN_MPL2_ONLY -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -DTFLITE_WITH_RUY -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_transpose_conv_bias_3067A367_ios_min15.5;
+				PRODUCT_NAME = _idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min15.5;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -4194,8 +4202,8 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_ref_gpuimagemath_9317A94E_ios_min11.0;
+				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_gpuimageutil_1E0253A1_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -4205,10 +4213,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_math_5D9DF4A8_ios_min11.0;
+				PRODUCT_NAME = _idx_ref_gpuimagemath_9317A94E_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -4218,10 +4226,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_gpuimageutil_1E0253A1_ios_min11.0;
+				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_math_5D9DF4A8_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -4257,10 +4265,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_math_5D9DF4A8_ios_min15.5;
+				PRODUCT_NAME = _idx_ref_gpuimagemath_9317A94E_ios_min15.5;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -4272,8 +4280,8 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
-				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_ref_gpuimagemath_9317A94E_ios_min15.5;
+				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_gpuimageutil_1E0253A1_ios_min15.5;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -4283,10 +4291,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
-				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_gpuimageutil_1E0253A1_ios_min15.5;
+				OTHER_CFLAGS = "-DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_math_5D9DF4A8_ios_min15.5;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -4536,10 +4544,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				OTHER_CFLAGS = "-DEIGEN_MAX_ALIGN_BYTES=64 -DEIGEN_MPL2_ONLY -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -DTFLITE_WITH_RUY -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min11.0;
+				PRODUCT_NAME = _idx_transpose_conv_bias_3067A367_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -4549,10 +4557,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				OTHER_CFLAGS = "-DEIGEN_MAX_ALIGN_BYTES=64 -DEIGEN_MPL2_ONLY -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -DTFLITE_WITH_RUY -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_transpose_conv_bias_3067A367_ios_min11.0;
+				PRODUCT_NAME = _idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -4588,10 +4596,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				OTHER_CFLAGS = "-DEIGEN_MAX_ALIGN_BYTES=64 -DEIGEN_MPL2_ONLY -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -DTFLITE_WITH_RUY -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min15.5;
+				PRODUCT_NAME = _idx_transpose_conv_bias_3067A367_ios_min15.5;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -4601,10 +4609,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo/_virtual_includes/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog/_virtual_includes/clog $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/org_tensorflow $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/org_tensorflow $(TULSI_OUTPUT_BASE)/external/gemmlowp $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/gemmlowp $(TULSI_OUTPUT_BASE)/external/eigen_archive $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/eigen_archive $(TULSI_OUTPUT_BASE)/external/ruy $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/ruy $(TULSI_OUTPUT_BASE)/external/cpuinfo $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/cpuinfo $(TULSI_OUTPUT_BASE)/external/clog $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/clog ";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				OTHER_CFLAGS = "-DEIGEN_MAX_ALIGN_BYTES=64 -DEIGEN_MPL2_ONLY -DNDEBUG -DNS_BLOCK_ASSERTIONS=1 -DTFLITE_WITH_RUY -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_transpose_conv_bias_3067A367_ios_min15.5;
+				PRODUCT_NAME = _idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min15.5;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -5073,8 +5081,8 @@
 		822BF5A414F59B9400000000 /* Build configuration list for PBXNativeTarget "_idx_ref_gpuimagemath_9317A94E_ios_min15.5" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A760483B2DF64D50000000A /* Debug */,
-				2A7604837B10A1060000000A /* Release */,
+				2A760483B2DF64D500000009 /* Debug */,
+				2A7604837B10A10600000009 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
@@ -5137,8 +5145,8 @@
 		822BF5A4292F0CCC00000000 /* Build configuration list for PBXNativeTarget "_idx_ref_gpuimagemath_9317A94E_ios_min11.0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A760483B2DF64D500000004 /* Debug */,
-				2A7604837B10A10600000004 /* Release */,
+				2A760483B2DF64D500000005 /* Debug */,
+				2A7604837B10A10600000005 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
@@ -5161,8 +5169,8 @@
 		822BF5A4304EA78B00000000 /* Build configuration list for PBXNativeTarget "_idx_gpuimageutil_1E0253A1_ios_min11.0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A760483B2DF64D500000006 /* Debug */,
-				2A7604837B10A10600000006 /* Release */,
+				2A760483B2DF64D500000004 /* Debug */,
+				2A7604837B10A10600000004 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
@@ -5193,8 +5201,8 @@
 		822BF5A44A424B4000000000 /* Build configuration list for PBXNativeTarget "_idx_gpuimageutil_1E0253A1_ios_min15.5" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A760483B2DF64D50000000B /* Debug */,
-				2A7604837B10A1060000000B /* Release */,
+				2A760483B2DF64D50000000A /* Debug */,
+				2A7604837B10A1060000000A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
@@ -5217,8 +5225,8 @@
 		822BF5A45BEE0EDB00000000 /* Build configuration list for PBXNativeTarget "_idx_transpose_conv_bias_3067A367_ios_min15.5" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A760483B2DF64D500000023 /* Debug */,
-				2A7604837B10A10600000023 /* Release */,
+				2A760483B2DF64D500000022 /* Debug */,
+				2A7604837B10A10600000022 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
@@ -5283,8 +5291,8 @@
 		822BF5A47ACFDF5A00000000 /* Build configuration list for PBXNativeTarget "_idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min15.5" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A760483B2DF64D500000022 /* Debug */,
-				2A7604837B10A10600000022 /* Release */,
+				2A760483B2DF64D500000023 /* Debug */,
+				2A7604837B10A10600000023 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
@@ -5331,16 +5339,16 @@
 		822BF5A49D5AEFF900000000 /* Build configuration list for PBXNativeTarget "_idx_math_5D9DF4A8_ios_min15.5" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A760483B2DF64D500000009 /* Debug */,
-				2A7604837B10A10600000009 /* Release */,
+				2A760483B2DF64D50000000B /* Debug */,
+				2A7604837B10A1060000000B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
 		822BF5A49E1F1C6B00000000 /* Build configuration list for PBXNativeTarget "_idx_max_unpooling_max_pool_argmax_85BC2FB6_ios_min11.0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A760483B2DF64D50000001E /* Debug */,
-				2A7604837B10A1060000001E /* Release */,
+				2A760483B2DF64D50000001F /* Debug */,
+				2A7604837B10A1060000001F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
@@ -5371,8 +5379,8 @@
 		822BF5A4B71AADE900000000 /* Build configuration list for PBXNativeTarget "_idx_math_5D9DF4A8_ios_min11.0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A760483B2DF64D500000005 /* Debug */,
-				2A7604837B10A10600000005 /* Release */,
+				2A760483B2DF64D500000006 /* Debug */,
+				2A7604837B10A10600000006 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
@@ -5387,8 +5395,8 @@
 		822BF5A4BA092A1E00000000 /* Build configuration list for PBXNativeTarget "_idx_transpose_conv_bias_3067A367_ios_min11.0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2A760483B2DF64D50000001F /* Debug */,
-				2A7604837B10A1060000001F /* Release */,
+				2A760483B2DF64D50000001E /* Debug */,
+				2A7604837B10A1060000001E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
