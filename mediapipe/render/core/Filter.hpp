@@ -146,27 +146,6 @@ public:
     bool getPropertyComment(const std::string& name, std::string& retComment);
     bool getPropertyType(const std::string& name, std::string& retType);
     
-    bool isEnable() {
-        return _enable;
-    }
-    
-    bool isForceEnable() {
-        return _forceEnable;
-    }
-    
-    void setEnable(bool enable) {
-        if (_forceEnable) {
-            //强制设定时外部不可更改
-            return;
-        }
-        _enable = enable;
-    }
-    
-    void setForceEnable(bool force, bool enable) {
-        _forceEnable = force;
-        _enable = enable;
-    }
-    
     void setContext(Context *context) {
         _context = context;
     }
@@ -278,8 +257,6 @@ protected:
     Context *getContext();
 protected:
     void generateVBOBuffers();
-    bool _enable = true;
-    bool _forceEnable = false;
     Opipe::Mat4 _mvp_matrix;
     Vector2 _scaleResolution = Vector2(0.0, 0.0);
     bool _useScaleResolution = false;

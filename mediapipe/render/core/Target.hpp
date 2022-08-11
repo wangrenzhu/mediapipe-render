@@ -49,6 +49,15 @@ public:
     virtual void update(float frameTime) {};
     virtual int getNextAvailableTextureIndex() const;
     //virtual void setInputSizeWithIdx(int width, int height, int textureIdx) {};
+    
+    bool isEnable() {
+        return _enable;
+    }
+    
+    void setEnable(bool enable) {
+        _enable = enable;
+    }
+    
 protected:
     struct InputFrameBufferInfo {
         Framebuffer* frameBuffer;
@@ -56,7 +65,7 @@ protected:
         int texIndex;
         bool ignoreForPrepare;
     };
-    
+    bool _enable = true;
     std::map<int, InputFrameBufferInfo> _inputFramebuffers;
     int _inputNum;
 };

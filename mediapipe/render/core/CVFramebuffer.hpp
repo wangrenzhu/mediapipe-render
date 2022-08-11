@@ -33,8 +33,21 @@ namespace Opipe {
                       GLuint handle, IOSurfaceID surfaceID,
                       const TextureAttributes textureAttributes = defaultTextureAttribures);
         
+        CVFramebuffer(Context *context, int width, int height, IOSurfaceID surfaceID,
+                      const TextureAttributes textureAttributes = defaultTextureAttribures);
+        
         void SetRenderTarget(CVPixelBufferRef pixel_buffer);
         virtual ~CVFramebuffer();
+        
+        void active() override {
+            IOSurfaceLock(renderIOSurface, kIOSurfaceLockReadOnly, 0);
+            Framebuffer::active();
+        }
+        
+        void inactive() override {
+            IOSurfaceUnlock(renderIOSurface, kIOSurfaceLockReadOnly, 0);
+            Framebuffer::inactive();
+        }
         
         void lockAddress() override;
         void unlockAddress() override;

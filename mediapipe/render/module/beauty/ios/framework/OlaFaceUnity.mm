@@ -234,9 +234,7 @@ using namespace Opipe;
 
 - (void)setUseSegmentation:(BOOL)useSegmentation
 {
-    _face_module->runInContextSync([&] {
-        _face_module->setSegmentationEnable(useSegmentation);
-    });
+    _face_module->setSegmentationEnable(useSegmentation);
 }
 
 - (void)resume
@@ -273,6 +271,13 @@ using namespace Opipe;
             filter->addTarget(_renderView);
         }
         
+    }
+}
+
+- (void)setSegmentBackground:(UIImage *)image
+{
+    if (_face_module) {
+        _face_module->setSegmentationBackground(image);
     }
 }
 

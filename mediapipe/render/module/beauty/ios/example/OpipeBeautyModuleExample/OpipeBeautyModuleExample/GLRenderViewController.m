@@ -67,6 +67,10 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
     [self setupSession];
     [[OlaFaceUnity sharedInstance] initModule];
     [[OlaFaceUnity sharedInstance] resume];
+    UIImage *segBackgroundImage = [UIImage imageNamed:@"background"];
+    [[OlaFaceUnity sharedInstance] setSegmentBackground:segBackgroundImage];
+    
+    
     if (CGSizeEqualToSize(self.previewSize, self.view.bounds.size)) {
         return;
     }

@@ -66,6 +66,9 @@ int Target::getNextAvailableTextureIndex() const {
 }
 
 bool Target::isPrepared() const {
+    if (!_enable) {
+        return true;
+    }
     int preparedNum = 0;
     int ignoreForPrepareNum = 0;
     for (std::map<int, InputFrameBufferInfo>::const_iterator it = _inputFramebuffers.begin();

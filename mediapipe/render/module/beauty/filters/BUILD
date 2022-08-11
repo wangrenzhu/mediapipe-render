@@ -6,6 +6,7 @@ BEAUTYFILTERS_SRCS = [
         "FaceDistortionFilter.cpp",
         "OlaBeautyFilter.cpp",
         "UnSharpMaskFilter.cpp",
+        "SegmentationFilter.cpp"
 ]
 
 BEAUTYFILTERS_HDRS = [
@@ -13,6 +14,7 @@ BEAUTYFILTERS_HDRS = [
         "FaceDistortionFilter.hpp",
         "OlaBeautyFilter.hpp",
         "UnSharpMaskFilter.hpp",
+        "SegmentationFilter.hpp"
 ]
 
 cc_library(
