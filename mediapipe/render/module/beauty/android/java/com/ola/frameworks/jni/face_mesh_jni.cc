@@ -24,7 +24,7 @@ JNIEXPORT void JNICALL OLA_METHOD(nativeRelease)(JNIEnv* env, jobject thiz, jlon
 
 }
 
-JNIEXPORT void JNICALL OLA_METHOD(nativeInit)(JNIEnv* env,jobject thiz,jlong context, jbyteArray data, jlong glContext){
+JNIEXPORT void JNICALL OLA_METHOD(nativeInit)(JNIEnv* env,jobject thiz,jlong context, jbyteArray data, jobject glContext){
     
     Opipe::FaceMeshModule* faceModule =reinterpret_cast<Opipe::FaceMeshModule*>(context);
     jbyte* data_ptr = env->GetByteArrayElements(data, nullptr);
