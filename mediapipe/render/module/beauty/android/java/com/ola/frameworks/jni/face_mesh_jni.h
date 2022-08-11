@@ -23,6 +23,8 @@
 // Creates a native opipe context.
 JNIEXPORT jlong JNICALL OLA_METHOD(nativeCreate)(JNIEnv* env, jobject thiz);
 
+JNIEXPORT jlong JNICALL OLA_METHOD(nativeInitAssertManager)(JNIEnv* env, jobject thiz, jobject androidContext,jstring cacheDirPath);
+
 // Releases a native opipe context.
 JNIEXPORT void JNICALL OLA_METHOD(nativeRelease)(JNIEnv* env, jobject thiz, jlong context);
 
@@ -36,9 +38,9 @@ JNIEXPORT void JNICALL OLA_METHOD(nativeStopModule)(JNIEnv* env, jobject thiz, j
 
 JNIEXPORT void JNICALL OLA_METHOD(nativeRenderTexture)(JNIEnv* env, jobject thiz, jlong context, jint width, jint height, jint textureId, jlong frameTime);
 
-JNIEXPORT void JNICALL OLA_METHOD(nativeProcessVideoFrame)(JNIEnv* env, jobject thiz, jlong context, jint textureId, jint width, jint height, jint step, jlong frameTime);
+JNIEXPORT void JNICALL OLA_METHOD(nativeProcessVideoFrame)(JNIEnv* env, jobject thiz, jlong context, jint textureId, jint width, jint height,  jlong frameTime);
 
-JNIEXPORT void JNICALL OLA_METHOD(nativeProcessVideoFrameBytes)(JNIEnv* env, jobject thiz, jlong context, jbyteArray data, jint width, jint height, jint step, jlong frameTime);
+JNIEXPORT void JNICALL OLA_METHOD(nativeProcessVideoFrameBytes)(JNIEnv* env, jobject thiz, jlong context, jbyteArray data, jint width, jint height, jlong frameTime);
 
 #ifdef __cplusplus
 }  // extern "C"

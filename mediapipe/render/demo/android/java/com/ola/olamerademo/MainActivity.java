@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             mCameraVideoView.getExpansionManager().addRenderExpansion(QStreamWrapper.class, mQStreamWrapper);
         }, 1000);
 
-
+        OlaBeauty.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
         OlaBeauty.nativeInit(graph, getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb"));
     }
 

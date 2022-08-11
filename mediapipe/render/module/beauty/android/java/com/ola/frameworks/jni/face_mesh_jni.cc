@@ -3,6 +3,18 @@
 //
 
 #include "face_mesh_jni.h"
+#include "mediapipe/util/android/asset_manager_util.h"
+
+JNIEXPORT jlong JNICALL OLA_METHOD(nativeInitAssertManager)(JNIEnv* env, jobject thiz, jobject androidContext,jstring cacheDirPath){
+    mediapipe::AssetManager* asset_manager = Singleton<mediapipe::AssetManager>::get();
+    
+    const char* path_ref = env->GetStringUTFChars(cacheDirPath, nullptr);
+    // Make a copy of the string and release the jni reference.
+    std::string path_to(path_ref);
+    env->ReleaseStringUTFChars(cacheDirPath, path_ref);
+    return asset_manager->InitializeFromActivity(env, androidContext, path_to);
+}
+
 
 JNIEXPORT jlong JNICALL OLA_METHOD(nativeCreate)(JNIEnv* env, jobject thiz) {
     return reinterpret_cast<int64_t>(Opipe::FaceMeshModule::create());

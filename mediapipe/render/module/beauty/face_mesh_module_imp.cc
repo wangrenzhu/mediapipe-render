@@ -296,7 +296,7 @@ namespace Opipe
         if (!_isInit) {
             return;
         }
-        _graph->sendPacket(pixelbuffer, width, height, "input_video");
+        _graph->sendPacket(pixelbuffer, width, height, "input_video", timeStamp);
 
     }
 
@@ -305,7 +305,7 @@ namespace Opipe
             return;
         }
 
-        _graph->sendPacket(textureId, width, height, "input_video");
+        _graph->sendPacket(textureId, width, height, "input_video", timeStamp);
 
     }
 

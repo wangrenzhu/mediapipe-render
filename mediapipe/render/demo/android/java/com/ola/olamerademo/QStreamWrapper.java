@@ -39,6 +39,7 @@ public class QStreamWrapper extends RenderExpansion {
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+
     }
 
     @Override

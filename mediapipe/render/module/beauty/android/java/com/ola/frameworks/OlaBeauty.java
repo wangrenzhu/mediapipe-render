@@ -1,10 +1,14 @@
 package com.ola.frameworks;
 
+import android.content.Context;
+
 public class OlaBeauty {
 
     static {
         System.loadLibrary("opipe_jni");
     }
+
+    public native static long nativeInitAssertManager(Context context, String cacheDir);
 
     public native static long nativeCreate();
 

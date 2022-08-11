@@ -53,6 +53,10 @@ namespace Opipe
     #else
         else if (packetType == MPPPacketTypeImage && !graph->_delegate.expired()) {
             // android 处理输出
+            // graph->_framesInFlight--;
+            // int textureId;
+            // textureId = packet.Get<mediapipe::Image>().GetTextureId();
+            // graph->_delegate.lock()->outputPacket(graph, textureId, streamName, packet.Timestamp().Value());
         }
     #endif
         
@@ -168,27 +172,23 @@ namespace Opipe
 
 
 
-    bool OlaGraph::sendPacket(unsigned char *data, int width, int height, const std::string &streamName) {
+    bool OlaGraph::sendPacket(unsigned char *data, int width, int height, const std::string &streamName,int64_t timeStamp) {
         auto buffer_or = GlTextureBuffer::Create(width, height, mediapipe::GpuBufferFormat::kBGRA32, data, 4);
-        mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::Image>(std::move(buffer_or));
+        mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::GpuBuffer>(std::move(buffer_or));
+        packet = std::move(packet).At(Timestamp::CreateNoErrorChecking(timeStamp));
         absl::Status status = _graph->AddPacketToInputStream(streamName, std::move(packet));
         return status.ok();
     }
 
-  mediapipe::GpuBuffer createPacket(int textureId, int width, int height){
-        return mediapipe::GpuBuffer(mediapipe::GlTextureBuffer::Wrap(
-      GL_TEXTURE_2D, textureId, width, height, mediapipe::GpuBufferFormat::kBGRA32, nullptr, nullptr));
-
-    //  return absl::make_unique<GlTextureBuffer>(GL_TEXTURE_2D, textureId, width, height, mediapipe::GpuBufferFormat::kBGRA32,nullptr, context)
-    }
-
-    bool OlaGraph::sendPacket(int textureId, int width, int height, const std::string &streamName) {
-        auto buffer_or = createPacket(textureId, width, height);
-        mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::Image>(std::move(buffer_or));
-        absl::Status status = _graph->AddPacketToInputStream(streamName, packet);
+    bool OlaGraph::sendPacket(int textureId, int width, int height, const std::string &streamName,int64_t timeStamp) {
+        auto buffer_or = mediapipe::GpuBuffer(mediapipe::GlTextureBuffer::Wrap(
+            GL_TEXTURE_2D, textureId, width, height, mediapipe::GpuBufferFormat::kBGRA32, gpu_resources_->gl_context(), nullptr));
+        mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::GpuBuffer>(std::move(buffer_or));
+        packet = std::move(packet).At(Timestamp::CreateNoErrorChecking(timeStamp));
+        absl::Status status = _graph->AddPacketToInputStream(streamName, std::move(packet));
 //        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
         if (!status.ok()) {
-            LOG(ERROR) << status;
+            LOG(ERROR) << "-------"<<status;
         }
         return status.ok();
     }
