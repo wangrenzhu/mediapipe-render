@@ -234,9 +234,7 @@ using namespace Opipe;
 
 - (void)setUseSegmentation:(BOOL)useSegmentation
 {
-    _face_module->runInContextSync([&] {
-        _face_module->setSegmentationEnable(useSegmentation);
-    });
+    _face_module->setSegmentationEnable(useSegmentation);
 }
 
 - (void)resume

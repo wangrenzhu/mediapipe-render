@@ -95,8 +95,8 @@ public:
     const TextureAttributes& getTextureAttributes() const { return _textureAttributes; };
     bool hasFramebuffer() { return _hasFB; };
 
-    void active();
-    void inactive();
+    virtual void active();
+    virtual void inactive();
     
     virtual void lockAddress() {};
     virtual void unlockAddress() {};

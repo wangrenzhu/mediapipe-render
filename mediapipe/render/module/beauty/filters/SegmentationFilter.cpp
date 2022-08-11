@@ -15,8 +15,9 @@ namespace Opipe {
         lowp vec4 foreColor = texture2D(colorMap, vTexCoord);
         lowp vec4 maskColor = texture2D(colorMap1, vTexCoord1);
         lowp vec4 backgroundColor = texture2D(colorMap2, vTexCoord2);
-
-        gl_FragColor = foreColor * maskColor.a + backgroundColor * (1.0 - maskColor.a);
+//        lowp float factor = smoothstep(0.0, 1.0, maskColor.a);
+         lowp float factor = maskColor.a * maskColor.a;
+        gl_FragColor = foreColor * factor + backgroundColor * (1.0 - factor);
      }
     );
 

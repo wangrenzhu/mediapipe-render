@@ -39,6 +39,16 @@ namespace Opipe {
         void SetRenderTarget(CVPixelBufferRef pixel_buffer);
         virtual ~CVFramebuffer();
         
+        void active() override {
+            IOSurfaceLock(renderIOSurface, kIOSurfaceLockReadOnly, 0);
+            Framebuffer::active();
+        }
+        
+        void inactive() override {
+            IOSurfaceUnlock(renderIOSurface, kIOSurfaceLockReadOnly, 0);
+            Framebuffer::inactive();
+        }
+        
         void lockAddress() override;
         void unlockAddress() override;
         void* frameBufferGetBaseAddress() override;

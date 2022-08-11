@@ -122,16 +122,15 @@ node {
 node {
   calculator: "ToImageCalculator"
   input_stream: "IMAGE_GPU:segmentation_mask_gpu_buffer"
-  # output_stream: "IMAGE:segmentation_mask"
-  output_stream: "IMAGE:filtered_segmentation_mask"
+  output_stream: "IMAGE:segmentation_mask"
 }
 
-# node {
-#   calculator: "PoseSegmentationFiltering"
-#   input_side_packet: "ENABLE:enable"
-#   input_stream: "SEGMENTATION_MASK:segmentation_mask"
-#   output_stream: "FILTERED_SEGMENTATION_MASK:filtered_segmentation_mask"
-# }
+node {
+  calculator: "PoseSegmentationFiltering"
+  input_side_packet: "ENABLE:enable"
+  input_stream: "SEGMENTATION_MASK:segmentation_mask"
+  output_stream: "FILTERED_SEGMENTATION_MASK:filtered_segmentation_mask"
+}
 
 # Converts the incoming segmentation mask represented as an Image into the
 # corresponding GpuBuffer type.
