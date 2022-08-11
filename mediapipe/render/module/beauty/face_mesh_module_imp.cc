@@ -62,7 +62,7 @@ namespace Opipe
             }
             Log("FaceMeshModule", "landmarkts:%ld", _last_landmark_ts);
             
-            if (packet.Timestamp().Value() != _last_landmark_ts) {
+            if (streamName == kOutputVideo && (packet.Timestamp().Value() - _last_landmark_ts) > 1000000) {
                 _hasFace = false;
                 _last_landmark_ts = 0; //输出过一次的时间戳 不再输出
             }
@@ -74,17 +74,18 @@ namespace Opipe
                 _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
             }
             
-            if (streamName == kSegmentation) {
-//                _imp->currentDispatch()->runSync([&] {
-                    // 人脸分割的数据
-                    const auto& image = packet.Get<Image>();
-                    if (image.UsesGpu()) {
-                        auto gpubuffer = image.GetGpuBuffer();
-                        _imp->setSegmentationMask(gpubuffer);
-                    }
-//                });
-            }
+           
         }, Context::IOContext);
+        if (streamName == kSegmentation) {
+//                _imp->currentDispatch()->runSync([&] {
+                // 人脸分割的数据
+                const auto& image = packet.Get<Image>();
+                if (image.UsesGpu()) {
+                    auto gpubuffer = image.GetGpuBuffer();
+                    _imp->setSegmentationMask(gpubuffer);
+                }
+//                });
+        }
     }
 
     void FaceMeshCallFrameDelegate::outputPacket(OlaGraph *graph, const mediapipe::Packet &packet,

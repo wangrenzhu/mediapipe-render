@@ -11,12 +11,9 @@ namespace Opipe
         _context = context;
         _olaBeautyFilter = OlaBeautyFilter::create(context);
         _isRendering = false;
-
-        _segmentationFilter = SegmentationFilter::create(context);
-        _segmentationFilter->setEnable(false);
-
+        
         _outputFilter = OlaShareTextureFilter::create(context);
-        _olaBeautyFilter->addTarget(_segmentationFilter)->addTarget(_outputFilter);
+        _olaBeautyFilter->addTarget(_outputFilter);
         
 #if defined(__APPLE__)
         
@@ -38,11 +35,6 @@ namespace Opipe
         {
             _olaBeautyFilter->release();
             _olaBeautyFilter = nullptr;
-        }
-
-        if (_segmentationFilter) {
-            _segmentationFilter->release();
-            _segmentationFilter = nullptr;
         }
 
         if (_outputFilter)
@@ -147,21 +139,22 @@ namespace Opipe
     }
 
     void FaceMeshBeautyRender::setUseSegmentation(bool useSegmentation) {
-        if (_segmentationFilter) {
-            _segmentationFilter->setEnable(useSegmentation);
+        if (_olaBeautyFilter) {
+            _useSegmentation = useSegmentation;
+            _olaBeautyFilter->setUseSegmentation(_useSegmentation);
         }
     }
 
     void FaceMeshBeautyRender::setSegmentationBackground(SourceImage *background) {
-        if (_segmentationFilter) {
-            _segmentationFilter->setBackgroundImage(background);
+        if (_olaBeautyFilter) {
+            _olaBeautyFilter->setSegmentationBackground(background);
         }
     }
 
     void FaceMeshBeautyRender::setSegmentationMask(Framebuffer *maskbuffer) {
-        if (_segmentationFilter) {
+        if (_olaBeautyFilter) {
             // 有个异步问题 需要外部处理WaitOnGPU
-            _segmentationFilter->updateSegmentationMask(maskbuffer);
+            _olaBeautyFilter->setSegmentationMask(maskbuffer);
         }
     }
 

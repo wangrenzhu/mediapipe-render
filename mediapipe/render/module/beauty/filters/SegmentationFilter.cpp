@@ -16,7 +16,8 @@ namespace Opipe {
         lowp vec4 maskColor = texture2D(colorMap1, vTexCoord1);
         lowp vec4 backgroundColor = texture2D(colorMap2, vTexCoord2);
 //        lowp float factor = smoothstep(0.0, 1.0, maskColor.a);
-         lowp float factor = maskColor.a * maskColor.a;
+//         lowp float factor = maskColor.a * maskColor.a;
+        lowp float factor = maskColor.a;
         gl_FragColor = foreColor * factor + backgroundColor * (1.0 - factor);
      }
     );
@@ -47,9 +48,7 @@ namespace Opipe {
     }
 
     void SegmentationFilter::updateSegmentationMask(Framebuffer *maskbuffer) {
-        maskbuffer->lockAddress();
         setInputFramebuffer(maskbuffer, NoRotation, 1, true);
-        maskbuffer->unlockAddress();
         if (_segmentationMask) {
             delete _segmentationMask;
             _segmentationMask = nullptr;
