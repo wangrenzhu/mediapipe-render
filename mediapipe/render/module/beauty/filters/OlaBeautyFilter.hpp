@@ -4,6 +4,7 @@
 #include "mediapipe/render/core/AlphaBlendFilter.hpp"
 #include "mediapipe/render/core/LUTFilter.hpp"
 #include "mediapipe/render/core/SourceImage.hpp"
+#include "mediapipe/render/module/beauty/filters/SegmentationFilter.hpp"
 #include "BilateralAdjustFilter.hpp"
 #include "UnSharpMaskFilter.hpp"
 #include "FaceDistortionFilter.hpp"
@@ -33,11 +34,18 @@ namespace Opipe
         OlaBeautyFilter(Context *context);
 
         virtual ~OlaBeautyFilter();
+        
+        void setUseSegmentation(bool useSegmentation);
+
+        void setSegmentationBackground(SourceImage *background);
+
+        void setSegmentationMask(Framebuffer *maskbuffer);
 
     private:
         BilateralFilter *_bilateralFilter = 0;
         AlphaBlendFilter *_alphaBlendFilter = 0;
         LUTFilter *_lutFilter = 0;
+        SegmentationFilter *_segmentationFilter = 0;
         BilateralAdjustFilter *_bilateralAdjustFilter = 0;
         UnSharpMaskFilter *_unSharpMaskFilter = 0;
         FaceDistortionFilter *_faceDistortFilter = 0;
