@@ -3,6 +3,7 @@ package com.ola.olamerademo;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.opengl.EGL14;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -42,8 +43,11 @@ public class MainActivity extends AppCompatActivity {
             mCameraVideoView.getExpansionManager().addRenderExpansion(QStreamWrapper.class, mQStreamWrapper);
         }, 1000);
 
-        OlaBeauty.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
-        OlaBeauty.nativeInit(graph, getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb"));
+        mQStreamWrapper.doAfterSurfaceReady(()->{
+            OlaBeauty.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
+            byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
+            OlaBeauty.nativeInit(graph, data, EGL14.eglGetCurrentContext());
+        });
     }
 
     public static byte[] getAssetBytes(AssetManager assets, String assetName) {

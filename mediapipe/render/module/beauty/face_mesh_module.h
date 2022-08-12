@@ -108,7 +108,7 @@ namespace Opipe
                 // 恢复渲染
                 virtual void resume() = 0;
 
-                virtual bool init(void *env, void *binaryData, int size) = 0;
+                virtual bool init(long glContext, void *binaryData, int size) = 0;
 
                 virtual void startModule() = 0;
 

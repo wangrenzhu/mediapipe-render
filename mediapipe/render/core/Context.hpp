@@ -33,6 +33,7 @@
 #elif defined(__ANDROID__) 
 #include <GLES3/gl3.h>
 #include <GLES3/gl3ext.h>
+#include <EGL/egl.h>
 #endif
 
 

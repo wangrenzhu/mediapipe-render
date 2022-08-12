@@ -58,7 +58,7 @@ namespace Opipe
         virtual void resume() override;
 
         // env iOS给空
-        virtual bool init(void *env, void *binaryData, int size) override;
+        virtual bool init(long glContext, void *binaryData, int size) override;
 
         virtual void startModule() override;
 

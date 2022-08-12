@@ -29,7 +29,7 @@ JNIEXPORT jlong JNICALL OLA_METHOD(nativeInitAssertManager)(JNIEnv* env, jobject
 JNIEXPORT void JNICALL OLA_METHOD(nativeRelease)(JNIEnv* env, jobject thiz, jlong context);
 
 //init native opipe
-JNIEXPORT void JNICALL OLA_METHOD(nativeInit)(JNIEnv* env,jobject thiz,jlong context,jbyteArray data, jobject glContext);
+JNIEXPORT void JNICALL OLA_METHOD(nativeInit)(JNIEnv* env,jobject thiz,jlong context,jbyteArray data, jlong glContext);
 
 
 JNIEXPORT void JNICALL OLA_METHOD(nativeStartModule)(JNIEnv* env, jobject thiz, jlong context);

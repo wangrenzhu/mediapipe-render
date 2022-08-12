@@ -1,5 +1,6 @@
 #include "face_mesh_module_imp.h"
 #include "mediapipe/render/core/Context.hpp"
+#include "mediapipe/render/core/OpipeDispatch.hpp"
 #include "mediapipe/render/core/math/vec2.hpp"
 
 #if TestTemplateFace
@@ -163,7 +164,11 @@ namespace Opipe
         }
     }
 
-    bool FaceMeshModuleIMP::init(void *env, void *binaryData,
+    void dispatch_async_onjava(void *id, std::function<void(void)> func) {
+
+    }
+
+    bool FaceMeshModuleIMP::init(long glcontext, void *binaryData,
                                  int size)
     {
         _delegate = std::make_shared<FaceMeshCallFrameDelegate>();
@@ -172,13 +177,16 @@ namespace Opipe
         config.ParseFromArray(binaryData, size);
         _olaContext = new OlaContext();
         _context = _olaContext->glContext();
-        
 #if defined(__ANDROID__)
-        _context->initEGLContext(env);
-#endif
-        
 
+        std::thread::id glThreadId = std::this_thread::get_id();
+         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, nullptr);
+        _context->initEGLContext(reinterpret_cast<EGLContext>(glcontext));
+
+        // OpipeDispatch::setGLThreadDispatch(glOpipeDispatch);
+#else
         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, nullptr);
+#endif
 
         _graph = std::make_unique<OlaGraph>(config, _context->getEglContext());
         _graph->setDelegate(_delegate);

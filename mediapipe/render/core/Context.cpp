@@ -300,6 +300,7 @@ void Context::initEGLContext(EGLContext shareContext) {
         _eglContext = 0;
     }
     _eglContextIO = new EAGLContext(shareContext);
+    
     _eglOfflinerenderContext = new EAGLContext(shareContext);
 //use java EGL instead
 //    _eglContext = new EAGLContext(shareContext);

@@ -16,7 +16,7 @@ public class OlaBeauty {
 
     public native static void nativeRelease(long context);
 
-    public native static void nativeInit(long context, byte[] data, EGLContext eglContext);
+    public native static void nativeInit(long context, byte[] data, long eglContext);
 
     public native static void nativeStartModule(long context);
 
