@@ -77,6 +77,27 @@ void SourceCamera::updateTargets(float frameTime)
 }
 
 #if defined(__APPLE__)
+void SourceCamera::setIOSurfaceSource(IOSurfaceID surfaceID, int width, int height,
+                                      Opipe::RotationMode outputRotation,
+                                      SourceType sourceType,
+                                      TextureAttributes textureAttributes) {
+    if (_framebuffer != nullptr) {
+        CVFramebuffer *cvFb = dynamic_cast<CVFramebuffer *>(_framebuffer);
+        if (cvFb->_ioSurfaceId != surfaceID) {
+            delete _framebuffer;
+            _framebuffer = 0;
+        }
+    }
+    
+    if (_framebuffer == nullptr) {
+        CVFramebuffer *framebuffer = new CVFramebuffer(_context, width, height, surfaceID);
+        _customTexture = true;
+        setFramebuffer(framebuffer);
+    }
+    CHECK_GL(glBindTexture(GL_TEXTURE_2D, this->getFramebuffer()->getTexture()));
+}
+
+
 void SourceCamera::setIORenderTexture(IOSurfaceID surfaceID,
                                       GLuint texture,
                                       int width,

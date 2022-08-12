@@ -57,6 +57,11 @@ public:
                                     Opipe::RotationMode outputRotation = Opipe::RotationMode::NoRotation,
                                     SourceType sourceType = SourceType_RGBA,
                                     const Opipe::TextureAttributes textureAttributes = Opipe::Framebuffer::defaultTextureAttribures);
+    
+    virtual void setIOSurfaceSource(IOSurfaceID surfaceID, int width, int height,
+                                    Opipe::RotationMode outputRotation = Opipe::RotationMode::NoRotation,
+                                    SourceType sourceType = SourceType_RGBA,
+                                    const Opipe::TextureAttributes textureAttributes = Opipe::Framebuffer::defaultTextureAttribures);
 #endif
 
     

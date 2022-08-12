@@ -34,6 +34,7 @@ OlaCameraSource::OlaCameraSource(Context *context, SourceType sourceType) : Sour
         addTarget(_yuvTexture);
         _yuvTexture->addTarget(_scaleTexture);
     } else {
+        _scaleTexture = OlaShareTextureFilter::create(context);
         addTarget(_scaleTexture);
     }
 }
@@ -82,10 +83,10 @@ void OlaCameraSource::setFrameData(int width,
                 _yuvTexture = nullptr;
                 break;
             case SourceType_YUV420SP:
-                _yuvTexture = new OlaYUVTexture(_context);
+                _yuvTexture = OlaYUVTexture::create(_context);
                 break;
             case SourceType_YUV420P:
-                _yuvTexture = new OlaYUVTexture420P(_context);
+                _yuvTexture = OlaYUVTexture420P::create(_context);
                 break;
             default:
                 break;

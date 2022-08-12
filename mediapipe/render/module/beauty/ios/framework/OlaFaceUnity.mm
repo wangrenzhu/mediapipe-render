@@ -1,15 +1,14 @@
 #import "OlaFaceUnity.h"
 #import "OlaFURenderView+private.h"
 #include "mediapipe/render/module/beauty/face_mesh_module.h"
-#include "mediapipe/render/core/OlaCameraSource.hpp"
 #include "mediapipe/render/core/Context.hpp"
 #include "mediapipe/render/core/Filter.hpp"
-#include "mediapipe/render/core/CVFramebuffer.hpp"
+//#include "mediapipe/render/core/CVFramebuffer.hpp"
 
 using namespace Opipe;
 @interface OlaFaceUnity() {
     Opipe::FaceMeshModule *_face_module;
-    OlaCameraSource *sourceCamera;
+//    OlaCameraSource *sourceCamera;
     dispatch_queue_t videoQueue;
 }
 
@@ -20,10 +19,10 @@ using namespace Opipe;
 
 - (void)dealloc
 {
-    if (sourceCamera) {
-        sourceCamera->release();
-        sourceCamera = nullptr;
-    }
+//    if (sourceCamera) {
+//        sourceCamera->release();
+//        sourceCamera = nullptr;
+//    }
     
     if (_face_module) {
         delete _face_module;
@@ -51,16 +50,6 @@ using namespace Opipe;
         _face_module->startModule();
     }
     if (_useGLRender) {
-        _face_module->runInContextSync([&] {
-            OlaContext *context = _face_module->currentContext();
-
-            Context *glContext = context->glContext();
-
-            sourceCamera = new OlaCameraSource(glContext, Opipe::SourceCamera::SourceType_YUV420SP);
-
-            _face_module->setInputSource(sourceCamera);
-
-        });
         self.cameraFrameRenderingSemaphore = dispatch_semaphore_create(1);
         videoQueue = dispatch_queue_create("FaceUnity.videoQueue", 0);
     }
@@ -128,26 +117,9 @@ using namespace Opipe;
         
         CFRetain(samplebuffer);
         dispatch_async(videoQueue, ^{
-            _face_module->runInContextSync([&] {
-                CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(samplebuffer);
-                CVPixelBufferLockBaseAddress(imageBuffer, 0);
-                
-                sourceCamera->setFrameData(width,
-                                           height,
-                                           CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 0),
-                                           GL_RGBA,
-                                           -1,
-                                           RotationMode::RotateRightFlipVertical,
-                                           Opipe::SourceCamera::SourceType_YUV420SP,
-                                           CVPixelBufferGetBaseAddressOfPlane(imageBuffer, 1));
-                CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
-                sourceCamera->updateTargets(frameTime);
-                dispatch_semaphore_signal(block_camera_sema);
-                CVFramebuffer *framebuffer = dynamic_cast<CVFramebuffer *>(sourceCamera->getScaleFramebuffer());
-                if (framebuffer && framebuffer->renderTarget) {
-                    _face_module->processVideoFrame(framebuffer->renderTarget, frameTime);
-                }
-            });
+            CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(samplebuffer);
+            _face_module->processVideoFrame(imageBuffer, frameTime);
+            dispatch_semaphore_signal(block_camera_sema);
             CFRelease(samplebuffer);
         });
      

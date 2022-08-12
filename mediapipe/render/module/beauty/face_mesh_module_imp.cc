@@ -2,13 +2,8 @@
 #include "mediapipe/render/core/Context.hpp"
 #include "mediapipe/render/core/math/vec2.hpp"
 
-#if TestTemplateFace
-#include "mediapipe/render/core/CVFramebuffer.hpp"
-#import <UIKit/UIKit.h>
-#else
 #if defined(__APPLE__)
 #include "mediapipe/render/core/CVFramebuffer.hpp"
-#endif
 #endif
 
 static const char* kNumFacesInputSidePacket = "num_faces";
@@ -33,18 +28,7 @@ namespace Opipe
     void FaceMeshCallFrameDelegate::outputPixelbuffer(OlaGraph *graph, CVPixelBufferRef pixelbuffer,
                                                       const std::string &streamName, int64_t timestamp)
     {
-//        if (streamName == kSegmentation) {
-//            _imp->currentDispatch()->runSync([&] {
-//                IOSurfaceRef surface = CVPixelBufferGetIOSurface(pixelbuffer);
-//                IOSurfaceID surfaceId = IOSurfaceGetID(surface);
-//                
-//                CVFramebuffer *framebuffer = (CVFramebuffer *)_imp->getOutputFilter()->getFramebuffer();
-//                CVPixelBufferRef pbuffer = framebuffer->renderTarget;
-//                Log("Opipe", "streamName %s timeStamp:%ld iosurfaceid:%d width:%d originWidth:%d", streamName.c_str(), timestamp, surfaceId,
-//                    (int)IOSurfaceGetWidth(surface), (int)CVPixelBufferGetWidth(pbuffer));
-//                
-//            });
-//        }
+
     }
 #endif
 
@@ -53,6 +37,7 @@ namespace Opipe
         if (_imp == nullptr) {
             return;
         }
+
         _imp->currentDispatch()->runSync([&] {
             if (streamName == kLandmarksOutputStream) {
                 _last_landmark_ts = packet.Timestamp().Value();
@@ -68,57 +53,52 @@ namespace Opipe
             }
             
             if (_hasFace) {
-                
+                // 人脸识别数据
                 _imp->setLandmark(_lastLandmark, packet.Timestamp().Value());
             } else {
                 _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
             }
             
-           
-        }, Context::IOContext);
-        if (streamName == kSegmentation) {
-//                _imp->currentDispatch()->runSync([&] {
+            if (streamName == kSegmentation) {
                 // 人脸分割的数据
                 const auto& image = packet.Get<Image>();
                 if (image.UsesGpu()) {
                     auto gpubuffer = image.GetGpuBuffer();
                     _imp->setSegmentationMask(gpubuffer);
                 }
-//                });
-        }
+            }
+            
+            
+            if (streamName == kOutputVideo) {
+                // 这里是视频流 需要给 _outputSource
+                const auto& video = packet.Get<GpuBuffer>();
+
+                if (_imp->getOutputSource()) {
+                    SourceCamera *cameraSource = _imp->getOutputSource();
+#if defined(__APPLE__)
+                    
+                    CVPixelBufferRef pixelbuffer = mediapipe::GetCVPixelBufferRef(video);
+                    IOSurfaceRef ioSurface = CVPixelBufferGetIOSurface(pixelbuffer);
+                    IOSurfaceLock(ioSurface, kIOSurfaceLockReadOnly, 0);
+                    int ioSurfaceId = IOSurfaceGetID(ioSurface);
+                    cameraSource->setIOSurfaceSource(ioSurfaceId, video.width(), video.height());
+                    cameraSource->updateTargets(packet.Timestamp().Value());
+                    IOSurfaceUnlock(ioSurface, kIOSurfaceLockReadOnly, 0);
+#else
+                    
+                    //上传数据到 texture 或者 共享纹理
+#endif
+                }
+            }
+           
+        });
+       
     }
 
     void FaceMeshCallFrameDelegate::outputPacket(OlaGraph *graph, const mediapipe::Packet &packet,
                                                  MPPPacketType packetType, const std::string &streamName)
     {
-#if defined(__APPLE__)
-//        if (streamName == kLandmarksOutputStream) {
-//          if (packet.IsEmpty()) {
-//            NSLog(@"[TS:%lld] No face landmarks", packet.Timestamp().Value());
-//            return;
-//          }
-//          const auto& multi_face_landmarks = packet.Get<std::vector<::mediapipe::NormalizedLandmarkList>>();
-//          NSLog(@"[TS:%lld] Number of face instances with landmarks: %lu", packet.Timestamp().Value(),
-//                multi_face_landmarks.size());
-//          for (int face_index = 0; face_index < multi_face_landmarks.size(); ++face_index) {
-//            const auto& landmarks = multi_face_landmarks[face_index];
-//            NSLog(@"\tNumber of landmarks for face[%d]: %d", face_index, landmarks.landmark_size());
-//            for (int i = 0; i < landmarks.landmark_size(); ++i) {
-//              NSLog(@"\t\tLandmark[%d]: (%f, %f, %f)", i, landmarks.landmark(i).x(),
-//                    landmarks.landmark(i).y(), landmarks.landmark(i).z());
-//            }
-//          }
-//        } else if (streamName == kDetectionsOutputStream) {
-//            if (packet.IsEmpty()) {
-//              NSLog(@"[TS:%lld] No face detections", packet.Timestamp().Value());
-//              return;
-//            }
-//            const auto& face_detections = packet.Get<std::vector<::mediapipe::Detection>>();
-//            NSLog(@"[TS:%lld] Number of face instances with detections: %lu", packet.Timestamp().Value(),
-//                  face_detections.size());
-//
-//        }
-#endif
+
     }
 
     FaceMeshModuleIMP::FaceMeshModuleIMP()
@@ -130,6 +110,14 @@ namespace Opipe
         _delegate->attach(nullptr);
         _delegate = 0;
         
+        if (_inputSource) {
+            _dispatch->runSync([&] {
+                _inputSource->removeAllTargets();
+                delete _inputSource;
+                _inputSource = nullptr;
+            });
+        }
+        
         if (_olaContext) {
             delete _olaContext;
             _olaContext = nullptr;
@@ -139,8 +127,13 @@ namespace Opipe
 
         if (_render) {
             _dispatch->runSync([&] {
+                _outputSource->removeAllTargets();
                 delete _render;
                 _render = nullptr;
+                if (_outputSource) {
+                    delete _outputSource;
+                    _outputSource = nullptr;
+                }
             });
         }
         delete _context;
@@ -172,6 +165,7 @@ namespace Opipe
         config.ParseFromArray(binaryData, size);
         _olaContext = new OlaContext();
         _context = _olaContext->glContext();
+
         
 #if defined(__ANDROID__)
         _context->initEGLContext(env);
@@ -179,11 +173,9 @@ namespace Opipe
         
 
         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, nullptr);
-
         _graph = std::make_unique<OlaGraph>(config, _context->getEglContext());
         _graph->setDelegate(_delegate);
         _graph->setSidePacket(mediapipe::MakePacket<int>(1), kNumFacesInputSidePacket);
-//        _graph->setSidePacket(mediapipe::MakePacket<bool>(false), kUseSegmentation);
         _graph->addFrameOutputStream(kLandmarksOutputStream, MPPPacketTypeRaw);
 #if defined(__APPLE__)
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypePixelBuffer);
@@ -193,14 +185,10 @@ namespace Opipe
         if (_render == nullptr) {
             _dispatch->runSync([&] {
                 if (_render == nullptr) {
+                    _inputSource = new OlaCameraSource(_context, Opipe::SourceCamera::SourceType_YUV420SP);
                     _render = new FaceMeshBeautyRender(_context);
-#if TestTemplateFace
-                    UIImage *image = [UIImage imageNamed:@"templateFace"];
-                    
-                    _templateFace = SourceImage::create(_context, image);
-        
-#endif
-
+                    _outputSource = SourceCamera::create(_context);
+                    _render->setInputSource(_outputSource);
                 }
             });
         }
@@ -218,10 +206,18 @@ namespace Opipe
             Log("FaceMeshModule", "没有检测到人脸");
             
         } else {
-//            _graph->cosumeFrame();
-//            _graph->closeAllInputStreams();
             Log("FaceMeshModule", "检测到人脸输出");
         }
+        
+        std::vector<Vec2> facePoints;
+        if (_lastLandmark.landmark_size() > 0) {
+            Log("FaceMeshModule", "检测到人脸输出");
+            for (int i = 0; i < _lastLandmark.landmark_size(); i++) {
+                facePoints.emplace_back( _lastLandmark.landmark(i).x(), _lastLandmark.landmark(i).y());
+            }
+            Log("FaceMeshModule", "检测到人脸输完毕");
+        }
+        _render->setFacePoints(facePoints);
     }
 
     void FaceMeshModuleIMP::startModule()
@@ -281,34 +277,34 @@ namespace Opipe
         {
             return;
         }
-        Timestamp ts(timeStamp * 1000);
-        _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
-#if TestTemplateFace
-        auto *framebuffer = dynamic_cast<CVFramebuffer *>(_templateFace->getFramebuffer());
-        CVPixelBufferRef renderTarget = framebuffer->renderTarget;
-        framebuffer->lockAddress();
-        _graph->sendPixelBuffer(renderTarget, kInputVideo,
-        MPPPacketTypePixelBuffer,
-        ts);
-        framebuffer->unlockAddress();
-#else
-        CVPixelBufferLockBaseAddress(pixelbuffer, 0);
-        _graph->sendPixelBuffer(pixelbuffer, kInputVideo,
-        MPPPacketTypePixelBuffer,
-        ts);
-        CVPixelBufferUnlockBaseAddress(pixelbuffer, 0);
-#endif
         _dispatch->runSync([&] {
-            std::vector<Vec2> facePoints;
-            if (_lastLandmark.landmark_size() > 0) {
-                Log("FaceMeshModule", "检测到人脸输出");
-                for (int i = 0; i < _lastLandmark.landmark_size(); i++) {
-                    facePoints.emplace_back( _lastLandmark.landmark(i).x(), _lastLandmark.landmark(i).y());
-                }
-                Log("FaceMeshModule", "检测到人脸输完毕");
+            _context->useAsCurrent();
+            CVPixelBufferLockBaseAddress(pixelbuffer, 0);
+            
+            int width = (int)CVPixelBufferGetWidth(pixelbuffer);
+            int height = (int)CVPixelBufferGetHeight(pixelbuffer);
+            
+            _inputSource->setFrameData(width,
+                                       height,
+                                       CVPixelBufferGetBaseAddressOfPlane(pixelbuffer, 0),
+                                       GL_RGBA,
+                                       -1,
+                                       RotationMode::RotateRightFlipVertical,
+                                       Opipe::SourceCamera::SourceType_YUV420SP,
+                                       CVPixelBufferGetBaseAddressOfPlane(pixelbuffer, 1));
+            CVPixelBufferUnlockBaseAddress(pixelbuffer, 0);
+            _inputSource->updateTargets(timeStamp);
+            CVFramebuffer *framebuffer = dynamic_cast<CVFramebuffer *>(_inputSource->getScaleFramebuffer());
+            if (framebuffer && framebuffer->renderTarget) {
+                Timestamp ts(timeStamp * 1000);
+                _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
+                CVPixelBufferLockBaseAddress(framebuffer->renderTarget, 0);
+                _graph->sendPixelBuffer(framebuffer->renderTarget, kInputVideo,
+                                        MPPPacketTypePixelBuffer,
+                                        ts);
+                CVPixelBufferUnlockBaseAddress(framebuffer->renderTarget, 0);
             }
-            _render->setFacePoints(facePoints);
-        }, Context::IOContext);
+        });
     }
     
     void FaceMeshModuleIMP::setSegmentationBackground(UIImage *image) {

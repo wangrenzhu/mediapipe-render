@@ -11,7 +11,6 @@ public:
 public:
     ~OlaYUVTexture();
     OlaYUVTexture(Opipe::Context *context);
-    Opipe::Context *_context;
 };
 NS_GI_END
 #endif /* Ola_YUVTexture_hpp */

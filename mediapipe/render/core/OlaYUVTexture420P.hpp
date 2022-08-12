@@ -11,7 +11,6 @@ public:
 public:
     ~OlaYUVTexture420P();
     OlaYUVTexture420P(Opipe::Context *context);
-    Opipe::Context *_context;
 };
 NS_GI_END
 #endif /* OlaYUVTexture420P_hpp */
