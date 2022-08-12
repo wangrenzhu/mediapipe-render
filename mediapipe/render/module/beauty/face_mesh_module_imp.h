@@ -30,8 +30,8 @@ namespace Opipe
                           const std::string &streamName) override;
 
         void outputPacket(OlaGraph *graph,
-                                  const mediapipe::Gpubuffer &gpubuffer,
-                                  const std::string &streamName) override;
+                                 const int textrue, int width, int height,
+                                  const std::string &streamName, int64_t timestamp) override;
 
         void attach(FaceMeshModuleIMP *imp) {
             _imp = imp;

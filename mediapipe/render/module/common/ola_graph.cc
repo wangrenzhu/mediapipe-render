@@ -51,10 +51,12 @@ namespace Opipe
             }
         }
     #else
-        else if (packetType == MPPPacketTypeGpubuffer && !graph->_delegate.expired()) {
-            auto *gpubuffer = packet.Get<mediapipe::GpuBuffer>();
+        else if (packetType == MPPPacketTypeGpuBuffer && !graph->_delegate.expired()) {
+            const auto gpubuffer = packet.Get<mediapipe::GpuBuffer>();
+            mediapipe::GlTextureBufferSharedPtr ptr = gpubuffer.internal_storage<mediapipe::GlTextureBuffer>();
             graph->_framesInFlight--;
-            
+            graph->_delegate.lock()->outputPacket(graph, ptr->name(), ptr->width(), ptr->height(), streamName, packet.Timestamp().Value());
+
             // android 处理输出
             // graph->_framesInFlight--;
             // int textureId;

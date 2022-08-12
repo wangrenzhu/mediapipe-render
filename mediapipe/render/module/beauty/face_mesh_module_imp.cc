@@ -102,6 +102,19 @@ namespace Opipe
 
     }
 
+    void FaceMeshCallFrameDelegate::outputPacket(OlaGraph *graph,
+                                 const int textrue, int width, int height,
+                                  const std::string &streamName, int64_t timestamp)
+    {
+        if (streamName == kOutputVideo) {
+             if (_imp->getOutputSource()) {
+                    SourceCamera *cameraSource = _imp->getOutputSource();
+                    cameraSource->setRenderTexture(textrue, width, height);
+                    cameraSource->updateTargets(timestamp);
+             }
+        }
+    }
+
     FaceMeshModuleIMP::FaceMeshModuleIMP()
     {
     }
@@ -193,7 +206,7 @@ namespace Opipe
 #if defined(__APPLE__)
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypePixelBuffer);
 #endif
-        _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypeGpubuffer);
+        _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypeGpuBuffer);
 
         _graph->addFrameOutputStream(kSegmentation, MPPPacketTypeImage);
         _isInit = true;
@@ -349,7 +362,7 @@ namespace Opipe
         if (!_isInit) {
             return;
         }
-        _graph->sendPacket(pixelbuffer, width, height, "input_video", timeStamp);
+        _graph->sendPacket(pixelbuffer, width, height, kInputVideo, timeStamp);
 
     }
 
@@ -358,7 +371,7 @@ namespace Opipe
             return;
         }
 
-        _graph->sendPacket(textureId, width, height, "input_video", timeStamp);
+        _graph->sendPacket(textureId, width, height, kInputVideo, timeStamp);
 
     }
 

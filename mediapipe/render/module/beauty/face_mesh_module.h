@@ -171,8 +171,6 @@ namespace Opipe
                                        int height,
                                        int64_t timeStamp) = 0;
 
-                virtual void runInContextSync(std::function<void(void)> func) = 0;
-
                 virtual void setInputSource(Source *source) = 0;
 
                 virtual Filter* getOutputFilter() = 0;
