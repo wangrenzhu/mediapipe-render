@@ -55,6 +55,7 @@ namespace Opipe {
         int getBytesPerRow() override;
         CVPixelBufferRef renderTarget = 0;
         IOSurfaceRef renderIOSurface = 0;
+        IOSurfaceID _ioSurfaceId = -1;
     private:
         
         void _generateTexture() override;
@@ -62,7 +63,7 @@ namespace Opipe {
         void _generateFramebuffer(bool needGenerateTexture = true) override;
         
         CVOpenGLESTextureRef _glTexture = 0;
-        IOSurfaceID _ioSurfaceId = -1;
+       
         
         
     };

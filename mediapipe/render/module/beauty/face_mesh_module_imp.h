@@ -6,13 +6,9 @@
 #include "mediapipe/framework/formats/landmark.pb.h"
 #include "mediapipe/render/core/Context.hpp"
 #include "mediapipe/render/core/Source.hpp"
+#include "mediapipe/render/core/OlaCameraSource.hpp"
 #include "face_mesh_module.h"
 #include "face_mesh_beauty_render.h"
-
-#define TestTemplateFace 0
-#if TestTemplateFace
-#include "mediapipe/render/core/SourceImage.hpp"
-#endif
 
 
 namespace Opipe
@@ -36,7 +32,7 @@ namespace Opipe
         void outputPacket(OlaGraph *graph,
                                   const mediapipe::Gpubuffer &gpubuffer,
                                   const std::string &streamName) override;
-        
+
         void attach(FaceMeshModuleIMP *imp) {
             _imp = imp;
         }
@@ -161,13 +157,13 @@ namespace Opipe
             return _dispatch.get();
         }
 
-        void runInContextSync(std::function<void()> func) override {
-            _dispatch->runSync(func);
-        }
-
         virtual void setInputSource(Source *source) override;
 
         Filter* getOutputFilter() override;
+
+        SourceCamera *getOutputSource() {
+            return _outputSource;
+        }
 
     private:
         std::unique_ptr<OpipeDispatch> _dispatch;
@@ -181,9 +177,8 @@ namespace Opipe
         OlaContext *_olaContext = nullptr;
         Timestamp _lastTs = Timestamp::Unset();
         OMat _omat;
-#if TestTemplateFace
-        SourceImage *_templateFace = nullptr;
-#endif
+        OlaCameraSource *_inputSource = nullptr; // 处理输入
+        SourceCamera *_outputSource = nullptr; //处理输出
     };
 }
 #endif

@@ -76,16 +76,18 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
     }
     _previewSize = self.view.bounds.size;
     [self setupRenderView];
+    [self startCapture];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [self pauseCapture];
     [[OlaFaceUnity sharedInstance] suspend];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self startCapture];
+    [self resumeCapture];
     [[OlaFaceUnity sharedInstance] resume];
     [OlaFaceUnity sharedInstance].whiten = 0.0;
     [OlaFaceUnity sharedInstance].smooth = 0.0;
@@ -206,7 +208,7 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
     AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:backFacingCamera error:&error];
     if (newVideoInput != nil) {
         [self.captureSession beginConfiguration];
-        [self.captureSession setSessionPreset:AVCaptureSessionPreset1280x720];
+        [self.captureSession setSessionPreset:AVCaptureSessionPreset1920x1080];
         
         [self.captureSession removeInput:self.videoInput];
         if ([self.captureSession canAddInput:newVideoInput]) {
