@@ -877,11 +877,15 @@ absl::Status CalculatorGraph::AddPacketToInputStreamInternal(
     const std::string& stream_name, T&& packet) {
   std::unique_ptr<GraphInputStream>* stream =
       mediapipe::FindOrNull(graph_input_streams_, stream_name);
+      
+    LOG(ERROR) << "-------00000000 " << stream_name;
+    LOG(ERROR) << "-------00000000 " << graph_input_streams_.size();
   RET_CHECK(stream).SetNoLogging() << absl::Substitute(
       "AddPacketToInputStream called on input stream \"$0\" which is not a "
       "graph input stream.",
       stream_name);
   int node_id = mediapipe::FindOrDie(graph_input_stream_node_ids_, stream_name);
+
   CHECK_GE(node_id, validated_graph_->CalculatorInfos().size());
   {
     absl::MutexLock lock(&full_input_streams_mutex_);
@@ -890,6 +894,7 @@ absl::Status CalculatorGraph::AddPacketToInputStreamInternal(
              << "CalculatorGraph::AddPacketToInputStream() is called before "
                 "StartRun()";
     }
+
     if (graph_input_stream_add_mode_ ==
         GraphInputStreamAddMode::ADD_IF_NOT_FULL) {
       if (has_error_) {
@@ -913,8 +918,10 @@ absl::Status CalculatorGraph::AddPacketToInputStreamInternal(
         scheduler_.WaitUntilGraphInputStreamUnthrottled(
             &full_input_streams_mutex_);
       }
+
       if (has_error_) {
         absl::Status error_status;
+        
         GetCombinedErrors("Graph has errors: ", &error_status);
         return error_status;
       }

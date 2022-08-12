@@ -45,6 +45,7 @@ namespace Opipe {
         dispatch_queue* _contextQueueOffline;
         dispatch_queue* _contextQueueIO;
         GLThreadDispatch* _glThreadDispatch = nullptr;
+        std::thread::id _glThreadId;
         void* _id ;
     public:
         Context *_context;

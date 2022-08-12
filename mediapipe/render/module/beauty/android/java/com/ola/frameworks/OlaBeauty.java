@@ -14,6 +14,8 @@ public class OlaBeauty {
 
     public native static long nativeCreate();
 
+    public native static long nativeInitLut(long context, int width, int height, byte[] lutData);
+
     public native static void nativeRelease(long context);
 
     public native static void nativeInit(long context, byte[] data, long eglContext);

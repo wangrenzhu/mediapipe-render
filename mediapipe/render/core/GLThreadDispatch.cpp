@@ -4,6 +4,8 @@
 
 #include "GLThreadDispatch.h"
 #include <assert.h>
+#include "mediapipe/framework/port/logging.h"
+
 
 
 using namespace Opipe;

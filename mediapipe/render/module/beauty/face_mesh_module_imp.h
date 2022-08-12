@@ -32,6 +32,10 @@ namespace Opipe
         
         void outputPacket(OlaGraph *graph, const mediapipe::Packet &packet,
                           const std::string &streamName) override;
+
+        void outputPacket(OlaGraph *graph,
+                                  const mediapipe::Gpubuffer &gpubuffer,
+                                  const std::string &streamName) override;
         
         void attach(FaceMeshModuleIMP *imp) {
             _imp = imp;
@@ -64,7 +68,7 @@ namespace Opipe
 
         virtual void stopModule() override;
 
-        
+        virtual void initLut(int width, int height, void *lutData, int size) override;
 
         // 外部共享Context用
         virtual OlaContext* currentContext() override {
@@ -176,6 +180,7 @@ namespace Opipe
         FaceMeshBeautyRender *_render = nullptr;
         OlaContext *_olaContext = nullptr;
         Timestamp _lastTs = Timestamp::Unset();
+        OMat _omat;
 #if TestTemplateFace
         SourceImage *_templateFace = nullptr;
 #endif

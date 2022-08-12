@@ -24,6 +24,7 @@ namespace Opipe
 #if defined(__APPLE__)
         MPPPacketTypePixelBuffer,
 #endif
+        MPPPacketTypeGpubuffer,
     };
     class OlaGraph;
     class MPPGraphDelegate
@@ -47,6 +48,10 @@ namespace Opipe
         
         virtual void outputPacket(OlaGraph *graph,
                                   const mediapipe::Packet &packet,
+                                  const std::string &streamName) = 0;
+
+        virtual void outputPacket(OlaGraph *graph,
+                                  const mediapipe::Gpubuffer &gpubuffer,
                                   const std::string &streamName) = 0;
     };
 

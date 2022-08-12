@@ -194,7 +194,9 @@ cc_library(
         ":gpuimagemacros",
         ":ref",
         "//mediapipe/render/core/math:math",
-        ":gpuimagemath"
+        ":gpuimagemath",
+        "//mediapipe/framework/port:logging",
+        "@stblib//:stb_image",
     ],
      copts = select({
         "//mediapipe:apple": [

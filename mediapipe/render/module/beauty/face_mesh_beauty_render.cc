@@ -4,9 +4,11 @@
 #import <Foundation/Foundation.h>
 #endif
 
+#include "mediapipe/framework/port/logging.h"
+
 namespace Opipe
 {
-    FaceMeshBeautyRender::FaceMeshBeautyRender(Context *context)
+    FaceMeshBeautyRender::FaceMeshBeautyRender(Context *context, int width, int height, void* data)
     {
         _context = context;
         _olaBeautyFilter = OlaBeautyFilter::create(context);
@@ -14,16 +16,16 @@ namespace Opipe
         
         _outputFilter = OlaShareTextureFilter::create(context);
         _olaBeautyFilter->addTarget(_outputFilter);
-        
 #if defined(__APPLE__)
         
         NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"OlaFaceUnity")];
-        
         NSURL *lutURL =  [bundle URLForResource:@"whiten" withExtension:@"png"];
         _lutImage = SourceImage::create(context, lutURL);
         
+#else 
+        _lutImage = SourceImage::create(context, width, height, data);
+
 #endif
-        
         _olaBeautyFilter->setLUTImage(_lutImage);
     }
 

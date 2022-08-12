@@ -51,7 +51,10 @@ namespace Opipe
             }
         }
     #else
-        else if (packetType == MPPPacketTypeImage && !graph->_delegate.expired()) {
+        else if (packetType == MPPPacketTypeGpubuffer && !graph->_delegate.expired()) {
+            auto *gpubuffer = packet.Get<mediapipe::GpuBuffer>();
+            graph->_framesInFlight--;
+            
             // android 处理输出
             // graph->_framesInFlight--;
             // int textureId;
@@ -188,7 +191,7 @@ namespace Opipe
         absl::Status status = _graph->AddPacketToInputStream(streamName, std::move(packet));
 //        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
         if (!status.ok()) {
-            LOG(ERROR) << "-------"<<status;
+            LOG(ERROR) << "-------11221122  "<< status;
         }
         return status.ok();
     }

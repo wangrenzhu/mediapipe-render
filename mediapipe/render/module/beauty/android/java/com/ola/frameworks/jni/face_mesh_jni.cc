@@ -5,6 +5,8 @@
 #include "face_mesh_jni.h"
 #include "mediapipe/util/android/asset_manager_util.h"
 
+
+
 JNIEXPORT jlong JNICALL OLA_METHOD(nativeInitAssertManager)(JNIEnv* env, jobject thiz, jobject androidContext,jstring cacheDirPath){
     mediapipe::AssetManager* asset_manager = Singleton<mediapipe::AssetManager>::get();
     
@@ -23,6 +25,15 @@ JNIEXPORT jlong JNICALL OLA_METHOD(nativeCreate)(JNIEnv* env, jobject thiz) {
 JNIEXPORT void JNICALL OLA_METHOD(nativeRelease)(JNIEnv* env, jobject thiz, jlong context){
 
 }
+
+JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut)(JNIEnv* env,jobject thiz,jlong context, jint width, jint height, jbyteArray lutData){
+    Opipe::FaceMeshModule* faceModule =reinterpret_cast<Opipe::FaceMeshModule*>(context);
+    jbyte* data_ptr = env->GetByteArrayElements(lutData, nullptr);
+    int size = env->GetArrayLength(lutData);
+    faceModule->initLut(width, height, data_ptr, size);
+    env->ReleaseByteArrayElements(lutData, data_ptr, JNI_ABORT);
+}
+
 
 JNIEXPORT void JNICALL OLA_METHOD(nativeInit)(JNIEnv* env,jobject thiz,jlong context, jbyteArray data, jlong glContext){
     

@@ -164,31 +164,36 @@ namespace Opipe
         }
     }
 
-    void dispatch_async_onjava(void *id, std::function<void(void)> func) {
+    void FaceMeshModuleIMP::initLut(int width, int height, void *lutData, int size){
+        _omat = OMat(width, height,(char *)lutData);
+     }
 
-    }
-
-    bool FaceMeshModuleIMP::init(long glcontext, void *binaryData,
-                                 int size)
+    bool FaceMeshModuleIMP::init(long glcontext, void *binaryData, int size)
     {
         _delegate = std::make_shared<FaceMeshCallFrameDelegate>();
         _delegate->attach(this);
         mediapipe::CalculatorGraphConfig config;
         config.ParseFromArray(binaryData, size);
+
+
         _olaContext = new OlaContext();
         _context = _olaContext->glContext();
+
 #if defined(__ANDROID__)
-
         std::thread::id glThreadId = std::this_thread::get_id();
-         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, nullptr);
-        _context->initEGLContext(reinterpret_cast<EGLContext>(glcontext));
 
-        // OpipeDispatch::setGLThreadDispatch(glOpipeDispatch);
+         auto *glThreadDispatch = new GLThreadDispatch(glThreadId, nullptr);
+
+        _context->initEGLContext((EGLContext) glcontext);
+
+        _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, glThreadDispatch);
+        _graph = std::make_unique<OlaGraph>(config, (EGLContext)glcontext);
 #else
         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, nullptr);
+        _graph = std::make_unique<OlaGraph>(config, _context->getEglContext());
 #endif
 
-        _graph = std::make_unique<OlaGraph>(config, _context->getEglContext());
+        
         _graph->setDelegate(_delegate);
         _graph->setSidePacket(mediapipe::MakePacket<int>(1), kNumFacesInputSidePacket);
 //        _graph->setSidePacket(mediapipe::MakePacket<bool>(false), kUseSegmentation);
@@ -196,12 +201,14 @@ namespace Opipe
 #if defined(__APPLE__)
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypePixelBuffer);
 #endif
+        _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypeGpubuffer);
+
         _graph->addFrameOutputStream(kSegmentation, MPPPacketTypeImage);
         _isInit = true;
         if (_render == nullptr) {
             _dispatch->runSync([&] {
                 if (_render == nullptr) {
-                    _render = new FaceMeshBeautyRender(_context);
+                    _render = new FaceMeshBeautyRender(_context, _omat.width, _omat.height, _omat.data);
 #if TestTemplateFace
                     UIImage *image = [UIImage imageNamed:@"templateFace"];
                     
@@ -216,6 +223,8 @@ namespace Opipe
 
         return true;
     }
+
+
 
     void FaceMeshModuleIMP::setLandmark(NormalizedLandmarkList landmark, int64_t timeStamp)
     {
@@ -368,7 +377,7 @@ namespace Opipe
         if (_render == nullptr) {
             _dispatch->runSync([&] {
                 if (_render == nullptr) {
-                    _render = new FaceMeshBeautyRender(_context);
+                    _render = new FaceMeshBeautyRender(_context, _omat.width, _omat.height, _omat.data);
                 }
             });
         }

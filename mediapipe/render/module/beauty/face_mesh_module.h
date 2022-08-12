@@ -176,6 +176,8 @@ namespace Opipe
                 virtual void setInputSource(Source *source) = 0;
 
                 virtual Filter* getOutputFilter() = 0;
+
+                virtual void initLut(int width, int height, void *lutData, int size) = 0;
         };
 }
 #endif

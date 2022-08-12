@@ -10,7 +10,7 @@
 namespace Opipe {
     class FaceMeshBeautyRender {
         public:
-            FaceMeshBeautyRender(Context *context);
+            FaceMeshBeautyRender(Context *context, int width, int height, void* data);
             ~FaceMeshBeautyRender();
 
             void suspend();
