@@ -301,6 +301,7 @@ absl::Status CallbackCalculator::Open(CalculatorContext* cc) {
 
 absl::Status CallbackCalculator::Process(CalculatorContext* cc) {
   if (callback_) {
+    LOG(ERROR)<<"-------CallbackCalculator  "<<cc->Inputs().Index(0).Value() ;
     callback_(cc->Inputs().Index(0).Value());
   } else if (vector_callback_) {
     int count = cc->Inputs().NumEntries("");

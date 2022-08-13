@@ -113,7 +113,16 @@
         "hash_set": "cpp",
         "rope": "cpp",
         "slist": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "barrier": "cpp",
+        "charconv": "cpp",
+        "csetjmp": "cpp",
+        "latch": "cpp",
+        "ranges": "cpp",
+        "cuchar": "cpp",
+        "netfwd": "cpp",
+        "source_location": "cpp",
+        "syncstream": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

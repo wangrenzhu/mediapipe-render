@@ -82,7 +82,6 @@ namespace Opipe {
             }
         } else {
 
-
 #if defined(__APPLE__)
             if (_contextQueue->isCurrent()) {
                 _context->useAsCurrent(type);

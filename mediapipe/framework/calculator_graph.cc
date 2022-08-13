@@ -878,7 +878,7 @@ absl::Status CalculatorGraph::AddPacketToInputStreamInternal(
   std::unique_ptr<GraphInputStream>* stream =
       mediapipe::FindOrNull(graph_input_streams_, stream_name);
       
-    LOG(ERROR) << "-------00000000 " << graph_input_streams_.size();
+    // LOG(ERROR) << "-------00000000 " << graph_input_streams_.size();
   RET_CHECK(stream).SetNoLogging() << absl::Substitute(
       "AddPacketToInputStream called on input stream \"$0\" which is not a "
       "graph input stream.",
