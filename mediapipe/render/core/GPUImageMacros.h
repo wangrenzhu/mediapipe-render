@@ -53,7 +53,7 @@
             case GL_OUT_OF_MEMORY:      errorString = "GL_OUT_OF_MEMORY";       break; \
             default:                                                            break; \
             } \
-            Opipe::Log("QuarameraGL", "GL ERROR 0x%04X %s in %s at line %i\n", e, \
+            Opipe::Log("olarameraGL", "GL ERROR 0x%04X %s in %s at line %i\n", e, \
             errorString.c_str(), __PRETTY_FUNCTION__, __LINE__); \
             assert(0);\
         } \

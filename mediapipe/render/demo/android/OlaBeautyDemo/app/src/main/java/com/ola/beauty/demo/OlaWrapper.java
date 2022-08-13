@@ -66,7 +66,7 @@ public class OlaWrapper extends RenderExpansion {
     RenderFlowData render(@NonNull RenderFlowData input, long timestamp) {
         TextureInfo inputTextureInfo = convert(input, timestamp);
         Log.e("----", "inputTextureInfo = " + inputTextureInfo.textureId);
-//        OlaBeauty.nativeProcessVideoFrame(graph, inputTextureInfo.textureId, inputTextureInfo.textureWidth, inputTextureInfo.textureHeight, timestamp);
+        OlaBeauty.nativeProcessVideoFrame(graph, inputTextureInfo.textureId, inputTextureInfo.textureWidth, inputTextureInfo.textureHeight, timestamp);
         return input;
     }
 

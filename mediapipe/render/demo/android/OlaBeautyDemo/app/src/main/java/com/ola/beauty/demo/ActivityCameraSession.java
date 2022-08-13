@@ -47,7 +47,7 @@ public class ActivityCameraSession {
 
     private final Context mContext;
 
-    private CameraSelector.CameraLenFacing mCameraLenFacing = CameraSelector.CameraLenFacing.LEN_FACING_BACK;
+    private CameraSelector.CameraLenFacing mCameraLenFacing = CameraSelector.CameraLenFacing.LEN_FACING_FONT;
 
 
     private boolean mIsActive;
