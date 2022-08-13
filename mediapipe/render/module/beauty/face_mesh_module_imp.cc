@@ -38,9 +38,13 @@ namespace Opipe
         if (_imp == nullptr) {
             return;
         }
-
+        LOG(ERROR)<<"---------0000000000 FaceMeshCallFrameDelegate::outputPacket  streamName  "<<streamName;
         _imp->currentDispatch()->runSync([&] {
+        LOG(ERROR)<<"---------00000000001 FaceMeshCallFrameDelegate::outputPacket  streamName  "<<streamName;
+
             if (streamName == kLandmarksOutputStream) {
+                LOG(ERROR)<<"---------00000000002 FaceMeshCallFrameDelegate::outputPacket  streamName  "<<streamName;
+
                 _last_landmark_ts = packet.Timestamp().Value();
                 _hasFace = true;
                 const auto& multi_face_landmarks = packet.Get<std::vector<::mediapipe::NormalizedLandmarkList>>();
@@ -106,13 +110,23 @@ namespace Opipe
                                  const int textrue, int width, int height,
                                   const std::string &streamName, int64_t timestamp)
     {
-        if (streamName == kOutputVideo) {
-             if (_imp->getOutputSource()) {
-                    SourceCamera *cameraSource = _imp->getOutputSource();
-                    cameraSource->setRenderTexture(textrue, width, height);
-                    cameraSource->updateTargets(timestamp);
-             }
+
+        if (_imp == nullptr) {
+            return;
         }
+        LOG(ERROR) << "--------------111FaceMeshCallFrameDelegate::outputPacket";
+         _imp->currentDispatch()->runSync([&] {
+            LOG(ERROR) << "--------------222FaceMeshCallFrameDelegate::outputPacket";
+            if (streamName == kOutputVideo) {
+                LOG(ERROR) << "--------------333FaceMeshCallFrameDelegate::outputPacket";
+                if (_imp->getOutputSource()) {
+                        LOG(ERROR) << "--------------444FaceMeshCallFrameDelegate::outputPacket";
+                        SourceCamera *cameraSource = _imp->getOutputSource();
+                        cameraSource->setRenderTexture(textrue, width, height);
+                        cameraSource->updateTargets(timestamp);
+                }
+            }
+         });
     }
 
     FaceMeshModuleIMP::FaceMeshModuleIMP()
@@ -190,14 +204,15 @@ namespace Opipe
          auto *glThreadDispatch = new GLThreadDispatch(glThreadId, nullptr);
 
         _context->initEGLContext((EGLContext) glcontext);
-
+        LOG(ERROR)<<"---------------111111  glThreadDispatch std::this_thread::get_id()  "<< std::this_thread::get_id();
         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, glThreadDispatch);
+        _dispatch->setGLThreadDispatch(glThreadDispatch);
+
         _graph = std::make_unique<OlaGraph>(config, (EGLContext)glcontext);
 #else
         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, nullptr);
         _graph = std::make_unique<OlaGraph>(config, _context->getEglContext());
 #endif
-
 
         _graph->setDelegate(_delegate);
         _graph->setSidePacket(mediapipe::MakePacket<int>(1), kNumFacesInputSidePacket);
@@ -370,7 +385,6 @@ namespace Opipe
         if (!_isInit) {
             return;
         }
-
         _graph->sendPacket(textureId, width, height, kInputVideo, timeStamp);
 
     }

@@ -131,6 +131,8 @@ namespace Opipe
         // No matter what ownership qualifiers are put on the pointer, NewPermanentCallback will
         // still end up with a strong pointer to MPPGraph*. That is why we use void* instead.
         void *wrapperVoid = this;
+
+        //// 1111111111
         _inputSidePackets[callbackInputName] =
             mediapipe::MakePacket<std::function<void(const mediapipe::Packet &)>>([wrapperVoid, outputStreamName, packetType](const mediapipe::Packet &packet)
                                                                                   { CallFrameDelegate(wrapperVoid, outputStreamName, packetType, packet); });
@@ -193,7 +195,7 @@ namespace Opipe
         absl::Status status = _graph->AddPacketToInputStream(streamName, std::move(packet));
 //        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
         if (!status.ok()) {
-            LOG(ERROR) << "-------11221122  "<< status;
+            LOG(ERROR) << status;
         }
         return status.ok();
     }

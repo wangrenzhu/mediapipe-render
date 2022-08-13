@@ -31,7 +31,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        graph = OlaBeauty.nativeCreate();
         mOlaWrapper = new OlaWrapper(graph);
+
         mCameraVideoView = new CameraVideoView(this, null);
         setContentView(mCameraVideoView);
         mActivityCameraSession = new ActivityCameraSession(this);
@@ -43,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
 
         mOlaWrapper.doAfterSurfaceReady(() -> {
-            graph = OlaBeauty.nativeCreate();
             OlaBeauty.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
             byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
             OlaBeauty.nativeInit(graph, data, EGL14.eglGetCurrentContext().getNativeHandle());
