@@ -1,33 +1,111 @@
-package com.ola.frameworks;
-
-import android.content.Context;
-
-import javax.microedition.khronos.egl.EGLContext;
+import android.opengl.EGL14;
+import android.opengl.EGLContext;
+import com.google.common.util.concurrent.ListenableFuture;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.RejectedExecutionException;
 
 public class OlaBeauty {
+    private Executor mExecutor;
 
-    static {
-        System.loadLibrary("opipe_jni");
+    private ListenableFuture<Boolean> mDoInitFuture;
+
+    private OlaBeautyJNI mNativeHandler;
+
+        /**
+     * 对mRenderTasks进行加载
+     */
+    private final Object mRenderTaskLock = new Object();
+
+    private long mGLThreadId = -1;
+
+     /**
+     * TODO
+     * TODO 目前使用外部的GL mExecutor 是不可靠的，不可靠在于mExecutor不是一定会完成任务，有可能GL销毁了，会直接清空任务
+     * TODO 所有需要后续加一个Wrapper 保证任务一定完成和在GL destroy的时候，回调所有pendding任务
+     */
+    public void setExecutor(Executor executor) {
+        mExecutor = executor;
     }
 
-    public native static long nativeInitAssertManager(Context context, String cacheDir);
+    public ListenableFuture<Boolean> doInit() {
+        if (mDoInitFuture != null) {
+            return mDoInitFuture;
+        }
+        mDoInitFuture = CallbackToFutureAdapter.getFuture(completer -> {
+            mExecutor.execute(() -> {
+                boolean result = initInner();
+                completer.set(result);
+            });
+            return "init Beauty";
+        });
+        return mDoInitFuture;
+    }
 
-    public native static long nativeCreate();
+    public OlaBeauty() {
 
-    public native static long nativeInitLut(long context, int width, int height, byte[] lutData);
+    }
 
-    public native static void nativeRelease(long context);
+    public void onSurfaceCreated() {
 
-    public native static void nativeInit(long context, byte[] data, long eglContext);
+    }
 
-    public native static void nativeStartModule(long context);
+    public void onSurfaceChanged(int width, int height) {
 
-    public native static void nativeStopModule(long context);
+    }
 
-    public native static int nativeRenderTexture(long context, int width, int height, int textureId, long frameTime);
+    public @NonNull
+    synchronized TextureInfo render(@NonNull TextureInfo input) {
+        if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
+            return input;
+        }
+        TextureInfo result = mNativeHandler.render(input);
+        if (result != null) {
+            result.extHolder = input.extHolder;
+            return result;
+        } else {
+            return input;
+        }
+    }
 
-    public native static void nativeProcessVideoFrame(long context, int textureId, int width, int height, long frameTime);
+    private synchronized boolean initInner() {
+        EGLContext eglContext = EGL14.eglGetCurrentContext();
 
-    public native static void nativeProcessVideoFrameBytes(long context, byte[] data, int size, int width, int height, long frameTime);
+        if (mNativeHandler != null) {
+            return true;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            OlaBeautyJNI beautyJNI = new OlaBeautyJNI();
+            int result = beautyJNI.init(eglContext, mExecutor);
+            if (result != 0) {
+                mNativeHandler = beautyJNI;
+            }
+        }
 
+        return false;
+
+    }
+
+    public boolean isGLThread() {
+        return Thread.currentThread().getId() == mGLThreadId;
+    }
+
+    public void postGLThread(Runnable task) {
+        synchronized (mRenderTaskLock) {
+            mExecutor.execute(task);
+        }
+    }
+
+    public void destroy() {
+        mExecutor.execute(this::destroyInGLThread);
+    }
+
+    public synchronized void destroyInGLThread() {
+        if (mNativeHandler != null) {
+            mNativeHandler.destroy();
+            mNativeHandler = null;
+        }
+    }
 }

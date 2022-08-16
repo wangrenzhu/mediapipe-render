@@ -25,6 +25,7 @@ opipe_aar(
     srcs = glob(["*.java"]),
     gen_lib = False,
     assets = [
+        "//mediapipe/render/android/camera/java/com/ola/olamera:camera_core",
         "//mediapipe/graphs/face_mesh:face_mesh_mobile_gpu.binarypb",
         "//mediapipe/modules/face_detection:face_detection_short_range.tflite",
         "//mediapipe/modules/face_landmark:face_landmark_with_attention.tflite",
