@@ -109,13 +109,15 @@ namespace Opipe
     TextureInfo FaceMeshBeautyRender::outputRenderTexture(TextureInfo inputTexture)
     {
         if (_outputFilter == nullptr) {
+            LOG(INFO) << "###### FaceMeshModuleIMP _outputFilter null";
             return inputTexture;
         }
-        
+        LOG(INFO) << "###### FaceMeshModuleIMP _outputFilter not null" << _outputFilter;
         TextureInfo outputTexture;
         outputTexture.frameTime = inputTexture.frameTime;
         auto *outputFramebuffer = _outputFilter->getFramebuffer();
         if (outputFramebuffer) {
+            LOG(INFO) << "###### FaceMeshModuleIMP _outputFilter have outputbuffer";
             outputTexture.width = outputFramebuffer->getWidth();
             outputTexture.height = outputFramebuffer->getHeight();
             outputTexture.textureId = outputFramebuffer->getTexture();
@@ -125,6 +127,7 @@ namespace Opipe
             outputTexture.ioSurfaceId = IOSurfaceGetID(surface);
             #endif
         } else {
+            LOG(INFO) << "###### FaceMeshModuleIMP _outputFilter null outputbuffer";
             outputTexture.width = inputTexture.width;
             outputTexture.height = inputTexture.height;
             outputTexture.textureId = inputTexture.textureId;

@@ -96,7 +96,7 @@ namespace Opipe {
 #else
             //优先使用外部注入的实现
             if (_glThreadDispatch) {
-                _glThreadDispatch->runSync(_id, func);
+                _glThreadDispatch->runAsync(_id, func);
                 return;
             } else {
                 assert("not init gl_thread_dispatcher");
@@ -141,7 +141,7 @@ namespace Opipe {
                 });
                 }
 #else
-
+            
             //优先使用外部注入的实现
             if (_glThreadDispatch) {
                 _glThreadDispatch->runAsync(_id, func);

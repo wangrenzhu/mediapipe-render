@@ -46,7 +46,7 @@ using namespace Opipe;
     NSURL* graphURL = [bundle URLForResource:@"face_mesh_mobile_gpu" withExtension:@"binarypb"];
     NSData* data = [NSData dataWithContentsOfURL:graphURL options:0 error:nil];
     if (data) {
-        _face_module->init(nullptr, (void *)data.bytes, data.length);
+        _face_module->init(0, (void *)data.bytes, data.length);
         _face_module->startModule();
     }
     if (_useGLRender) {

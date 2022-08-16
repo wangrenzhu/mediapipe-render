@@ -34,25 +34,11 @@ namespace Opipe
         MPPGraphDelegate() {};
 
         ~MPPGraphDelegate() {};
-#if defined(__APPLE__)
-        virtual void outputPixelbuffer(OlaGraph *graph, CVPixelBufferRef pixelbuffer,
-                                       const std::string &streamName,
-                                       int64_t timestamp) = 0;
-
-#endif
 
         virtual void outputPacket(OlaGraph *graph,
                                   const mediapipe::Packet &packet,
                                   MPPPacketType packetType,
                                   const std::string &streamName) = 0;
-        
-        virtual void outputPacket(OlaGraph *graph,
-                                  const mediapipe::Packet &packet,
-                                  const std::string &streamName) = 0;
-
-        virtual void outputPacket(OlaGraph *graph,
-                                 const int textrue, int width, int height,
-                                  const std::string &streamName, int64_t timestamp) = 0;
     };
 
     class OlaGraph
@@ -100,6 +86,9 @@ namespace Opipe
                                           MPPPacketType packetType);
 
         virtual bool start();
+
+        virtual bool sendPacket(const mediapipe::Packet &packet,
+                              const std::string &streamName);
 
         virtual bool sendPacket(int textureId, int width, int height,
                                 const std::string &streamName,int64_t timeStamp);

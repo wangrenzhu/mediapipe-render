@@ -350,7 +350,7 @@ void CVFramebuffer::_bindFramebuffer() {
                                              (id)kCVPixelBufferOpenGLCompatibilityKey : @(YES),
         };
         CHECK_GL(glBindTexture(GL_TEXTURE_2D, _texture));
-        EAGLContext *currentContext = this->getContext()->getEglContext();
+        EAGLContext *currentContext = [EAGLContext currentContext];
         
         unsigned bytesPerElement = 4;
         

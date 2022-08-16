@@ -15,8 +15,8 @@ GLThreadDispatch::GLThreadDispatch(std::thread::id glThreadId, DispatchAsyncFunc
 }
 
 void GLThreadDispatch::runSync(void *host, std::function<void(void)> func) {
-    // LOG(ERROR)<<"---------------111111  std::this_thread::get_id()  "<< std::this_thread::get_id();
-    // LOG(ERROR)<<"---------------222222  _glThreadId  "<<_glThreadId;
+     LOG(ERROR)<<"######  std::this_thread::get_id()  " << std::this_thread::get_id();
+     LOG(ERROR)<<"######  _glThreadId  " << _glThreadId;
     
     if (std::this_thread::get_id() == _glThreadId) {
         func();

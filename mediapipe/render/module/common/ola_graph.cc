@@ -7,8 +7,6 @@
 #include "mediapipe/framework/graph_service.h"
 #include "mediapipe/framework/port/logging.h"
 #include "mediapipe/gpu/gl_texture_buffer.h"
-#include "mediapipe/gpu/gl_base.h"
-#include "mediapipe/gpu/gpu_shared_data_internal.h"
 
 
 using namespace mediapipe;
@@ -20,52 +18,13 @@ namespace Opipe
                            const mediapipe::Packet &packet)
     {
         OlaGraph *graph = (OlaGraph *)wrapperVoid;
-#if defined(__APPLE__)
-        @autoreleasepool {
-#endif
-            if (graph->_delegate.expired())
-            {
-                return;
-            }
-            
-            graph->_delegate.lock()->outputPacket(graph, packet, streamName);
-            
-            if (packetType == MPPPacketTypeRaw && !graph->_delegate.expired())
-            {
-                graph->_delegate.lock()->outputPacket(graph, packet, packetType, streamName);
-            } else if (packetType == MPPPacketTypeImageFrame && !graph->_delegate.expired()) {
-                graph->_framesInFlight--;
-            }
-    #if defined(__APPLE__)
-            else if ((packetType == MPPPacketTypePixelBuffer ||
-                     packetType == MPPPacketTypeImage) && !graph->_delegate.expired())
-            {
-                graph->_framesInFlight--;
-                CVPixelBufferRef pixelBuffer;
-                if (packetType == MPPPacketTypePixelBuffer)
-                    pixelBuffer = mediapipe::GetCVPixelBufferRef(packet.Get<mediapipe::GpuBuffer>());
-                else
-                    pixelBuffer = packet.Get<mediapipe::Image>().GetCVPixelBufferRef();
-                
-                graph->_delegate.lock()->outputPixelbuffer(graph, pixelBuffer, streamName, packet.Timestamp().Value());
-            }
+        if (graph->_delegate.expired())
+        {
+            return;
         }
-    #else
-        else if (packetType == MPPPacketTypeGpuBuffer && !graph->_delegate.expired()) {
-            const auto gpubuffer = packet.Get<mediapipe::GpuBuffer>();
-            mediapipe::GlTextureBufferSharedPtr ptr = gpubuffer.internal_storage<mediapipe::GlTextureBuffer>();
-            graph->_framesInFlight--;
-            graph->_delegate.lock()->outputPacket(graph, ptr->name(), ptr->width(), ptr->height(), streamName, packet.Timestamp().Value());
-
-            // android 处理输出
-            // graph->_framesInFlight--;
-            // int textureId;
-            // textureId = packet.Get<mediapipe::Image>().GetTextureId();
-            // graph->_delegate.lock()->outputPacket(graph, textureId, streamName, packet.Timestamp().Value());
-        }
-    #endif
         
-        
+        graph->_delegate.lock()->outputPacket(graph, packet, packetType, streamName);
+        graph->_framesInFlight--;  
     }
 
     OlaGraph::OlaGraph(const mediapipe::CalculatorGraphConfig &config, void* glContext)
@@ -177,9 +136,17 @@ namespace Opipe
         return status;
     }
 
+    bool OlaGraph::sendPacket(const mediapipe::Packet &packet,
+                              const std::string &streamName) 
+    {
+        absl::Status status = _graph->AddPacketToInputStream(streamName, packet);
+        return status.ok();
+
+    }
 
 
-    bool OlaGraph::sendPacket(unsigned char *data, int width, int height, const std::string &streamName,int64_t timeStamp) {
+    bool OlaGraph::sendPacket(unsigned char *data, int width, int height, const std::string &streamName,int64_t timeStamp) 
+    {
         auto buffer_or = GlTextureBuffer::Create(width, height, mediapipe::GpuBufferFormat::kBGRA32, data, 4);
         mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::GpuBuffer>(std::move(buffer_or));
         packet = std::move(packet).At(Timestamp::CreateNoErrorChecking(timeStamp));
@@ -187,7 +154,8 @@ namespace Opipe
         return status.ok();
     }
 
-    bool OlaGraph::sendPacket(int textureId, int width, int height, const std::string &streamName,int64_t timeStamp) {
+    bool OlaGraph::sendPacket(int textureId, int width, int height, const std::string &streamName,int64_t timeStamp) 
+    {
         auto buffer_or = mediapipe::GpuBuffer(mediapipe::GlTextureBuffer::Wrap(
             GL_TEXTURE_2D, textureId, width, height, mediapipe::GpuBufferFormat::kBGRA32, gpu_resources_->gl_context(), nullptr));
         mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::GpuBuffer>(std::move(buffer_or));

@@ -20,10 +20,10 @@ public class OlaWrapper extends RenderExpansion {
 
 
     private Executor mGLExecutor;
-    private long graph;
+    private long context;
 
     public OlaWrapper(long graph) {
-        this.graph = graph;
+        this.context = graph;
     }
 
     public void setGLExecutor(Executor GLExecutor) {
@@ -65,8 +65,10 @@ public class OlaWrapper extends RenderExpansion {
     public @NonNull
     RenderFlowData render(@NonNull RenderFlowData input, long timestamp) {
         TextureInfo inputTextureInfo = convert(input, timestamp);
-//        Log.e("----", "inputTextureInfo = " + inputTextureInfo.textureId);
-        OlaBeauty.nativeProcessVideoFrame(graph, inputTextureInfo.textureId, inputTextureInfo.textureWidth, inputTextureInfo.textureHeight, timestamp);
+        Log.e("####", "###### inputTextureInfo = " + inputTextureInfo.textureId);
+        OlaBeauty.nativeProcessVideoFrame(context, inputTextureInfo.textureId, inputTextureInfo.textureWidth, inputTextureInfo.textureHeight, timestamp);
+        int textureId = OlaBeauty.nativeRenderTexture(context, input.textureWidth, input.textureHeight, inputTextureInfo.textureId, timestamp);
+        input.texture = textureId;
         return input;
     }
 

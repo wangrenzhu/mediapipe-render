@@ -2,6 +2,9 @@
 #include "mediapipe/render/core/Context.hpp"
 #include "mediapipe/render/core/OpipeDispatch.hpp"
 #include "mediapipe/render/core/math/vec2.hpp"
+#include "mediapipe/gpu/gl_texture_buffer.h"
+#include "mediapipe/gpu/gl_base.h"
+#include "mediapipe/gpu/gpu_shared_data_internal.h"
 
 #if defined(__APPLE__)
 #include "mediapipe/render/core/CVFramebuffer.hpp"
@@ -25,15 +28,11 @@ namespace Opipe
     FaceMeshCallFrameDelegate::~FaceMeshCallFrameDelegate()
     {
     }
-#if defined(__APPLE__)
-    void FaceMeshCallFrameDelegate::outputPixelbuffer(OlaGraph *graph, CVPixelBufferRef pixelbuffer,
-                                                      const std::string &streamName, int64_t timestamp)
-    {
 
-    }
-#endif
 
-    void FaceMeshCallFrameDelegate::outputPacket(OlaGraph *graph, const mediapipe::Packet &packet, const std::string &streamName) {
+    void FaceMeshCallFrameDelegate::outputPacket(OlaGraph *graph, const mediapipe::Packet &packet,
+                                                 MPPPacketType packetType,
+                                                 const std::string &streamName) {
         if (_imp == nullptr) {
             return;
         }
@@ -76,9 +75,10 @@ namespace Opipe
             if (streamName == kOutputVideo) {
                 // 这里是视频流 需要给 _outputSource
                 const auto& video = packet.Get<GpuBuffer>();
-
+                
                 if (_imp->getOutputSource()) {
                     SourceCamera *cameraSource = _imp->getOutputSource();
+                    
 #if defined(__APPLE__)
 
                     CVPixelBufferRef pixelbuffer = mediapipe::GetCVPixelBufferRef(video);
@@ -89,44 +89,21 @@ namespace Opipe
                     cameraSource->updateTargets(packet.Timestamp().Value());
                     IOSurfaceUnlock(ioSurface, kIOSurfaceLockReadOnly, 0);
 #else
-
-                    //上传数据到 texture 或者 共享纹理
+                    if (packetType == MPPPacketTypeGpuBuffer) {
+                        GlTextureView textureView = video.GetReadView<GlTextureView>(0);
+                        int textureId = textureView.name();
+                        LOG(INFO) << "###### FaceMeshCallFrameDelegate::outputPacket" << _imp->getOutputSource();
+                        SourceCamera *cameraSource = _imp->getOutputSource();
+                        cameraSource->setRenderTexture(textureId, textureView.width(), textureView.height());
+                        cameraSource->updateTargets(packet.Timestamp().Value());
+                    }
 #endif
                 }
             }
-
         });
 
     }
 
-    void FaceMeshCallFrameDelegate::outputPacket(OlaGraph *graph, const mediapipe::Packet &packet,
-                                                 MPPPacketType packetType, const std::string &streamName)
-    {
-
-    }
-
-    void FaceMeshCallFrameDelegate::outputPacket(OlaGraph *graph,
-                                 const int textrue, int width, int height,
-                                  const std::string &streamName, int64_t timestamp)
-    {
-
-        if (_imp == nullptr) {
-            return;
-        }
-        LOG(ERROR) << "--------------111FaceMeshCallFrameDelegate::outputPacket";
-         _imp->currentDispatch()->runSync([&] {
-            LOG(ERROR) << "--------------222FaceMeshCallFrameDelegate::outputPacket";
-            if (streamName == kOutputVideo) {
-                LOG(ERROR) << "--------------333FaceMeshCallFrameDelegate::outputPacket";
-                if (_imp->getOutputSource()) {
-                        LOG(ERROR) << "--------------444FaceMeshCallFrameDelegate::outputPacket";
-                        SourceCamera *cameraSource = _imp->getOutputSource();
-                        cameraSource->setRenderTexture(textrue, width, height);
-                        cameraSource->updateTargets(timestamp);
-                }
-            }
-         });
-    }
 
     FaceMeshModuleIMP::FaceMeshModuleIMP()
     {
@@ -142,7 +119,7 @@ namespace Opipe
                 _inputSource->removeAllTargets();
                 delete _inputSource;
                 _inputSource = nullptr;
-            });
+            }, Context::IOContext);
         }
 
         if (_olaContext) {
@@ -165,6 +142,7 @@ namespace Opipe
         }
         delete _context;
         _context = nullptr;
+        
 
 
     }
@@ -183,9 +161,10 @@ namespace Opipe
         }
     }
 
-    void FaceMeshModuleIMP::initLut(int width, int height, void *lutData, int size){
+    void FaceMeshModuleIMP::initLut(int width, int height, void *lutData, int size)
+    {
         _omat = OMat(width, height,(char *)lutData);
-     }
+    }
 
     bool FaceMeshModuleIMP::init(long glcontext, void *binaryData, int size)
     {
@@ -195,8 +174,6 @@ namespace Opipe
         config.ParseFromArray(binaryData, size);
         _olaContext = new OlaContext();
         _context = _olaContext->glContext();
-
-
 #if defined(__ANDROID__)
         std::thread::id glThreadId = std::this_thread::get_id();
 
@@ -211,11 +188,11 @@ namespace Opipe
 #else
         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, nullptr);
         _graph = std::make_unique<OlaGraph>(config, _context->getEglContext());
+        
 #endif
 
         _graph->setDelegate(_delegate);
         _graph->setSidePacket(mediapipe::MakePacket<int>(1), kNumFacesInputSidePacket);
-//        _graph->setSidePacket(mediapipe::MakePacket<bool>(false), kUseSegmentation);
         _graph->addFrameOutputStream(kLandmarksOutputStream, MPPPacketTypeRaw);
 #if defined(__APPLE__)
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypePixelBuffer);
@@ -227,12 +204,18 @@ namespace Opipe
         if (_render == nullptr) {
             _dispatch->runSync([&] {
                 if (_render == nullptr) {
-                    _inputSource = new OlaCameraSource(_context, Opipe::SourceCamera::SourceType_YUV420SP);
                     _render = new FaceMeshBeautyRender(_context, _omat.width, _omat.height, _omat.data);
-                    _outputSource = SourceCamera::create(_context);
-                    _render->setInputSource(_outputSource);
+                    _outputSource = SourceCamera::create(_context); //mediapipe 的输出source
+                    _render->setInputSource(_outputSource); //作为渲染管线的源头
                 }
             });
+            _dispatch->runSync([&] {
+#if defined(__APPLE__)
+                    _inputSource = new OlaCameraSource(_context, Opipe::SourceCamera::SourceType_YUV420SP);
+#else
+                    _inputSource = new OlaCameraSource(_context, Opipe::SourceCamera::SourceType_RGBA);
+#endif
+            }, Context::IOContext);
         }
         
 
@@ -322,7 +305,6 @@ namespace Opipe
             return;
         }
         _dispatch->runSync([&] {
-            _context->useAsCurrent();
             CVPixelBufferLockBaseAddress(pixelbuffer, 0);
 
             int width = (int)CVPixelBufferGetWidth(pixelbuffer);
@@ -348,7 +330,7 @@ namespace Opipe
                                         ts);
                 CVPixelBufferUnlockBaseAddress(framebuffer->renderTarget, 0);
             }
-        });
+        }, Context::IOContext);
     }
     
     void FaceMeshModuleIMP::setSegmentationBackground(UIImage *image) {
@@ -396,22 +378,8 @@ namespace Opipe
         {
             return textureInfo;
         }
-        if (_render == nullptr) {
-            _dispatch->runSync([&] {
-                if (_render == nullptr) {
-                    _render = new FaceMeshBeautyRender(_context, _omat.width, _omat.height, _omat.data);
-                }
-            });
-        }
-        
-        
-        _dispatch->runSync([&] {
-            
-            _render->renderTexture(inputTexture);
-        });
-        
         textureInfo = _render->outputRenderTexture(inputTexture);
-
+        LOG(INFO) << "###### FaceMeshModuleIMP renderTexture:" << textureInfo.textureId;
         return textureInfo;
     }
 
@@ -421,8 +389,6 @@ namespace Opipe
     }
 
     void FaceMeshModuleIMP::setInputSource(Source *source) {
-        _dispatch->runSync([&] {
-            _render->setInputSource(source);
-        });
+        _render->setInputSource(source);
     }
 }
