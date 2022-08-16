@@ -138,7 +138,7 @@ namespace Opipe
         _delegate = 0;
         
         if (_inputSource) {
-            _dispatch->runSync([&] {
+            _ioDispatch->runSync([&] {
                 _inputSource->removeAllTargets();
                 delete _inputSource;
                 _inputSource = nullptr;
@@ -165,6 +165,9 @@ namespace Opipe
         }
         delete _context;
         _context = nullptr;
+        
+        delete _ioContext;
+        _ioContext = nullptr;
 
 
     }
@@ -195,8 +198,8 @@ namespace Opipe
         config.ParseFromArray(binaryData, size);
         _olaContext = new OlaContext();
         _context = _olaContext->glContext();
-
-
+        _ioContext = new Context();
+        
 #if defined(__ANDROID__)
         std::thread::id glThreadId = std::this_thread::get_id();
 
@@ -232,6 +235,9 @@ namespace Opipe
                     _outputSource = SourceCamera::create(_context);
                     _render->setInputSource(_outputSource);
                 }
+            });
+            _ioDispatch->runSync([&] {
+                _inputSource = new OlaCameraSource(_ioContext, Opipe::SourceCamera::SourceType_YUV420SP);
             });
         }
         
@@ -321,8 +327,7 @@ namespace Opipe
         {
             return;
         }
-        _dispatch->runSync([&] {
-            _context->useAsCurrent();
+        _ioDispatch->runSync([&] {
             CVPixelBufferLockBaseAddress(pixelbuffer, 0);
 
             int width = (int)CVPixelBufferGetWidth(pixelbuffer);

@@ -167,8 +167,10 @@ namespace Opipe
 
     private:
         std::unique_ptr<OpipeDispatch> _dispatch;
+        std::unique_ptr<OpipeDispatch> _ioDispatch;
         std::unique_ptr<OlaGraph> _graph;
         Context *_context = nullptr;
+        Context *_ioContext = nullptr;
         bool _isInit = false;
         bool _segEnable = false;
         NormalizedLandmarkList _lastLandmark;
