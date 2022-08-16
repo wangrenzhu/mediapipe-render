@@ -53,6 +53,7 @@
   },
   "projectName" : "renderQueue",
   "sourceFilters" : [
-
+    "mediapipe/render/module/render_queue",
+    "mediapipe/render/module/render_queue/math"
   ]
 }

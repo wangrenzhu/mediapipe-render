@@ -337,8 +337,8 @@ NS_OLA_BEGIN
         if (rs.len > 0) {
             int width = rs.width;
             int height = rs.height;
-            Log("Opipe", "rs.x :%f,rs.y :%f,rs.z :%f,rs.w :%f, width:%d,height:%d", rs.startX, rs.startY,
-                rs.normalWidth, rs.normalHeight, width, height);
+            Log("Opipe", "rs.x :%f,rs.y :%f,rs.z :%f,rs.w :%f, width:%d,height:%d, threadid %d", rs.startX, rs.startY,
+                rs.normalWidth, rs.normalHeight, width, height, std::this_thread::get_id());
 
             setCanvasPixels(width, height, rs.data, inputTexture.frameTime,
                             Vec4(rs.startX, rs.startY, rs.normalWidth, rs.normalHeight));
@@ -376,7 +376,8 @@ NS_OLA_BEGIN
             ImageQueue::getInstance()->releaseNode(rs);
         }
 #endif
-
+        outputTexture.width = _renderWidth;
+        outputTexture.height = _renderHeight;
         return outputTexture;
     }
 
