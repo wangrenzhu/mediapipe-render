@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE = 1234;
 
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE) {

@@ -34,7 +34,6 @@ namespace Opipe
 #endif
 
     void FaceMeshCallFrameDelegate::outputPacket(OlaGraph *graph, const mediapipe::Packet &packet, const std::string &streamName) {
-
         if (_imp == nullptr) {
             return;
         }

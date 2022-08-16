@@ -1,0 +1,12 @@
+{
+  "configDefaults" : {
+    "optionSet" : {
+
+    }
+  },
+  "packages" : [
+    "mediapipe/render/module/render_queue"
+  ],
+  "projectName" : "renderQueue",
+  "workspaceRoot" : "../../../../.."
+}
