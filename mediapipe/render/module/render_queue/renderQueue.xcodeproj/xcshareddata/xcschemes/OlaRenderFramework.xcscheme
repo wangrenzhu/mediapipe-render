@@ -1,0 +1,29 @@
+
+<Scheme LastUpgradeVersion="1000" version="1.3">
+    <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES">
+        <BuildActionEntries>
+            <BuildActionEntry buildForAnalyzing="YES" buildForTesting="YES" buildForRunning="YES" buildForArchiving="YES" buildForProfiling="YES">
+                <BuildableReference BuildableIdentifier="primary" BlueprintName="OlaRenderFramework" BlueprintIdentifier="D9DB0735EFC983BA00000000" ReferencedContainer="container:renderQueue.xcodeproj" BuildableName="OlaRenderFramework.framework"></BuildableReference>
+            </BuildActionEntry>
+        </BuildActionEntries>
+    </BuildAction>
+    <TestAction selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES" buildConfiguration="__TulsiTestRunner_Debug" customLLDBInitFile="$(PROJECT_FILE_PATH)/.tulsi/Utils/lldbinit">
+        <Testables></Testables>
+        <BuildableProductRunnable runnableDebuggingMode="0">
+            <BuildableReference BlueprintIdentifier="D9DB0735EFC983BA00000000" BuildableIdentifier="primary" BuildableName="OlaRenderFramework.framework" BlueprintName="OlaRenderFramework" ReferencedContainer="container:renderQueue.xcodeproj"></BuildableReference>
+        </BuildableProductRunnable>
+    </TestAction>
+    <LaunchAction allowLocationSimulation="YES" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" launchStyle="0" ignoresPersistentStateOnLaunch="NO" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" debugServiceExtension="internal" customLLDBInitFile="$(PROJECT_FILE_PATH)/.tulsi/Utils/lldbinit" buildConfiguration="Debug" debugDocumentVersioning="YES" useCustomWorkingDirectory="NO">
+        <EnvironmentVariables></EnvironmentVariables>
+        <BuildableProductRunnable runnableDebuggingMode="0">
+            <BuildableReference BlueprintName="OlaRenderFramework" ReferencedContainer="container:renderQueue.xcodeproj" BlueprintIdentifier="D9DB0735EFC983BA00000000" BuildableName="OlaRenderFramework.framework" BuildableIdentifier="primary"></BuildableReference>
+        </BuildableProductRunnable>
+    </LaunchAction>
+    <ProfileAction debugDocumentVersioning="YES" useCustomWorkingDirectory="NO" shouldUseLaunchSchemeArgsEnv="YES" buildConfiguration="__TulsiTestRunner_Release">
+        <BuildableProductRunnable runnableDebuggingMode="0">
+            <BuildableReference BlueprintIdentifier="D9DB0735EFC983BA00000000" BlueprintName="OlaRenderFramework" ReferencedContainer="container:renderQueue.xcodeproj" BuildableName="OlaRenderFramework.framework" BuildableIdentifier="primary"></BuildableReference>
+        </BuildableProductRunnable>
+    </ProfileAction>
+    <AnalyzeAction buildConfiguration="Debug"></AnalyzeAction>
+    <ArchiveAction buildConfiguration="Release" revealArchiveInOrganizer="YES"></ArchiveAction>
+</Scheme>

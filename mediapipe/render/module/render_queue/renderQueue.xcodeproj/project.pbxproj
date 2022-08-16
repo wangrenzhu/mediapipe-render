@@ -1,0 +1,1389 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6985756309A4D7AB00000000 /* util.cpp in render_queue */ = {isa = PBXBuildFile; fileRef = 4773CDDC09A4D7AB00000000 /* util.cpp */; };
+		6985756309A4D7AB00000001 /* util.cpp in render_queue */ = {isa = PBXBuildFile; fileRef = 4773CDDC09A4D7AB00000000 /* util.cpp */; };
+		698575634411B30700000000 /* vec2.cpp in math */ = {isa = PBXBuildFile; fileRef = 4773CDDC4411B30700000000 /* vec2.cpp */; };
+		698575634411B30700000001 /* vec2.cpp in math */ = {isa = PBXBuildFile; fileRef = 4773CDDC4411B30700000000 /* vec2.cpp */; };
+		6985756345FFB26000000000 /* image_queue.cpp in render_queue */ = {isa = PBXBuildFile; fileRef = 4773CDDC45FFB26000000000 /* image_queue.cpp */; };
+		6985756345FFB26000000001 /* image_queue.cpp in render_queue */ = {isa = PBXBuildFile; fileRef = 4773CDDC45FFB26000000000 /* image_queue.cpp */; };
+		69857563501B8D0D00000000 /* vec3.cpp in math */ = {isa = PBXBuildFile; fileRef = 4773CDDC501B8D0D00000000 /* vec3.cpp */; };
+		69857563501B8D0D00000001 /* vec3.cpp in math */ = {isa = PBXBuildFile; fileRef = 4773CDDC501B8D0D00000000 /* vec3.cpp */; };
+		69857563506EF66F00000000 /* math_utils.cpp in math */ = {isa = PBXBuildFile; fileRef = 4773CDDC506EF66F00000000 /* math_utils.cpp */; };
+		69857563506EF66F00000001 /* math_utils.cpp in math */ = {isa = PBXBuildFile; fileRef = 4773CDDC506EF66F00000000 /* math_utils.cpp */; };
+		69857563C97EF67800000000 /* OlaRenderIMP.cpp in render_queue */ = {isa = PBXBuildFile; fileRef = 4773CDDCC97EF67800000000 /* OlaRenderIMP.cpp */; };
+		69857563C97EF67800000001 /* OlaRenderIMP.cpp in render_queue */ = {isa = PBXBuildFile; fileRef = 4773CDDCC97EF67800000000 /* OlaRenderIMP.cpp */; };
+		69857563DD63A69900000000 /* vec4.cpp in math */ = {isa = PBXBuildFile; fileRef = 4773CDDCDD63A69900000000 /* vec4.cpp */; };
+		69857563DD63A69900000001 /* vec4.cpp in math */ = {isa = PBXBuildFile; fileRef = 4773CDDCDD63A69900000000 /* vec4.cpp */; };
+		69857563E959DC3D00000000 /* image.cpp in render_queue */ = {isa = PBXBuildFile; fileRef = 4773CDDCE959DC3D00000000 /* image.cpp */; };
+		69857563E959DC3D00000001 /* image.cpp in render_queue */ = {isa = PBXBuildFile; fileRef = 4773CDDCE959DC3D00000000 /* image.cpp */; };
+		69857563EE656B5900000000 /* mat4.cpp in math */ = {isa = PBXBuildFile; fileRef = 4773CDDCEE656B5900000000 /* mat4.cpp */; };
+		69857563EE656B5900000001 /* mat4.cpp in math */ = {isa = PBXBuildFile; fileRef = 4773CDDCEE656B5900000000 /* mat4.cpp */; };
+		69857563FA7E161A00000000 /* OlaRender.cpp in render_queue */ = {isa = PBXBuildFile; fileRef = 4773CDDCFA7E161A00000000 /* OlaRender.cpp */; };
+		69857563FA7E161A00000001 /* OlaRender.cpp in render_queue */ = {isa = PBXBuildFile; fileRef = 4773CDDCFA7E161A00000000 /* OlaRender.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0B0750C0101E7CBB00000000 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 362F57158170D8A000000000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D9DB0735101E7CBA00000000;
+		};
+		0B0750C059D0AC5D00000000 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 362F57158170D8A000000000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5246EA4E59D0AC5C00000000;
+		};
+		0B0750C0A8D13FC100000000 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 362F57158170D8A000000000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D9DB0735A8D13FC000000000;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4773CDDC09A4D7AB00000000 /* util.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = util.cpp; path = mediapipe/render/module/render_queue/util.cpp; sourceTree = "<group>"; };
+		4773CDDC143911F800000000 /* lib_idx_math_7C8FD87D_ios_min15.5.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; name = lib_idx_math_7C8FD87D_ios_min15.5.a; path = lib_idx_math_7C8FD87D_ios_min15.5.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773CDDC213CED8300000000 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = text.plist; name = Info.plist; path = "renderQueue.xcodeproj/.tulsi/tulsi-execution-root/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue/OlaRenderFramework-intermediates/Info.plist"; sourceTree = SOURCE_ROOT; };
+		4773CDDC29017B9A00000000 /* macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = macros.h; path = mediapipe/render/module/render_queue/macros.h; sourceTree = "<group>"; };
+		4773CDDC3323578500000000 /* image.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = image.h; path = mediapipe/render/module/render_queue/image.h; sourceTree = "<group>"; };
+		4773CDDC40D8F89200000000 /* image_queue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = image_queue.h; path = mediapipe/render/module/render_queue/image_queue.h; sourceTree = "<group>"; };
+		4773CDDC4411B30700000000 /* vec2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = vec2.cpp; path = mediapipe/render/module/render_queue/math/vec2.cpp; sourceTree = "<group>"; };
+		4773CDDC45FFB26000000000 /* image_queue.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = image_queue.cpp; path = mediapipe/render/module/render_queue/image_queue.cpp; sourceTree = "<group>"; };
+		4773CDDC46D081C200000000 /* BUILD */ = {isa = PBXFileReference; lastKnownFileType = text; name = BUILD; path = mediapipe/render/module/render_queue/math/BUILD; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		4773CDDC4820851200000000 /* vec3.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = vec3.hpp; path = mediapipe/render/module/render_queue/math/vec3.hpp; sourceTree = "<group>"; };
+		4773CDDC4C8D276900000000 /* vec3.inl */ = {isa = PBXFileReference; lastKnownFileType = "public.c-plus-plus-inline-header"; name = vec3.inl; path = mediapipe/render/module/render_queue/math/vec3.inl; sourceTree = "<group>"; };
+		4773CDDC4FC3269900000000 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = mediapipe/render/module/render_queue/Info.plist; sourceTree = "<group>"; };
+		4773CDDC501B8D0D00000000 /* vec3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = vec3.cpp; path = mediapipe/render/module/render_queue/math/vec3.cpp; sourceTree = "<group>"; };
+		4773CDDC506EF66F00000000 /* math_utils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = math_utils.cpp; path = mediapipe/render/module/render_queue/math/math_utils.cpp; sourceTree = "<group>"; };
+		4773CDDC55FC4FE900000000 /* OlaRenderIMP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OlaRenderIMP.h; path = mediapipe/render/module/render_queue/OlaRenderIMP.h; sourceTree = "<group>"; };
+		4773CDDC59A3CCA400000000 /* LockFreeQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = LockFreeQueue.h; path = mediapipe/render/module/render_queue/LockFreeQueue.h; sourceTree = "<group>"; };
+		4773CDDC6210FDBA00000000 /* lib_idx_olarender_AEC02214_ios_min15.5.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; name = lib_idx_olarender_AEC02214_ios_min15.5.a; path = lib_idx_olarender_AEC02214_ios_min15.5.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773CDDC6BD7BCE000000000 /* vec2.inl */ = {isa = PBXFileReference; lastKnownFileType = "public.c-plus-plus-inline-header"; name = vec2.inl; path = mediapipe/render/module/render_queue/math/vec2.inl; sourceTree = "<group>"; };
+		4773CDDC768F191800000000 /* vec2.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = vec2.hpp; path = mediapipe/render/module/render_queue/math/vec2.hpp; sourceTree = "<group>"; };
+		4773CDDC7D49279700000000 /* mat4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = mat4.hpp; path = mediapipe/render/module/render_queue/math/mat4.hpp; sourceTree = "<group>"; };
+		4773CDDC7DE3A21A00000000 /* lib_idx_olarender_AEC02214_ios_min10.0.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; name = lib_idx_olarender_AEC02214_ios_min10.0.a; path = lib_idx_olarender_AEC02214_ios_min10.0.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773CDDC8B9C09E700000000 /* OlaRender.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OlaRender.h; path = mediapipe/render/module/render_queue/OlaRender.h; sourceTree = "<group>"; };
+		4773CDDC8C4E0D9E00000000 /* util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = util.h; path = mediapipe/render/module/render_queue/util.h; sourceTree = "<group>"; };
+		4773CDDCA504A3CB00000000 /* math_utils.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = math_utils.hpp; path = mediapipe/render/module/render_queue/math/math_utils.hpp; sourceTree = "<group>"; };
+		4773CDDCC5CD8B4A00000000 /* libOlaRenderLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; name = libOlaRenderLibrary.a; path = libOlaRenderLibrary.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773CDDCC97EF67800000000 /* OlaRenderIMP.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OlaRenderIMP.cpp; path = mediapipe/render/module/render_queue/OlaRenderIMP.cpp; sourceTree = "<group>"; };
+		4773CDDCCA8DE26F00000000 /* BUILD */ = {isa = PBXFileReference; lastKnownFileType = text; name = BUILD; path = mediapipe/render/module/render_queue/BUILD; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.python; };
+		4773CDDCCC1B64AA00000000 /* libmediapipe-render-module-render_queue-OlaRenderLibrary.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; name = "libmediapipe-render-module-render_queue-OlaRenderLibrary.a"; path = "libmediapipe-render-module-render_queue-OlaRenderLibrary.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773CDDCD0523B8800000000 /* libmediapipe-render-module-render_queue-olarender.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; name = "libmediapipe-render-module-render_queue-olarender.a"; path = "libmediapipe-render-module-render_queue-olarender.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773CDDCDD63A69900000000 /* vec4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = vec4.cpp; path = mediapipe/render/module/render_queue/math/vec4.cpp; sourceTree = "<group>"; };
+		4773CDDCE00CCD8A00000000 /* lib_idx_math_7C8FD87D_ios_min10.0.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; name = lib_idx_math_7C8FD87D_ios_min10.0.a; path = lib_idx_math_7C8FD87D_ios_min10.0.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773CDDCE6B8E3FA00000000 /* vec4.inl */ = {isa = PBXFileReference; lastKnownFileType = "public.c-plus-plus-inline-header"; name = vec4.inl; path = mediapipe/render/module/render_queue/math/vec4.inl; sourceTree = "<group>"; };
+		4773CDDCE959DC3D00000000 /* image.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = image.cpp; path = mediapipe/render/module/render_queue/image.cpp; sourceTree = "<group>"; };
+		4773CDDCEE656B5900000000 /* mat4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = mat4.cpp; path = mediapipe/render/module/render_queue/math/mat4.cpp; sourceTree = "<group>"; };
+		4773CDDCF0CD2E6B00000000 /* mat4.inl */ = {isa = PBXFileReference; lastKnownFileType = "public.c-plus-plus-inline-header"; name = mat4.inl; path = mediapipe/render/module/render_queue/math/mat4.inl; sourceTree = "<group>"; };
+		4773CDDCF3410A5E00000000 /* libolarender.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; name = libolarender.a; path = libolarender.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773CDDCFA7E161A00000000 /* OlaRender.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = OlaRender.cpp; path = mediapipe/render/module/render_queue/OlaRender.cpp; sourceTree = "<group>"; };
+		4773CDDCFA96D41200000000 /* OlaRenderFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; name = OlaRenderFramework.framework; path = OlaRenderFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4773CDDCFBC1F0C600000000 /* vec4.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = vec4.hpp; path = mediapipe/render/module/render_queue/math/vec4.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		08897DE01273D00B00000000 /* render */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE06B1A73C300000000 /* module */,
+			);
+			name = render;
+			sourceTree = "<group>";
+		};
+		08897DE01273D00B00000001 /* render */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE06B1A73C300000001 /* module */,
+			);
+			name = render;
+			sourceTree = "<group>";
+		};
+		08897DE01B16126500000000 /* OlaRenderFramework-intermediates */ = {
+			isa = PBXGroup;
+			children = (
+				4773CDDC213CED8300000000 /* Info.plist */,
+			);
+			name = "OlaRenderFramework-intermediates";
+			sourceTree = "<group>";
+		};
+		08897DE01EF1729200000000 /* Indexer */ = {
+			isa = PBXGroup;
+			children = (
+				4773CDDCE00CCD8A00000000 /* lib_idx_math_7C8FD87D_ios_min10.0.a */,
+				4773CDDC143911F800000000 /* lib_idx_math_7C8FD87D_ios_min15.5.a */,
+				4773CDDC7DE3A21A00000000 /* lib_idx_olarender_AEC02214_ios_min10.0.a */,
+				4773CDDC6210FDBA00000000 /* lib_idx_olarender_AEC02214_ios_min15.5.a */,
+			);
+			name = Indexer;
+			sourceTree = "<group>";
+		};
+		08897DE02A89D11D00000000 /* math */ = {
+			isa = PBXGroup;
+			children = (
+				4773CDDC46D081C200000000 /* BUILD */,
+				4773CDDCEE656B5900000000 /* mat4.cpp */,
+				4773CDDC7D49279700000000 /* mat4.hpp */,
+				4773CDDCF0CD2E6B00000000 /* mat4.inl */,
+				4773CDDC506EF66F00000000 /* math_utils.cpp */,
+				4773CDDCA504A3CB00000000 /* math_utils.hpp */,
+				4773CDDC4411B30700000000 /* vec2.cpp */,
+				4773CDDC768F191800000000 /* vec2.hpp */,
+				4773CDDC6BD7BCE000000000 /* vec2.inl */,
+				4773CDDC501B8D0D00000000 /* vec3.cpp */,
+				4773CDDC4820851200000000 /* vec3.hpp */,
+				4773CDDC4C8D276900000000 /* vec3.inl */,
+				4773CDDCDD63A69900000000 /* vec4.cpp */,
+				4773CDDCFBC1F0C600000000 /* vec4.hpp */,
+				4773CDDCE6B8E3FA00000000 /* vec4.inl */,
+			);
+			name = math;
+			sourceTree = "<group>";
+		};
+		08897DE05F0B867700000000 /* mainGroup */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE0C371626300000000 /* Products */,
+				08897DE09935F04800000001 /* mediapipe */,
+			);
+			name = mainGroup;
+			path = ../../../..;
+			sourceTree = SOURCE_ROOT;
+		};
+		08897DE06B1A73C300000000 /* module */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE0C428A41C00000000 /* render_queue */,
+			);
+			name = module;
+			sourceTree = "<group>";
+		};
+		08897DE06B1A73C300000001 /* module */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE0C428A41C00000001 /* render_queue */,
+			);
+			name = module;
+			sourceTree = "<group>";
+		};
+		08897DE09935F04800000000 /* mediapipe */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE01273D00B00000000 /* render */,
+			);
+			name = mediapipe;
+			sourceTree = "<group>";
+		};
+		08897DE09935F04800000001 /* mediapipe */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE01273D00B00000001 /* render */,
+			);
+			name = mediapipe;
+			sourceTree = "<group>";
+		};
+		08897DE0ADB0581700000000 /* bazel-tulsi-includes */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE0B303993500000000 /* x */,
+			);
+			name = "bazel-tulsi-includes";
+			sourceTree = "<group>";
+		};
+		08897DE0B303993500000000 /* x */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE0B303993500000001 /* x */,
+			);
+			name = x;
+			sourceTree = "<group>";
+		};
+		08897DE0B303993500000001 /* x */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE09935F04800000000 /* mediapipe */,
+			);
+			name = x;
+			sourceTree = "<group>";
+		};
+		08897DE0C371626300000000 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE01EF1729200000000 /* Indexer */,
+				4773CDDCFA96D41200000000 /* OlaRenderFramework.framework */,
+				08897DE0ADB0581700000000 /* bazel-tulsi-includes */,
+				4773CDDCC5CD8B4A00000000 /* libOlaRenderLibrary.a */,
+				4773CDDCCC1B64AA00000000 /* libmediapipe-render-module-render_queue-OlaRenderLibrary.a */,
+				4773CDDCD0523B8800000000 /* libmediapipe-render-module-render_queue-olarender.a */,
+				4773CDDCF3410A5E00000000 /* libolarender.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		08897DE0C428A41C00000000 /* render_queue */ = {
+			isa = PBXGroup;
+			children = (
+				08897DE01B16126500000000 /* OlaRenderFramework-intermediates */,
+			);
+			name = render_queue;
+			sourceTree = "<group>";
+		};
+		08897DE0C428A41C00000001 /* render_queue */ = {
+			isa = PBXGroup;
+			children = (
+				4773CDDCCA8DE26F00000000 /* BUILD */,
+				4773CDDC4FC3269900000000 /* Info.plist */,
+				4773CDDC59A3CCA400000000 /* LockFreeQueue.h */,
+				4773CDDCFA7E161A00000000 /* OlaRender.cpp */,
+				4773CDDC8B9C09E700000000 /* OlaRender.h */,
+				4773CDDCC97EF67800000000 /* OlaRenderIMP.cpp */,
+				4773CDDC55FC4FE900000000 /* OlaRenderIMP.h */,
+				4773CDDCE959DC3D00000000 /* image.cpp */,
+				4773CDDC3323578500000000 /* image.h */,
+				4773CDDC45FFB26000000000 /* image_queue.cpp */,
+				4773CDDC40D8F89200000000 /* image_queue.h */,
+				4773CDDC29017B9A00000000 /* macros.h */,
+				08897DE02A89D11D00000000 /* math */,
+				4773CDDC09A4D7AB00000000 /* util.cpp */,
+				4773CDDC8C4E0D9E00000000 /* util.h */,
+			);
+			name = render_queue;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		5246EA4E59D0AC5C00000000 /* _bazel_clean_ */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "\"/usr/local/bin/bazel\" \"bazel-bin\"";
+			buildConfigurationList = 624D0C6AA444AAB100000000 /* Build configuration list for PBXLegacyTarget "_bazel_clean_" */;
+			buildPhases = (
+			);
+			buildToolPath = "${PROJECT_FILE_PATH}/.tulsi/Scripts/bazel_clean.sh";
+			buildWorkingDirectory = "${SRCROOT}/../../../..";
+			dependencies = (
+			);
+			name = _bazel_clean_;
+			passBuildSettingsInEnvironment = 1;
+			productName = _bazel_clean_;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXNativeTarget section */
+		D9DB07350770F9CC00000000 /* _idx_olarender_AEC02214_ios_min10.0 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 624D0C6A907B9DE900000000 /* Build configuration list for PBXNativeTarget "_idx_olarender_AEC02214_ios_min10.0" */;
+			buildPhases = (
+				F6060A5E0000000000000002 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34F2529D59D0AC5D00000000 /* PBXTargetDependency */,
+				34F2529D101E7CBB00000000 /* PBXTargetDependency */,
+			);
+			name = _idx_olarender_AEC02214_ios_min10.0;
+			productName = _idx_olarender_AEC02214_ios_min10.0;
+			productReference = 4773CDDC7DE3A21A00000000 /* lib_idx_olarender_AEC02214_ios_min10.0.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D9DB0735101E7CBA00000000 /* _idx_math_7C8FD87D_ios_min10.0 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 624D0C6A3C067BEF00000000 /* Build configuration list for PBXNativeTarget "_idx_math_7C8FD87D_ios_min10.0" */;
+			buildPhases = (
+				F6060A5E0000000000000000 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34F2529D59D0AC5D00000000 /* PBXTargetDependency */,
+			);
+			name = _idx_math_7C8FD87D_ios_min10.0;
+			productName = _idx_math_7C8FD87D_ios_min10.0;
+			productReference = 4773CDDCE00CCD8A00000000 /* lib_idx_math_7C8FD87D_ios_min10.0.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D9DB07352BA7CC4A00000000 /* olarender */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 624D0C6ADBEA9EA300000000 /* Build configuration list for PBXNativeTarget "olarender" */;
+			buildPhases = (
+				064719187572072D00000001 /* build //mediapipe/render/module/render_queue:olarender */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34F2529D59D0AC5D00000000 /* PBXTargetDependency */,
+			);
+			name = olarender;
+			productName = olarender;
+			productReference = 4773CDDCF3410A5E00000000 /* libolarender.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D9DB0735340816D400000000 /* OlaRenderLibrary */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 624D0C6A2DDCC00100000000 /* Build configuration list for PBXNativeTarget "OlaRenderLibrary" */;
+			buildPhases = (
+				06471918ECA3C0B200000000 /* build //mediapipe/render/module/render_queue:OlaRenderLibrary */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34F2529D59D0AC5D00000000 /* PBXTargetDependency */,
+			);
+			name = OlaRenderLibrary;
+			productName = OlaRenderLibrary;
+			productReference = 4773CDDCC5CD8B4A00000000 /* libOlaRenderLibrary.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D9DB07353BD527E400000000 /* mediapipe-render-module-render_queue-olarender */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 624D0C6A2DF9EC8C00000000 /* Build configuration list for PBXNativeTarget "mediapipe-render-module-render_queue-olarender" */;
+			buildPhases = (
+				064719187572072D00000000 /* build //mediapipe/render/module/render_queue:olarender */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34F2529D59D0AC5D00000000 /* PBXTargetDependency */,
+			);
+			name = "mediapipe-render-module-render_queue-olarender";
+			productName = "mediapipe-render-module-render_queue-olarender";
+			productReference = 4773CDDCD0523B8800000000 /* libmediapipe-render-module-render_queue-olarender.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D9DB07354F36D3E200000000 /* _idx_olarender_AEC02214_ios_min15.5 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 624D0C6AC1B88BD000000000 /* Build configuration list for PBXNativeTarget "_idx_olarender_AEC02214_ios_min15.5" */;
+			buildPhases = (
+				F6060A5E0000000000000003 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34F2529D59D0AC5D00000000 /* PBXTargetDependency */,
+				34F2529DA8D13FC100000000 /* PBXTargetDependency */,
+			);
+			name = _idx_olarender_AEC02214_ios_min15.5;
+			productName = _idx_olarender_AEC02214_ios_min15.5;
+			productReference = 4773CDDC6210FDBA00000000 /* lib_idx_olarender_AEC02214_ios_min15.5.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D9DB0735A8D13FC000000000 /* _idx_math_7C8FD87D_ios_min15.5 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 624D0C6A5518A9B800000000 /* Build configuration list for PBXNativeTarget "_idx_math_7C8FD87D_ios_min15.5" */;
+			buildPhases = (
+				F6060A5E0000000000000001 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34F2529D59D0AC5D00000000 /* PBXTargetDependency */,
+			);
+			name = _idx_math_7C8FD87D_ios_min15.5;
+			productName = _idx_math_7C8FD87D_ios_min15.5;
+			productReference = 4773CDDC143911F800000000 /* lib_idx_math_7C8FD87D_ios_min15.5.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D9DB0735C82837F600000000 /* mediapipe-render-module-render_queue-OlaRenderLibrary */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 624D0C6A0E029E1D00000000 /* Build configuration list for PBXNativeTarget "mediapipe-render-module-render_queue-OlaRenderLibrary" */;
+			buildPhases = (
+				06471918ECA3C0B200000001 /* build //mediapipe/render/module/render_queue:OlaRenderLibrary */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34F2529D59D0AC5D00000000 /* PBXTargetDependency */,
+			);
+			name = "mediapipe-render-module-render_queue-OlaRenderLibrary";
+			productName = "mediapipe-render-module-render_queue-OlaRenderLibrary";
+			productReference = 4773CDDCCC1B64AA00000000 /* libmediapipe-render-module-render_queue-OlaRenderLibrary.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D9DB0735EFC983BA00000000 /* OlaRenderFramework */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 624D0C6A1B4F830600000000 /* Build configuration list for PBXNativeTarget "OlaRenderFramework" */;
+			buildPhases = (
+				06471918E790219B00000000 /* build //mediapipe/render/module/render_queue:OlaRenderFramework */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				34F2529D59D0AC5D00000000 /* PBXTargetDependency */,
+			);
+			name = OlaRenderFramework;
+			productName = OlaRenderFramework;
+			productReference = 4773CDDCFA96D41200000000 /* OlaRenderFramework.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		362F57158170D8A000000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0710;
+				LastUpgradeCheck = 1000;
+			};
+			buildConfigurationList = 624D0C6AC610FB3400000000 /* Build configuration list for PBXProject "renderQueue" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 08897DE05F0B867700000000 /* mainGroup */;
+			targets = (
+				D9DB0735EFC983BA00000000 /* OlaRenderFramework */,
+				D9DB0735340816D400000000 /* OlaRenderLibrary */,
+				5246EA4E59D0AC5C00000000 /* _bazel_clean_ */,
+				D9DB0735101E7CBA00000000 /* _idx_math_7C8FD87D_ios_min10.0 */,
+				D9DB0735A8D13FC000000000 /* _idx_math_7C8FD87D_ios_min15.5 */,
+				D9DB07350770F9CC00000000 /* _idx_olarender_AEC02214_ios_min10.0 */,
+				D9DB07354F36D3E200000000 /* _idx_olarender_AEC02214_ios_min15.5 */,
+				D9DB0735C82837F600000000 /* mediapipe-render-module-render_queue-OlaRenderLibrary */,
+				D9DB07353BD527E400000000 /* mediapipe-render-module-render_queue-olarender */,
+				D9DB07352BA7CC4A00000000 /* olarender */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		064719187572072D00000000 /* build //mediapipe/render/module/render_queue:olarender */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "build //mediapipe/render/module/render_queue:olarender";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "set -e\ncd \"${SRCROOT}/../../../..\"\nexec \"${PROJECT_FILE_PATH}/.tulsi/Scripts/bazel_build.py\" //mediapipe/render/module/render_queue:olarender --bazel \"/usr/local/bin/bazel\" --bazel_bin_path \"bazel-bin\" --verbose ";
+			showEnvVarsInLog = 1;
+		};
+		064719187572072D00000001 /* build //mediapipe/render/module/render_queue:olarender */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "build //mediapipe/render/module/render_queue:olarender";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "set -e\ncd \"${SRCROOT}/../../../..\"\nexec \"${PROJECT_FILE_PATH}/.tulsi/Scripts/bazel_build.py\" //mediapipe/render/module/render_queue:olarender --bazel \"/usr/local/bin/bazel\" --bazel_bin_path \"bazel-bin\" --verbose ";
+			showEnvVarsInLog = 1;
+		};
+		06471918E790219B00000000 /* build //mediapipe/render/module/render_queue:OlaRenderFramework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "build //mediapipe/render/module/render_queue:OlaRenderFramework";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "set -e\ncd \"${SRCROOT}/../../../..\"\nexec \"${PROJECT_FILE_PATH}/.tulsi/Scripts/bazel_build.py\" //mediapipe/render/module/render_queue:OlaRenderFramework --bazel \"/usr/local/bin/bazel\" --bazel_bin_path \"bazel-bin\" --verbose ";
+			showEnvVarsInLog = 1;
+		};
+		06471918ECA3C0B200000000 /* build //mediapipe/render/module/render_queue:OlaRenderLibrary */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "build //mediapipe/render/module/render_queue:OlaRenderLibrary";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "set -e\ncd \"${SRCROOT}/../../../..\"\nexec \"${PROJECT_FILE_PATH}/.tulsi/Scripts/bazel_build.py\" //mediapipe/render/module/render_queue:OlaRenderLibrary --bazel \"/usr/local/bin/bazel\" --bazel_bin_path \"bazel-bin\" --verbose ";
+			showEnvVarsInLog = 1;
+		};
+		06471918ECA3C0B200000001 /* build //mediapipe/render/module/render_queue:OlaRenderLibrary */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			inputPaths = (
+				"$(TARGET_BUILD_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "build //mediapipe/render/module/render_queue:OlaRenderLibrary";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "set -e\ncd \"${SRCROOT}/../../../..\"\nexec \"${PROJECT_FILE_PATH}/.tulsi/Scripts/bazel_build.py\" //mediapipe/render/module/render_queue:OlaRenderLibrary --bazel \"/usr/local/bin/bazel\" --bazel_bin_path \"bazel-bin\" --verbose ";
+			showEnvVarsInLog = 1;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F6060A5E0000000000000000 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				69857563EE656B5900000000 /* mat4.cpp in math */,
+				69857563506EF66F00000000 /* math_utils.cpp in math */,
+				698575634411B30700000000 /* vec2.cpp in math */,
+				69857563501B8D0D00000000 /* vec3.cpp in math */,
+				69857563DD63A69900000000 /* vec4.cpp in math */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6060A5E0000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				69857563EE656B5900000001 /* mat4.cpp in math */,
+				69857563506EF66F00000001 /* math_utils.cpp in math */,
+				698575634411B30700000001 /* vec2.cpp in math */,
+				69857563501B8D0D00000001 /* vec3.cpp in math */,
+				69857563DD63A69900000001 /* vec4.cpp in math */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6060A5E0000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				6985756309A4D7AB00000000 /* util.cpp in render_queue */,
+				6985756345FFB26000000000 /* image_queue.cpp in render_queue */,
+				69857563E959DC3D00000000 /* image.cpp in render_queue */,
+				69857563FA7E161A00000000 /* OlaRender.cpp in render_queue */,
+				69857563C97EF67800000000 /* OlaRenderIMP.cpp in render_queue */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6060A5E0000000000000003 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				6985756309A4D7AB00000001 /* util.cpp in render_queue */,
+				6985756345FFB26000000001 /* image_queue.cpp in render_queue */,
+				69857563E959DC3D00000001 /* image.cpp in render_queue */,
+				69857563FA7E161A00000001 /* OlaRender.cpp in render_queue */,
+				69857563C97EF67800000001 /* OlaRenderIMP.cpp in render_queue */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		34F2529D101E7CBB00000000 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			targetProxy = 0B0750C0101E7CBB00000000 /* PBXContainerItemProxy */;
+		};
+		34F2529D59D0AC5D00000000 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			targetProxy = 0B0750C059D0AC5D00000000 /* PBXContainerItemProxy */;
+		};
+		34F2529DA8D13FC100000000 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			targetProxy = 0B0750C0A8D13FC100000000 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		B5E41258374CC7D000000000 /* __TulsiTestRunner_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				DONT_RUN_SWIFT_STDLIB_TOOL = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PYTHONIOENCODING = utf8;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BWRS = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-execution-root";
+				TULSI_EXECUTION_ROOT = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-execution-root";
+				TULSI_LLDBINIT_FILE = "$(PROJECT_FILE_PATH)/.tulsi/Utils/lldbinit";
+				TULSI_OUTPUT_BASE = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-output-base";
+				TULSI_PROJECT = renderQueue;
+				TULSI_VERSION = 0.20220209.88;
+				TULSI_WR = "${SRCROOT}/../../../..";
+			};
+			name = __TulsiTestRunner_Debug;
+		};
+		B5E41258374CC7D000000001 /* __TulsiTestRunner_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderFramework";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ola.dartrenderplugin;
+				PRODUCT_NAME = OlaRenderFramework;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = __TulsiTestRunner_Debug;
+		};
+		B5E41258374CC7D000000002 /* __TulsiTestRunner_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderLibrary";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PRODUCT_NAME = OlaRenderLibrary;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = __TulsiTestRunner_Debug;
+		};
+		B5E41258374CC7D000000003 /* __TulsiTestRunner_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderLibrary";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PRODUCT_NAME = "mediapipe-render-module-render_queue-OlaRenderLibrary";
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = __TulsiTestRunner_Debug;
+		};
+		B5E41258374CC7D000000004 /* __TulsiTestRunner_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:olarender";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PRODUCT_NAME = "mediapipe-render-module-render_queue-olarender";
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = __TulsiTestRunner_Debug;
+		};
+		B5E41258374CC7D000000005 /* __TulsiTestRunner_Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:olarender";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PRODUCT_NAME = olarender;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = __TulsiTestRunner_Debug;
+		};
+		B5E412585BA368BB00000000 /* __TulsiTestRunner_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				DONT_RUN_SWIFT_STDLIB_TOOL = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PYTHONIOENCODING = utf8;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BWRS = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-execution-root";
+				TULSI_EXECUTION_ROOT = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-execution-root";
+				TULSI_LLDBINIT_FILE = "$(PROJECT_FILE_PATH)/.tulsi/Utils/lldbinit";
+				TULSI_OUTPUT_BASE = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-output-base";
+				TULSI_PROJECT = renderQueue;
+				TULSI_VERSION = 0.20220209.88;
+				TULSI_WR = "${SRCROOT}/../../../..";
+			};
+			name = __TulsiTestRunner_Release;
+		};
+		B5E412585BA368BB00000001 /* __TulsiTestRunner_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderFramework";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PRODUCT_BUNDLE_IDENTIFIER = com.ola.dartrenderplugin;
+				PRODUCT_NAME = OlaRenderFramework;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = __TulsiTestRunner_Release;
+		};
+		B5E412585BA368BB00000002 /* __TulsiTestRunner_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderLibrary";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PRODUCT_NAME = OlaRenderLibrary;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = __TulsiTestRunner_Release;
+		};
+		B5E412585BA368BB00000003 /* __TulsiTestRunner_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderLibrary";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PRODUCT_NAME = "mediapipe-render-module-render_queue-OlaRenderLibrary";
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = __TulsiTestRunner_Release;
+		};
+		B5E412585BA368BB00000004 /* __TulsiTestRunner_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:olarender";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PRODUCT_NAME = "mediapipe-render-module-render_queue-olarender";
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = __TulsiTestRunner_Release;
+		};
+		B5E412585BA368BB00000005 /* __TulsiTestRunner_Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:olarender";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "--version";
+				OTHER_LDFLAGS = "--version";
+				OTHER_SWIFT_FLAGS = "--version";
+				PRODUCT_NAME = olarender;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(PRODUCT_NAME).h";
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = __TulsiTestRunner_Release;
+		};
+		B5E412588A319F6100000000 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				DONT_RUN_SWIFT_STDLIB_TOOL = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(TULSI_EXECUTION_ROOT) $(TULSI_WR)/bazel-bin $(TULSI_WR)/bazel-genfiles $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x";
+				ONLY_ACTIVE_ARCH = YES;
+				PYTHONIOENCODING = utf8;
+				SDKROOT = iphoneos;
+				TULSI_BWRS = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-execution-root";
+				TULSI_EXECUTION_ROOT = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-execution-root";
+				TULSI_LLDBINIT_FILE = "$(PROJECT_FILE_PATH)/.tulsi/Utils/lldbinit";
+				TULSI_OUTPUT_BASE = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-output-base";
+				TULSI_PROJECT = renderQueue;
+				TULSI_VERSION = 0.20220209.88;
+				TULSI_WR = "${SRCROOT}/../../../..";
+			};
+			name = Release;
+		};
+		B5E412588A319F6100000001 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderFramework";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ola.dartrenderplugin;
+				PRODUCT_NAME = OlaRenderFramework;
+				SDKROOT = iphoneos;
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = Release;
+		};
+		B5E412588A319F6100000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderLibrary";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_NAME = OlaRenderLibrary;
+				SDKROOT = iphoneos;
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = Release;
+		};
+		B5E412588A319F6100000003 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/module/render_queue/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue/math ";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				OTHER_CFLAGS = "-D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_math_7C8FD87D_ios_min10.0;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
+			};
+			name = Release;
+		};
+		B5E412588A319F6100000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/module/render_queue/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue/math ";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				OTHER_CFLAGS = "-D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_math_7C8FD87D_ios_min15.5;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
+			};
+			name = Release;
+		};
+		B5E412588A319F6100000005 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/module/render_queue $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue $(TULSI_WR)/mediapipe/render/module/render_queue/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue/math ";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_olarender_AEC02214_ios_min10.0;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
+			};
+			name = Release;
+		};
+		B5E412588A319F6100000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/module/render_queue $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue $(TULSI_WR)/mediapipe/render/module/render_queue/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue/math ";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_olarender_AEC02214_ios_min15.5;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
+			};
+			name = Release;
+		};
+		B5E412588A319F6100000007 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderLibrary";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				PRODUCT_NAME = "mediapipe-render-module-render_queue-OlaRenderLibrary";
+				SDKROOT = iphoneos;
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = Release;
+		};
+		B5E412588A319F6100000008 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:olarender";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				PRODUCT_NAME = "mediapipe-render-module-render_queue-olarender";
+				SDKROOT = iphoneos;
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = Release;
+		};
+		B5E412588A319F6100000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:olarender";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_NAME = olarender;
+				SDKROOT = iphoneos;
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = Release;
+		};
+		B5E412589206BD2C00000000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_IDENTITY = "";
+				DONT_RUN_SWIFT_STDLIB_TOOL = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(PLATFORM_DIR)/Developer/Library/Frameworks";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(TULSI_EXECUTION_ROOT) $(TULSI_WR)/bazel-bin $(TULSI_WR)/bazel-genfiles $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x";
+				ONLY_ACTIVE_ARCH = YES;
+				PYTHONIOENCODING = utf8;
+				SDKROOT = iphoneos;
+				TULSI_BWRS = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-execution-root";
+				TULSI_EXECUTION_ROOT = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-execution-root";
+				TULSI_LLDBINIT_FILE = "$(PROJECT_FILE_PATH)/.tulsi/Utils/lldbinit";
+				TULSI_OUTPUT_BASE = "$(PROJECT_FILE_PATH)/.tulsi/tulsi-output-base";
+				TULSI_PROJECT = renderQueue;
+				TULSI_VERSION = 0.20220209.88;
+				TULSI_WR = "${SRCROOT}/../../../..";
+			};
+			name = Debug;
+		};
+		B5E412589206BD2C00000001 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderFramework";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ola.dartrenderplugin;
+				PRODUCT_NAME = OlaRenderFramework;
+				SDKROOT = iphoneos;
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = Debug;
+		};
+		B5E412589206BD2C00000002 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderLibrary";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_NAME = OlaRenderLibrary;
+				SDKROOT = iphoneos;
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = Debug;
+		};
+		B5E412589206BD2C00000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/module/render_queue/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue/math ";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				OTHER_CFLAGS = "-D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_math_7C8FD87D_ios_min10.0;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
+			};
+			name = Debug;
+		};
+		B5E412589206BD2C00000004 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/module/render_queue/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue/math ";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				OTHER_CFLAGS = "-D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_math_7C8FD87D_ios_min15.5;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
+			};
+			name = Debug;
+		};
+		B5E412589206BD2C00000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/module/render_queue $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue $(TULSI_WR)/mediapipe/render/module/render_queue/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue/math ";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_olarender_AEC02214_ios_min10.0;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
+			};
+			name = Debug;
+		};
+		B5E412589206BD2C00000006 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/module/render_queue $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue $(TULSI_WR)/mediapipe/render/module/render_queue/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/module/render_queue/math ";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_olarender_AEC02214_ios_min15.5;
+				SDKROOT = iphoneos;
+				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
+			};
+			name = Debug;
+		};
+		B5E412589206BD2C00000007 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:OlaRenderLibrary";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				PRODUCT_NAME = "mediapipe-render-module-render_queue-OlaRenderLibrary";
+				SDKROOT = iphoneos;
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = Debug;
+		};
+		B5E412589206BD2C00000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:olarender";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				PRODUCT_NAME = "mediapipe-render-module-render_queue-olarender";
+				SDKROOT = iphoneos;
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = Debug;
+		};
+		B5E412589206BD2C00000009 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Stub Launch Image";
+				BAZEL_TARGET = "//mediapipe/render/module/render_queue:olarender";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				PRODUCT_NAME = olarender;
+				SDKROOT = iphoneos;
+				TULSI_BUILD_PATH = mediapipe/render/module/render_queue;
+				TULSI_XCODE_VERSION = 13.4.1.13F100;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		624D0C6A0E029E1D00000000 /* Build configuration list for PBXNativeTarget "mediapipe-render-module-render_queue-OlaRenderLibrary" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E412589206BD2C00000007 /* Debug */,
+				B5E412588A319F6100000007 /* Release */,
+				B5E41258374CC7D000000003 /* __TulsiTestRunner_Debug */,
+				B5E412585BA368BB00000003 /* __TulsiTestRunner_Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		624D0C6A1B4F830600000000 /* Build configuration list for PBXNativeTarget "OlaRenderFramework" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E412589206BD2C00000001 /* Debug */,
+				B5E412588A319F6100000001 /* Release */,
+				B5E41258374CC7D000000001 /* __TulsiTestRunner_Debug */,
+				B5E412585BA368BB00000001 /* __TulsiTestRunner_Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		624D0C6A2DDCC00100000000 /* Build configuration list for PBXNativeTarget "OlaRenderLibrary" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E412589206BD2C00000002 /* Debug */,
+				B5E412588A319F6100000002 /* Release */,
+				B5E41258374CC7D000000002 /* __TulsiTestRunner_Debug */,
+				B5E412585BA368BB00000002 /* __TulsiTestRunner_Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		624D0C6A2DF9EC8C00000000 /* Build configuration list for PBXNativeTarget "mediapipe-render-module-render_queue-olarender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E412589206BD2C00000008 /* Debug */,
+				B5E412588A319F6100000008 /* Release */,
+				B5E41258374CC7D000000004 /* __TulsiTestRunner_Debug */,
+				B5E412585BA368BB00000004 /* __TulsiTestRunner_Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		624D0C6A3C067BEF00000000 /* Build configuration list for PBXNativeTarget "_idx_math_7C8FD87D_ios_min10.0" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E412589206BD2C00000003 /* Debug */,
+				B5E412588A319F6100000003 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		624D0C6A5518A9B800000000 /* Build configuration list for PBXNativeTarget "_idx_math_7C8FD87D_ios_min15.5" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E412589206BD2C00000004 /* Debug */,
+				B5E412588A319F6100000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		624D0C6A907B9DE900000000 /* Build configuration list for PBXNativeTarget "_idx_olarender_AEC02214_ios_min10.0" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E412589206BD2C00000005 /* Debug */,
+				B5E412588A319F6100000005 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		624D0C6AA444AAB100000000 /* Build configuration list for PBXLegacyTarget "_bazel_clean_" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		624D0C6AC1B88BD000000000 /* Build configuration list for PBXNativeTarget "_idx_olarender_AEC02214_ios_min15.5" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E412589206BD2C00000006 /* Debug */,
+				B5E412588A319F6100000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		624D0C6AC610FB3400000000 /* Build configuration list for PBXProject "renderQueue" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E412589206BD2C00000000 /* Debug */,
+				B5E412588A319F6100000000 /* Release */,
+				B5E41258374CC7D000000000 /* __TulsiTestRunner_Debug */,
+				B5E412585BA368BB00000000 /* __TulsiTestRunner_Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		624D0C6ADBEA9EA300000000 /* Build configuration list for PBXNativeTarget "olarender" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B5E412589206BD2C00000009 /* Debug */,
+				B5E412588A319F6100000009 /* Release */,
+				B5E41258374CC7D000000005 /* __TulsiTestRunner_Debug */,
+				B5E412585BA368BB00000005 /* __TulsiTestRunner_Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 362F57158170D8A000000000 /* Project object */;
+}

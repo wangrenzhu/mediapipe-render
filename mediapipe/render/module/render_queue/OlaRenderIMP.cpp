@@ -376,8 +376,6 @@ NS_OLA_BEGIN
             ImageQueue::getInstance()->releaseNode(rs);
         }
 #endif
-//        outputTexture.width = _renderWidth;
-//        outputTexture.height = _renderHeight;
         return outputTexture;
     }
 
