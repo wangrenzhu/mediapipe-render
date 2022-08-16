@@ -177,9 +177,17 @@ namespace Opipe
         return status;
     }
 
+    bool OlaGraph::sendPacket(const mediapipe::Packet &packet,
+                              const std::string &streamName) 
+    {
+        absl::Status status = _graph->AddPacketToInputStream(streamName, packet);
+        return status.ok();
+
+    }
 
 
-    bool OlaGraph::sendPacket(unsigned char *data, int width, int height, const std::string &streamName,int64_t timeStamp) {
+    bool OlaGraph::sendPacket(unsigned char *data, int width, int height, const std::string &streamName,int64_t timeStamp) 
+    {
         auto buffer_or = GlTextureBuffer::Create(width, height, mediapipe::GpuBufferFormat::kBGRA32, data, 4);
         mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::GpuBuffer>(std::move(buffer_or));
         packet = std::move(packet).At(Timestamp::CreateNoErrorChecking(timeStamp));
@@ -187,7 +195,8 @@ namespace Opipe
         return status.ok();
     }
 
-    bool OlaGraph::sendPacket(int textureId, int width, int height, const std::string &streamName,int64_t timeStamp) {
+    bool OlaGraph::sendPacket(int textureId, int width, int height, const std::string &streamName,int64_t timeStamp) 
+    {
         auto buffer_or = mediapipe::GpuBuffer(mediapipe::GlTextureBuffer::Wrap(
             GL_TEXTURE_2D, textureId, width, height, mediapipe::GpuBufferFormat::kBGRA32, gpu_resources_->gl_context(), nullptr));
         mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::GpuBuffer>(std::move(buffer_or));

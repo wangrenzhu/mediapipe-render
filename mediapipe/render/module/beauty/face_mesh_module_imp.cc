@@ -186,9 +186,10 @@ namespace Opipe
         }
     }
 
-    void FaceMeshModuleIMP::initLut(int width, int height, void *lutData, int size){
+    void FaceMeshModuleIMP::initLut(int width, int height, void *lutData, int size)
+    {
         _omat = OMat(width, height,(char *)lutData);
-     }
+    }
 
     bool FaceMeshModuleIMP::init(long glcontext, void *binaryData, int size)
     {
@@ -199,7 +200,7 @@ namespace Opipe
         _olaContext = new OlaContext();
         _context = _olaContext->glContext();
         _ioContext = new Context();
-        
+        _ioDispatch = std::make_unique<OpipeDispatch>(_ioContext, nullptr, nullptr);
 #if defined(__ANDROID__)
         std::thread::id glThreadId = std::this_thread::get_id();
 
@@ -214,6 +215,7 @@ namespace Opipe
 #else
         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, nullptr);
         _graph = std::make_unique<OlaGraph>(config, _context->getEglContext());
+        
 #endif
 
         _graph->setDelegate(_delegate);

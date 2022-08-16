@@ -101,6 +101,9 @@ namespace Opipe
 
         virtual bool start();
 
+        virtual bool sendPacket(const mediapipe::Packet &packet,
+                              const std::string &streamName);
+
         virtual bool sendPacket(int textureId, int width, int height,
                                 const std::string &streamName,int64_t timeStamp);
 
