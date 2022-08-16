@@ -24,7 +24,7 @@ public class OlaBeauty {
 
     public native static void nativeStopModule(long context);
 
-    public native static void nativeRenderTexture(long context, int width, int height, int textureId, long frameTime);
+    public native static int nativeRenderTexture(long context, int width, int height, int textureId, long frameTime);
 
     public native static void nativeProcessVideoFrame(long context, int textureId, int width, int height, long frameTime);
 

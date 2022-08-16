@@ -19,19 +19,9 @@ namespace Opipe
     public:
         FaceMeshCallFrameDelegate();
         ~FaceMeshCallFrameDelegate();
-#if defined(__APPLE__)
-        void outputPixelbuffer(OlaGraph *graph, CVPixelBufferRef pixelbuffer,
-                               const std::string &streamName, int64_t timstamp) override;
-#endif
+
         void outputPacket(OlaGraph *graph, const mediapipe::Packet &packet,
                           MPPPacketType packetType, const std::string &streamName) override;
-        
-        void outputPacket(OlaGraph *graph, const mediapipe::Packet &packet,
-                          const std::string &streamName) override;
-
-        void outputPacket(OlaGraph *graph,
-                                 const int textrue, int width, int height,
-                                  const std::string &streamName, int64_t timestamp) override;
 
         void attach(FaceMeshModuleIMP *imp) {
             _imp = imp;
@@ -167,10 +157,8 @@ namespace Opipe
 
     private:
         std::unique_ptr<OpipeDispatch> _dispatch;
-        std::unique_ptr<OpipeDispatch> _ioDispatch;
         std::unique_ptr<OlaGraph> _graph;
         Context *_context = nullptr;
-        Context *_ioContext = nullptr;
         bool _isInit = false;
         bool _segEnable = false;
         NormalizedLandmarkList _lastLandmark;

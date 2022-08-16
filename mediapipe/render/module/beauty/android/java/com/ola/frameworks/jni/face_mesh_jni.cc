@@ -6,7 +6,6 @@
 #include "mediapipe/util/android/asset_manager_util.h"
 
 
-
 JNIEXPORT jlong JNICALL OLA_METHOD(nativeInitAssertManager)(JNIEnv* env, jobject thiz, jobject androidContext,jstring cacheDirPath){
     mediapipe::AssetManager* asset_manager = Singleton<mediapipe::AssetManager>::get();
     
@@ -27,7 +26,7 @@ JNIEXPORT void JNICALL OLA_METHOD(nativeRelease)(JNIEnv* env, jobject thiz, jlon
 }
 
 JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut)(JNIEnv* env,jobject thiz,jlong context, jint width, jint height, jbyteArray lutData){
-    Opipe::FaceMeshModule* faceModule =reinterpret_cast<Opipe::FaceMeshModule*>(context);
+    Opipe::FaceMeshModule* faceModule = reinterpret_cast<Opipe::FaceMeshModule*>(context);
     jbyte* data_ptr = env->GetByteArrayElements(lutData, nullptr);
     int size = env->GetArrayLength(lutData);
     faceModule->initLut(width, height, data_ptr, size);
@@ -45,28 +44,29 @@ JNIEXPORT void JNICALL OLA_METHOD(nativeInit)(JNIEnv* env,jobject thiz,jlong con
 }
 
 JNIEXPORT void JNICALL OLA_METHOD(nativeStartModule)(JNIEnv* env, jobject thiz, jlong context){
-    Opipe::FaceMeshModule* faceModule =reinterpret_cast<Opipe::FaceMeshModule*>(context);
+    Opipe::FaceMeshModule* faceModule = reinterpret_cast<Opipe::FaceMeshModule*>(context);
     faceModule->startModule();
 }
 
 JNIEXPORT void JNICALL OLA_METHOD(nativeStopModule)(JNIEnv* env, jobject thiz, jlong context){
-    Opipe::FaceMeshModule* faceModule =reinterpret_cast<Opipe::FaceMeshModule*>(context);
+    Opipe::FaceMeshModule* faceModule = reinterpret_cast<Opipe::FaceMeshModule*>(context);
     faceModule->stopModule();
 }
 
 
-JNIEXPORT void JNICALL OLA_METHOD(nativeRenderTexture)(JNIEnv* env, jobject thiz, jlong context, jint width, jint height, jint textureId, jlong frameTime){
+JNIEXPORT jint JNICALL OLA_METHOD(nativeRenderTexture)(JNIEnv* env, jobject thiz, jlong context, jint width, jint height, jint textureId, jlong frameTime){
     Opipe::FaceMeshModule* faceModule =reinterpret_cast<Opipe::FaceMeshModule*>(context);
     TextureInfo info;
     info.width = width;
     info.height = height;
     info.textureId = textureId;
     info.frameTime = frameTime;
-    faceModule->renderTexture(std::move(info));
+    TextureInfo textureInfo = faceModule->renderTexture(std::move(info));
+    return textureInfo.textureId;
 }
 
 JNIEXPORT void JNICALL OLA_METHOD(nativeProcessVideoFrame)(JNIEnv* env, jobject thiz, jlong context, jint textureId, jint width, jint height, jlong frameTime){
-    Opipe::FaceMeshModule* faceModule =reinterpret_cast<Opipe::FaceMeshModule*>(context);
+    Opipe::FaceMeshModule* faceModule = reinterpret_cast<Opipe::FaceMeshModule*>(context);
     faceModule->processVideoFrame(textureId, width, height, frameTime);
 }
 

@@ -66,6 +66,8 @@ public class QStreamWrapper extends RenderExpansion {
         TextureInfo inputTextureInfo = convert(input, timestamp);
         Log.e("----", "inputTextureInfo = " + inputTextureInfo.textureId);
         OlaBeauty.nativeProcessVideoFrame(graph, inputTextureInfo.textureId, inputTextureInfo.textureWidth, inputTextureInfo.textureHeight, timestamp);
+        int textureId = OlaBeauty.nativeRenderTexture(context, width, height, textureId, frameTime);
+        input.texture = textureId;
         return input;
     }
 
