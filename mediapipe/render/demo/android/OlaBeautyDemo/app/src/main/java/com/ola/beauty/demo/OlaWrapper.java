@@ -18,7 +18,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class OlaWrapper extends RenderExpansion {
 
-
+    private final OlaBeauty mBeauty;
     private Executor mGLExecutor;
     private long context;
 
@@ -101,4 +101,8 @@ public class OlaWrapper extends RenderExpansion {
         mDoAfterSurfaceReady.clear();
     }
 
+
+    public QStreaming unWrap() {
+        return mQStream;
+    }
 }

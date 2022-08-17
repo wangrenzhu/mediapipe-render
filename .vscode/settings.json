@@ -122,7 +122,8 @@
         "cuchar": "cpp",
         "netfwd": "cpp",
         "source_location": "cpp",
-        "syncstream": "cpp"
+        "syncstream": "cpp",
+        "jni.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

@@ -1,4 +1,4 @@
-package com.ola.beauty.demo;
+package com.ola.frameworks;
 import androidx.annotation.Keep;
 
 import java.util.LinkedList;

@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <condition_variable>
 #include "mediapipe/render/core/OlaContext.hpp"
+#include "mediapipe/render/core/GLThreadDispatch.h"
 #include "face_mesh_common.h"
 #if defined(__APPLE__)
 #import <OpenGLES/ES3/gl.h>
@@ -108,7 +109,7 @@ namespace Opipe
                 // 恢复渲染
                 virtual void resume() = 0;
 
-                virtual bool init(long glContext, void *binaryData, int size) = 0;
+                virtual bool init(GLThreadDispatch *glDispatch, long glcontext, void *binaryData, int size) = 0;
 
                 virtual void startModule() = 0;
 
