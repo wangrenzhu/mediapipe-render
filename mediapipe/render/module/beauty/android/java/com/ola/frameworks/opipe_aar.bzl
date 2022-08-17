@@ -40,7 +40,8 @@ EOF
         assets = assets,
         assets_dir = assets_dir,
         deps = [
-            ":" + name + "_jni_cc_lib"
+            ":" + name + "_jni_cc_lib",
+            "//mediapipe/render/android/camera/java/com/ola/olamera:camera_core",
         ]+ select({
             "//conditions:default": [":" + name + "_jni_opencv_cc_lib"],
         }),
