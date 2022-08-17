@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SchemeUserState</key>
+	<dict>
+		<key>OlaRenderFramework.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>58</integer>
+		</dict>
+		<key>OlaRenderLibrary.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>59</integer>
+		</dict>
+		<key>_bazel_clean_.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>95</integer>
+		</dict>
+		<key>_idx_Scheme.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>mediapipe-render-module-render_queue-OlaRenderLibrary.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>53</integer>
+		</dict>
+		<key>mediapipe-render-module-render_queue-olarender.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>52</integer>
+		</dict>
+		<key>olarender.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>57</integer>
+		</dict>
+	</dict>
+</dict>
+</plist>
