@@ -1,0 +1,25 @@
+{
+  "additionalFilePaths" : [
+    "mediapipe/render/ios/BUILD"
+  ],
+  "buildTargets" : [
+    "//mediapipe/render/core:core",
+    "//mediapipe/render/core:core-ios",
+    "//mediapipe/render/core:gpuimagemacros",
+    "//mediapipe/render/core:gpuimagemath",
+    "//mediapipe/render/core:gpuimageutil",
+    "//mediapipe/render/core:ref",
+    "//mediapipe/render/ios:OlaRenderDevelopFramework"
+  ],
+  "optionSet" : {
+    "ProjectGenerationPlatformConfiguration" : {
+      "p" : "ios_arm64"
+    }
+  },
+  "projectName" : "OlaVideo",
+  "sourceFilters" : [
+    "mediapipe/render/core",
+    "mediapipe/render/core/math",
+    "mediapipe/render/ios"
+  ]
+}

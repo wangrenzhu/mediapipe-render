@@ -1,0 +1,20 @@
+{
+  "additionalFilePaths" : [
+    "mediapipe/render/module/render_queue/BUILD"
+  ],
+  "buildTargets" : [
+    "//mediapipe/render/module/render_queue:OlaRenderFramework",
+    "//mediapipe/render/module/render_queue:OlaRenderLibrary",
+    "//mediapipe/render/module/render_queue:olarender"
+  ],
+  "optionSet" : {
+    "ProjectGenerationPlatformConfiguration" : {
+      "p" : "ios_arm64"
+    }
+  },
+  "projectName" : "renderQueue",
+  "sourceFilters" : [
+    "mediapipe/render/module/render_queue",
+    "mediapipe/render/module/render_queue/math"
+  ]
+}
