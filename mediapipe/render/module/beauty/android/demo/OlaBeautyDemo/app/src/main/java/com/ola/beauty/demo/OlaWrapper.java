@@ -4,10 +4,10 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-
-import com.ola.frameworks.OlaBeauty;
 import com.ola.olamera.render.entry.RenderFlowData;
 import com.ola.olamera.render.expansion.RenderExpansion;
+import com.ola.frameworks.OlaBeautyJNI;
+import com.ola.frameworks.TextureInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,12 +18,13 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class OlaWrapper extends RenderExpansion {
 
-    private final OlaBeauty mBeauty;
     private Executor mGLExecutor;
     private long context;
+    private OlaBeautyJNI beautyJNI;
 
-    public OlaWrapper(long graph) {
+    public OlaWrapper(long graph, OlaBeautyJNI beautyJNI) {
         this.context = graph;
+        this.beautyJNI = beautyJNI;
     }
 
     public void setGLExecutor(Executor GLExecutor) {
@@ -66,14 +67,13 @@ public class OlaWrapper extends RenderExpansion {
     RenderFlowData render(@NonNull RenderFlowData input, long timestamp) {
         TextureInfo inputTextureInfo = convert(input, timestamp);
         Log.e("####", "###### inputTextureInfo = " + inputTextureInfo.textureId);
-        OlaBeauty.nativeProcessVideoFrame(context, inputTextureInfo.textureId, inputTextureInfo.textureWidth, inputTextureInfo.textureHeight, timestamp);
-        int textureId = OlaBeauty.nativeRenderTexture(context, input.textureWidth, input.textureHeight, inputTextureInfo.textureId, timestamp);
+        beautyJNI.nativeProcessVideoFrame(context, inputTextureInfo.textureId, inputTextureInfo.textureWidth, inputTextureInfo.textureHeight, timestamp);
+        int textureId = beautyJNI.nativeRenderTexture(context, input.textureWidth, input.textureHeight, inputTextureInfo.textureId, timestamp);
         input.texture = textureId;
         return input;
     }
 
-    private @NonNull
-    TextureInfo convert(@NonNull RenderFlowData input, long timeStamp) {
+    private @NonNull TextureInfo convert(@NonNull RenderFlowData input, long timeStamp) {
         TextureInfo texture = TextureInfo.obtain();
         texture.textureId = input.texture;
         texture.textureHeight = input.textureHeight;
@@ -102,7 +102,7 @@ public class OlaWrapper extends RenderExpansion {
     }
 
 
-    public QStreaming unWrap() {
-        return mQStream;
-    }
+//    public QStreaming unWrap() {
+//        return mQStream;
+//    }
 }
