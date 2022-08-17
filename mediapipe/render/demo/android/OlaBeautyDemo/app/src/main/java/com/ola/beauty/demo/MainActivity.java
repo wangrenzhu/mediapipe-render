@@ -31,8 +31,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        graph = OlaBeauty.nativeCreate();
-        mOlaWrapper = new OlaWrapper(graph);
+        byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
+
+        mOlaWrapper = new OlaWrapper(this, getCacheDir().getAbsolutePath(), data);
 
         mCameraVideoView = new CameraVideoView(this, null);
         setContentView(mCameraVideoView);
@@ -45,12 +46,18 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
 
         mOlaWrapper.doAfterSurfaceReady(() -> {
-//            mOlaWrapper.unWrap().doInit();
-             OlaBeauty.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
-             byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
-             OlaBeauty.nativeInit(graph, data, EGL14.eglGetCurrentContext().getNativeHandle());
-             OlaBeauty.nativeStartModule(graph);
+            mOlaWrapper.unWrap().doInit().addListener(new Runnable() {
+                @Override
+                public void run() {
+                    mOlaWrapper.start(); //暂时自动开始
+                }
+            }, MainThreadExecutor.getInstance());
         });
+////            mOlaWrapper.unWrap().doInit();
+//             OlaBeauty.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
+//             byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
+//             OlaBeauty.nativeInit(graph, data, EGL14.eglGetCurrentContext().getNativeHandle());
+//             OlaBeauty.nativeStartModule(graph);
     }
 
     public static byte[] getAssetBytes(AssetManager assets, String assetName) {
@@ -103,10 +110,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mActivityCameraSession.onWindowDestroy();
-//        mOlaWrapper.doAfterSurfaceReady(() -> {
-//            OlaBeauty.nativeStopModule(graph);
-//            OlaBeauty.nativeRelease(graph);
-//        });
+        mOlaWrapper.doAfterSurfaceReady(() -> {
+            mOlaWrapper.stop();
+            mOlaWrapper.unWrap().destroyInGLThread();
+        });
     }
 
     /**

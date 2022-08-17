@@ -15,7 +15,7 @@ namespace OpipeJNI {
 #endif  // __cplusplus
 
     #define OLA_METHOD(METHOD_NAME) \
-      Java_com_ola_frameworks_OlaBeauty_##METHOD_NAME
+      Java_com_ola_frameworks_OlaBeautyJNI_##METHOD_NAME
 
     // Creates a native opipe context.
         JNIEXPORT jlong JNICALL OLA_METHOD(nativeCreate) (JNIEnv *env, jobject thiz);

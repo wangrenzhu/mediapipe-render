@@ -29,6 +29,8 @@ public class OlaBeauty {
 
     private String mCacheDir;
 
+    private byte[] mData;
+
      /**
      * TODO
      * TODO 目前使用外部的GL mExecutor 是不可靠的，不可靠在于mExecutor不是一定会完成任务，有可能GL销毁了，会直接清空任务
@@ -44,6 +46,10 @@ public class OlaBeauty {
 
     public void setCacheDir(String cacheDir) {
         mCacheDir = cacheDir;
+    }
+
+    public void setData(byte[] data) {
+        mData = data;
     }
 
     public ListenableFuture<Boolean> doInit() {
@@ -72,6 +78,31 @@ public class OlaBeauty {
 
     }
 
+    public void startModule() {
+        if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
+            return;
+        }
+
+        mNativeHandler.nativeStartModule(mNativeHandler.getNative());
+    }
+
+    public void stopModule() {
+        if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
+            return;
+        }
+
+        mNativeHandler.nativeStopModule(mNativeHandler.getNative());
+    }
+
+    public void processVideoFrame(TextureInfo input) {
+        if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
+            return;
+        }
+        mNativeHandler.nativeProcessVideoFrame(mNativeHandler.getNative(), input.textureId, input.textureWidth, input.textureHeight, input.timestamp);
+    }
+
+    
+
     public TextureInfo render(TextureInfo input) {
         
         if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
@@ -97,6 +128,7 @@ public class OlaBeauty {
         if (result != 0) {
             mNativeHandler = beautyJNI;
             mNativeHandler.nativeInitAssertManager(mContext, mCacheDir);
+            mNativeHandler.nativeInit(mNativeHandler.getNative(), mData, EGL14.eglGetCurrentContext().getNativeHandle());
         }
 
         return false;

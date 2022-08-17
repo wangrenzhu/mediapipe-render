@@ -1,11 +1,13 @@
 package com.ola.beauty.demo;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 
 import com.ola.frameworks.OlaBeauty;
+import com.ola.frameworks.TextureInfo;
 import com.ola.olamera.render.entry.RenderFlowData;
 import com.ola.olamera.render.expansion.RenderExpansion;
 
@@ -20,31 +22,38 @@ public class OlaWrapper extends RenderExpansion {
 
     private final OlaBeauty mBeauty;
     private Executor mGLExecutor;
-    private long context;
 
-    public OlaWrapper(long graph) {
-        this.context = graph;
+
+    private final List<Runnable> mDoAfterSurfaceReady = new ArrayList<>();
+    private boolean mIsSurfaceReady;
+
+    public OlaWrapper(Context context, String cacheDir, byte[] data) {
+        mBeauty = new OlaBeauty();
+        mBeauty.setCacheDir(cacheDir);
+        mBeauty.setContext(context);
+        mBeauty.setData(data);
     }
 
     public void setGLExecutor(Executor GLExecutor) {
+
         mGLExecutor = GLExecutor;
+        mBeauty.setExecutor(GLExecutor);
     }
 
     public Executor getGLExecutor() {
         return mGLExecutor;
     }
 
-    private final List<Runnable> mDoAfterSurfaceReady = new ArrayList<>();
-    private boolean mIsSurfaceReady;
 
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-
+        mBeauty.onSurfaceCreated();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+        mBeauty.onSurfaceChanged(width, height);
         mIsSurfaceReady = true;
         for (Runnable runnable : mDoAfterSurfaceReady) {
             runnable.run();
@@ -64,12 +73,20 @@ public class OlaWrapper extends RenderExpansion {
     @Override
     public @NonNull
     RenderFlowData render(@NonNull RenderFlowData input, long timestamp) {
+
         TextureInfo inputTextureInfo = convert(input, timestamp);
         Log.e("####", "###### inputTextureInfo = " + inputTextureInfo.textureId);
-        OlaBeauty.nativeProcessVideoFrame(context, inputTextureInfo.textureId, inputTextureInfo.textureWidth, inputTextureInfo.textureHeight, timestamp);
-        int textureId = OlaBeauty.nativeRenderTexture(context, input.textureWidth, input.textureHeight, inputTextureInfo.textureId, timestamp);
-        input.texture = textureId;
-        return input;
+        mBeauty.processVideoFrame(inputTextureInfo);
+        TextureInfo outputTextureInfo = mBeauty.render(inputTextureInfo);
+
+        RenderFlowData result = convert(outputTextureInfo);
+
+        inputTextureInfo.recycle();
+        outputTextureInfo.recycle();
+        if (result == null) {
+            return input;
+        }
+        return result;
     }
 
     private @NonNull
@@ -98,11 +115,28 @@ public class OlaWrapper extends RenderExpansion {
 
     @Override
     public void onSurfaceDestroy() {
+        mBeauty.destroyInGLThread();
         mDoAfterSurfaceReady.clear();
     }
 
 
-    public QStreaming unWrap() {
-        return mQStream;
+    public void start() {
+        mBeauty.startModule();
+    }
+
+    public void stop() {
+        mBeauty.stopModule();
+    }
+
+    public void processVideoFrame(TextureInfo input) {
+        mBeauty.processVideoFrame(input);
+    }
+
+    public TextureInfo render(TextureInfo input) {
+        return mBeauty.render(input);
+    }
+
+    public OlaBeauty unWrap() {
+        return mBeauty;
     }
 }
