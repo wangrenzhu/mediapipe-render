@@ -45,10 +45,11 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
 
         mOlaWrapper.doAfterSurfaceReady(() -> {
-            OlaBeauty.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
-            byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
-            OlaBeauty.nativeInit(graph, data, EGL14.eglGetCurrentContext().getNativeHandle());
-        OlaBeauty.nativeStartModule(graph);
+//            mOlaWrapper.unWrap().doInit();
+             OlaBeauty.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
+             byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
+             OlaBeauty.nativeInit(graph, data, EGL14.eglGetCurrentContext().getNativeHandle());
+             OlaBeauty.nativeStartModule(graph);
         });
     }
 

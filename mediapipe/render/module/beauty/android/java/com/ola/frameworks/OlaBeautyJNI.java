@@ -10,6 +10,8 @@ import android.content.Context;
 
 import javax.microedition.khronos.egl.EGLContext;
 
+import com.ola.beauty.demo.TextureInfo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -63,7 +65,6 @@ public class OlaBeautyJNI {
         return true;
     }
 
-
     public synchronized boolean destroy() {
         if (mNative == 0) {
             return false;
@@ -82,14 +83,18 @@ public class OlaBeautyJNI {
         if (mNative == 0) {
             return null;
         }
-        return nativeRenderTexture(mNative, input.width, input.height, input.texture, input.frameTime);
+        int textureId = nativeRenderTexture(mNative, input.width, input.height, input.texture, input.frameTime);
+
+        TextureInfo output;
+        output = input;
+        output.textureId = textureId;
+        return output;
     }
 
     public Executor getExecutor() {
         return mExecutor;
     }
 
-    
     public native long nativeInitAssertManager(Context context, String cacheDir);
 
     public native long nativeCreate();
@@ -116,6 +121,7 @@ public class OlaBeautyJNI {
     public native void nativeProcessVideoFrame(long context, int textureId, int width, int height, long frameTime);
 
     @WorkerThread
-    public native void nativeProcessVideoFrameBytes(long context, byte[] data, int size, int width, int height, long frameTime);
+    public native void nativeProcessVideoFrameBytes(long context, byte[] data, int size, int width, int height,
+            long frameTime);
 
 }

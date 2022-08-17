@@ -1,11 +1,13 @@
+package com.ola.frameworks;
 import android.opengl.EGL14;
 import android.opengl.EGLContext;
-import com.google.common.util.concurrent.ListenableFuture;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
+import com.google.common.util.concurrent.ListenableFuture;
+import android.content.Context;
 
 public class OlaBeauty {
     private Executor mExecutor;
@@ -21,6 +23,10 @@ public class OlaBeauty {
 
     private long mGLThreadId = -1;
 
+    private Context mContext;
+
+    private String mCacheDir;
+
      /**
      * TODO
      * TODO 目前使用外部的GL mExecutor 是不可靠的，不可靠在于mExecutor不是一定会完成任务，有可能GL销毁了，会直接清空任务
@@ -28,6 +34,14 @@ public class OlaBeauty {
      */
     public void setExecutor(Executor executor) {
         mExecutor = executor;
+    }
+
+    public void setContext(Context context) {
+        mContext = context;
+    }
+
+    public void setCacheDir(String cacheDir) {
+        mCacheDir = cacheDir;
     }
 
     public ListenableFuture<Boolean> doInit() {
@@ -81,7 +95,9 @@ public class OlaBeauty {
             int result = beautyJNI.init(eglContext, mExecutor);
             if (result != 0) {
                 mNativeHandler = beautyJNI;
+                mNativeHandler.nativeInitAssertManager(mContext, mCacheDir);
             }
+            
         }
 
         return false;
