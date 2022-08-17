@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
+import androidx.concurrent.futures.CallbackToFutureAdapter;
+
 import com.google.common.util.concurrent.ListenableFuture;
 import android.content.Context;
 
@@ -70,8 +72,8 @@ public class OlaBeauty {
 
     }
 
-    public @NonNull
-    synchronized TextureInfo render(@NonNull TextureInfo input) {
+    public TextureInfo render(TextureInfo input) {
+        
         if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
             return input;
         }
@@ -90,14 +92,11 @@ public class OlaBeauty {
         if (mNativeHandler != null) {
             return true;
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            OlaBeautyJNI beautyJNI = new OlaBeautyJNI();
-            int result = beautyJNI.init(eglContext, mExecutor);
-            if (result != 0) {
-                mNativeHandler = beautyJNI;
-                mNativeHandler.nativeInitAssertManager(mContext, mCacheDir);
-            }
-            
+        OlaBeautyJNI beautyJNI = new OlaBeautyJNI();
+        int result = beautyJNI.init(eglContext, mExecutor);
+        if (result != 0) {
+            mNativeHandler = beautyJNI;
+            mNativeHandler.nativeInitAssertManager(mContext, mCacheDir);
         }
 
         return false;

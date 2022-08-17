@@ -1,16 +1,11 @@
 package com.ola.frameworks;
 
-import androidx.annotation.Keep;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
-import androidx.annotation.WorkerThread;
-
 import android.content.Context;
 
-import javax.microedition.khronos.egl.EGLContext;
+import android.opengl.EGL14;
+import android.opengl.EGLContext;
 
-import com.ola.beauty.demo.TextureInfo;
+import com.ola.frameworks.TextureInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,31 +14,24 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.concurrent.Executor;
 
-@Keep
 public class OlaBeautyJNI {
 
     private Executor mExecutor;
     private long mNative;
 
-    static {
-        System.loadLibrary("opipe_jni");
-
-    }
-
     public OlaBeautyJNI() {
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public synchronized int init(@NonNull EGLContext context, Executor glExecutor) {
+    public synchronized int init(EGLContext context, Executor glExecutor) {
         if (context == null) {
             return 0;
         }
         try {
-            loadLibrary();
+            System.loadLibrary("opipe_jni");
         } catch (Exception e) {
             throw e;
         }
-        long ptr = nativeInitContext(context.getNativeHandle());
+        long ptr = nativeCreate();
         if (ptr == 0) {
             return 0;
         }
@@ -83,12 +71,17 @@ public class OlaBeautyJNI {
         if (mNative == 0) {
             return null;
         }
-        int textureId = nativeRenderTexture(mNative, input.width, input.height, input.texture, input.frameTime);
+        int textureId = nativeRenderTexture(mNative, input.textureWidth, input.textureHeight, 
+                                            input.textureId, input.timestamp);
 
         TextureInfo output;
         output = input;
         output.textureId = textureId;
         return output;
+    }
+
+    public long getNative() {
+        return mNative;
     }
 
     public Executor getExecutor() {
@@ -101,26 +94,20 @@ public class OlaBeautyJNI {
 
     public native long nativeInitLut(long context, int width, int height, byte[] lutData);
 
-    @WorkerThread
     public native void nativeRelease(long context);
 
-    @Keep
     private native void nativeDoTask(long nativeContext, long taskId);
 
-    @WorkerThread
     public native void nativeInit(long context, byte[] data, long eglContext);
 
     public native void nativeStartModule(long context);
 
     public native void nativeStopModule(long context);
 
-    @WorkerThread
     public native int nativeRenderTexture(long context, int width, int height, int textureId, long frameTime);
 
-    @WorkerThread
     public native void nativeProcessVideoFrame(long context, int textureId, int width, int height, long frameTime);
 
-    @WorkerThread
     public native void nativeProcessVideoFrameBytes(long context, byte[] data, int size, int width, int height,
             long frameTime);
 

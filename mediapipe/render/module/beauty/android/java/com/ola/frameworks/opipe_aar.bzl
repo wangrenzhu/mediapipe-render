@@ -44,7 +44,9 @@ EOF
             "//third_party:androidx_annotation",
             "//mediapipe/render/android/camera/java/com/ola/olamera:camera_core",
         ]+ select({
-            "//conditions:default": [":" + name + "_jni_opencv_cc_lib"],
+            "//conditions:default": [":" + name + "_jni_opencv_cc_lib",
+                    "@maven//:androidx_concurrent_concurrent_futures",
+                    "@maven//:com_google_guava_guava",],
         }),
     )
 
