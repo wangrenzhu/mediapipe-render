@@ -4,3 +4,14 @@ mediapipe/MediaPipe.tulsiproj/*.tulsiconf-user
 mediapipe/provisioning_profile.mobileprovision
 .configure.bazelrc
 .user.bazelrc
+/.aswb/
+/.github/
+/.idea/
+/.idea/.gitignore
+/.idea/modules.xml
+/.idea/Opipe.iml
+/.idea/vcs.xml
+/.vscode/
+/.vscode/settings.json
+mediapipe/render/module/beauty/android/demo/OlaBeautyDemo/.gradle
+mediapipe/render/module/beauty/android/demo/OlaBeautyDemo/.idea
