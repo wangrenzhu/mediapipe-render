@@ -14,7 +14,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.common.io.ByteStreams;
-import com.ola.frameworks.OlaBeautyJNI;
 import com.ola.olamera.render.view.CameraVideoView;
 
 import java.io.IOException;
@@ -26,14 +25,14 @@ public class MainActivity extends AppCompatActivity {
     private ActivityCameraSession mActivityCameraSession;
     private OlaWrapper mOlaWrapper;
     private long graph;
-    private OlaBeautyJNI beautyJNI= new OlaBeautyJNI();
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        graph = beautyJNI.nativeCreate();
-        mOlaWrapper = new OlaWrapper(graph, beautyJNI);
+
+        byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
+        mOlaWrapper = new OlaWrapper(graph, getApplicationContext(), data);
 
         mCameraVideoView = new CameraVideoView(this, null);
         setContentView(mCameraVideoView);
@@ -46,11 +45,11 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
 
         mOlaWrapper.doAfterSurfaceReady(() -> {
-//            mOlaWrapper.unWrap().doInit();
-            beautyJNI.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
-             byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
-            beautyJNI.nativeInit(graph, data, EGL14.eglGetCurrentContext().getNativeHandle());
-            beautyJNI.nativeStartModule(graph);
+
+            mOlaWrapper.unWrap().doInit();
+//            beautyJNI.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
+//            beautyJNI.nativeInit(graph, data, EGL14.eglGetCurrentContext().getNativeHandle());
+//            beautyJNI.nativeStartModule(graph);
         });
     }
 
