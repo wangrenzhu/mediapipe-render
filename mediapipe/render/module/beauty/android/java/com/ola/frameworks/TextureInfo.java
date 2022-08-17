@@ -1,9 +1,7 @@
 package com.ola.frameworks;
-import androidx.annotation.Keep;
 
 import java.util.LinkedList;
 
-@Keep
 public class TextureInfo {
 
     private TextureInfo() {

@@ -42,7 +42,9 @@ EOF
         deps = [
             ":" + name + "_jni_cc_lib"
         ]+ select({
-            "//conditions:default": [":" + name + "_jni_opencv_cc_lib"],
+            "//conditions:default": [":" + name + "_jni_opencv_cc_lib",
+                    "@maven//:androidx_concurrent_concurrent_futures",
+                    "@maven//:com_google_guava_guava",],
         }),
     )
 

@@ -31,7 +31,6 @@ opipe_aar(
         "//mediapipe/modules/face_landmark:face_landmark_with_attention.tflite",
         "//mediapipe/modules/selfie_segmentation:selfie_segmentation.tflite",
         "//mediapipe/render/module/beauty:whiten.png",
-        "@maven//:androidx_exifinterface_exifinterface",
     ],
     assets_dir = "",
     proguard_specs = ["proguard.pgcfg"],
