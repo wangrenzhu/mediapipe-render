@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)dispose;
 
-- (int)render:(int64_t)frameTime textureId:(NSUInteger)inputTexture renderSize:(CGSize)size;
+- (int)render:(int64_t)frameTime textureId:(NSUInteger)inputTexture renderSize:(CGSize)size exportFlag:(BOOL)flag;
 
 - (void)setRenderView:(UIView *)renderView;
 

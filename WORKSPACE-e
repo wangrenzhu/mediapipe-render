@@ -331,7 +331,7 @@ maven_install(
         "androidx.activity:activity:1.2.2",
         "androidx.exifinterface:exifinterface:1.3.3",
         "androidx.fragment:fragment:1.3.4",
-        "androidx.annotation:annotation:aar:1.1.0",
+        "androidx.annotation:annotation:aar:1.3.0",
         "androidx.appcompat:appcompat:aar:1.1.0-rc01",
         "androidx.camera:camera-core:1.0.2",
         "androidx.camera:camera-camera2:1.0.2",
