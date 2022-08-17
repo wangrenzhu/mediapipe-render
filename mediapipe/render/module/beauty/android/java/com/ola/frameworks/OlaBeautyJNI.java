@@ -71,6 +71,8 @@ public class OlaBeautyJNI {
         if (mNative == 0) {
             return null;
         }
+        
+
         int textureId = nativeRenderTexture(mNative, input.textureWidth, input.textureHeight, 
                                             input.textureId, input.timestamp);
 
