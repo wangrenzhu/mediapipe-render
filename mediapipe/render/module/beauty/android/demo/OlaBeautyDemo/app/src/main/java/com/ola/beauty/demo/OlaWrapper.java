@@ -29,8 +29,9 @@ public class OlaWrapper extends RenderExpansion {
 
 
     public OlaWrapper(Context context, byte[] graphData) {
-        this.mOlaBeauty = new OlaBeauty(context, graphData);
+        this.mBeauty = new OlaBeauty(context, graphData);
     }
+
 
     public void setGLExecutor(Executor GLExecutor) {
         mGLExecutor = GLExecutor;

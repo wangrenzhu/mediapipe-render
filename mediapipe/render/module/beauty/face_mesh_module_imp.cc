@@ -33,12 +33,13 @@ namespace Opipe
                                                  MPPPacketType packetType,
                                                  const std::string &streamName)
     {
+        LOG(INFO) << "####### 0 FaceMeshCallFrameDelegate::outputPacket  packet  " << packet;
         if (_imp == nullptr)
         {
             return;
         }
         LOG(INFO) << "####### 1 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName;
-        _imp->currentDispatch()->runSync([&]
+        _imp->currentDispatch()->runSync([&, packet, packetType, streamName]
                                          {
             LOG(INFO) << "####### 2 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName;
 
@@ -84,7 +85,6 @@ namespace Opipe
                 LOG(INFO) << "###### 7 FaceMeshCallFrameDelegate after getbuffer kOutputVideo:" << streamName;
                 if (_imp->getOutputSource()) {
                     
-                    
                     LOG(INFO) << "###### 8 FaceMeshCallFrameDelegate _imp:" << _imp;
                     SourceCamera *cameraSource = _imp->getOutputSource();
                     LOG(INFO) << "###### 9 FaceMeshCallFrameDelegate cameraSource:" << cameraSource;
@@ -104,8 +104,9 @@ namespace Opipe
                     if (packetType != MPPPacketTypeGpuBuffer) {
                         return;
                     }
+                    LOG(INFO) << "######  FaceMeshCallFrameDelegate MPPPacketTypeGpuBuffer before get :" << packetType;
                     const auto& video = packet.Get<GpuBuffer>();
-                    LOG(INFO) << "######  FaceMeshCallFrameDelegate MPPPacketTypeGpuBuffer:" << packetType;
+                    LOG(INFO) << "######  FaceMeshCallFrameDelegate MPPPacketTypeGpuBuffer after get :" << packetType;
                     GlTextureView textureView = video.GetReadView<GlTextureView>(0);
                     int textureId = textureView.name();
                     LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;

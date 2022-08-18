@@ -22,6 +22,8 @@ namespace Opipe
         {
             return;
         }
+
+        LOG(ERROR) << "######  CallFrameDelegate packet: "<<packet << "  streamName: " << streamName << "  packetType: " << packetType;
         
         graph->_delegate.lock()->outputPacket(graph, packet, packetType, streamName);
         graph->_framesInFlight--;  
