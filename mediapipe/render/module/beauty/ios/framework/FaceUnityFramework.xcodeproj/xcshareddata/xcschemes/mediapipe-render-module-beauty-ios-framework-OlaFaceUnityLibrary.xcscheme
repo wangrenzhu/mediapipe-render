@@ -1,29 +1,29 @@
 
 <Scheme version="1.3" LastUpgradeVersion="1000">
-    <BuildAction buildImplicitDependencies="YES" parallelizeBuildables="YES">
+    <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES">
         <BuildActionEntries>
-            <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForAnalyzing="YES" buildForArchiving="YES">
-                <BuildableReference BlueprintIdentifier="5182B6B8B29E682A00000000" ReferencedContainer="container:FaceUnityFramework.xcodeproj" BuildableName="libmediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary.a" BuildableIdentifier="primary" BlueprintName="mediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary"></BuildableReference>
+            <BuildActionEntry buildForArchiving="YES" buildForTesting="YES" buildForRunning="YES" buildForAnalyzing="YES" buildForProfiling="YES">
+                <BuildableReference ReferencedContainer="container:FaceUnityFramework.xcodeproj" BuildableIdentifier="primary" BlueprintName="mediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary" BlueprintIdentifier="5182B6B8B29E682A00000000" BuildableName="libmediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary.a"></BuildableReference>
             </BuildActionEntry>
         </BuildActionEntries>
     </BuildAction>
-    <TestAction selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" customLLDBInitFile="$(PROJECT_FILE_PATH)/.tulsi/Utils/lldbinit" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" buildConfiguration="__TulsiTestRunner_Debug" shouldUseLaunchSchemeArgsEnv="YES">
+    <TestAction shouldUseLaunchSchemeArgsEnv="YES" buildConfiguration="__TulsiTestRunner_Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" customLLDBInitFile="$(PROJECT_FILE_PATH)/.tulsi/Utils/lldbinit" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB">
         <Testables></Testables>
         <BuildableProductRunnable runnableDebuggingMode="0">
-            <BuildableReference BuildableName="libmediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary.a" BuildableIdentifier="primary" BlueprintName="mediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary" ReferencedContainer="container:FaceUnityFramework.xcodeproj" BlueprintIdentifier="5182B6B8B29E682A00000000"></BuildableReference>
+            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="5182B6B8B29E682A00000000" BlueprintName="mediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary" ReferencedContainer="container:FaceUnityFramework.xcodeproj" BuildableName="libmediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary.a"></BuildableReference>
         </BuildableProductRunnable>
     </TestAction>
-    <LaunchAction selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" debugDocumentVersioning="YES" customLLDBInitFile="$(PROJECT_FILE_PATH)/.tulsi/Utils/lldbinit" buildConfiguration="Debug" allowLocationSimulation="YES" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugServiceExtension="internal" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB">
+    <LaunchAction allowLocationSimulation="YES" ignoresPersistentStateOnLaunch="NO" buildConfiguration="Debug" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" useCustomWorkingDirectory="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" launchStyle="0" customLLDBInitFile="$(PROJECT_FILE_PATH)/.tulsi/Utils/lldbinit" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB">
         <EnvironmentVariables></EnvironmentVariables>
         <MacroExpansion>
-            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="5182B6B8B29E682A00000000" ReferencedContainer="container:FaceUnityFramework.xcodeproj" BuildableName="libmediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary.a" BlueprintName="mediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary"></BuildableReference>
+            <BuildableReference BlueprintIdentifier="5182B6B8B29E682A00000000" ReferencedContainer="container:FaceUnityFramework.xcodeproj" BlueprintName="mediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary" BuildableIdentifier="primary" BuildableName="libmediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary.a"></BuildableReference>
         </MacroExpansion>
     </LaunchAction>
-    <ProfileAction debugDocumentVersioning="YES" shouldUseLaunchSchemeArgsEnv="YES" useCustomWorkingDirectory="NO" buildConfiguration="__TulsiTestRunner_Release">
+    <ProfileAction shouldUseLaunchSchemeArgsEnv="YES" buildConfiguration="__TulsiTestRunner_Release" useCustomWorkingDirectory="NO" debugDocumentVersioning="YES">
         <MacroExpansion>
             <BuildableReference BuildableIdentifier="primary" BlueprintName="mediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary" BuildableName="libmediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary.a" ReferencedContainer="container:FaceUnityFramework.xcodeproj" BlueprintIdentifier="5182B6B8B29E682A00000000"></BuildableReference>
         </MacroExpansion>
     </ProfileAction>
     <AnalyzeAction buildConfiguration="Debug"></AnalyzeAction>
-    <ArchiveAction buildConfiguration="Release" revealArchiveInOrganizer="YES"></ArchiveAction>
+    <ArchiveAction revealArchiveInOrganizer="YES" buildConfiguration="Release"></ArchiveAction>
 </Scheme>

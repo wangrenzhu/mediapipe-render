@@ -43,9 +43,13 @@ namespace Opipe
 
 //        gpu_resources_ = mediapipe::GpuResources::Create(context);
 #else
+        LOG(INFO) << "###### init gpu_resources_ before";
         absl::StatusOr<std::shared_ptr<GpuResources>> statusOrResources = mediapipe::GpuResources::Create(reinterpret_cast<EGLContext>(glContext));
         if (statusOrResources.ok()) {
+            LOG(INFO) << "###### init gpu_resources_ OK";
             gpu_resources_ = statusOrResources.value();
+        } else {
+            LOG(ERROR) << "###### init gpu_resources_ ERROR";
         }
 #endif
 
@@ -108,6 +112,8 @@ namespace Opipe
             status = performStart();
 
             _started = status.ok();
+        } else {
+            LOG(ERROR) << "###### start failed: " << status.message();
         }
         return status.ok();
     }
@@ -128,9 +134,9 @@ namespace Opipe
             }
         }
         status = _graph->StartRun(_inputSidePackets, _streamHeaders);
-//        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
         if (!status.ok())
         {
+            LOG(ERROR) << "###### performStart failed" << status.message();
             return status;
         }
         return status;
@@ -140,8 +146,15 @@ namespace Opipe
                               const std::string &streamName) 
     {
         absl::Status status = _graph->AddPacketToInputStream(streamName, packet);
-        return status.ok();
+        bool rs = status.ok();
+        if (!status.ok())
+        {
+            LOG(ERROR) << "###### sendPacket failed" << status.message() << " streamName:" << streamName;
+            return rs;
+        }
+        
 
+        return rs;
     }
 
 
@@ -161,9 +174,8 @@ namespace Opipe
         mediapipe::Packet packet = mediapipe::MakePacket<mediapipe::GpuBuffer>(std::move(buffer_or));
         packet = std::move(packet).At(Timestamp::CreateNoErrorChecking(timeStamp));
         absl::Status status = _graph->AddPacketToInputStream(streamName, std::move(packet));
-//        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
         if (!status.ok()) {
-            LOG(ERROR) << status << " sendError ######";
+            LOG(ERROR) << status << " ###### sendPacket failed " << status.message() << " streamName:" << streamName << " textureId:" << textureId;
         }
         return status.ok();
     }
@@ -171,7 +183,6 @@ namespace Opipe
     bool OlaGraph::movePacket(mediapipe::Packet &&packet, const std::string &streamName)
     {
         absl::Status status = _graph->AddPacketToInputStream(streamName, std::move(packet));
-//        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
         if (!status.ok()) {
             LOG(ERROR) << status;
         }
