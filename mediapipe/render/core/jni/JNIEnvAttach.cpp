@@ -23,6 +23,7 @@ JNIEnvAttach::JNIEnvAttach(JavaVM *javaVm) : mJavaVM(javaVm) {
         if (JNI_OK == attachResult) {
             mNewAttach = true;
             mHasAttach = true;
+            LOG(INFO) << "###### JNIEnvAttach JNI_OK";
         } else {
             LOG(ERROR) << "###### JNIEnvAttach Failed to attach, cancel attachResult:" << attachResult;
             // Failed to attach, cancel

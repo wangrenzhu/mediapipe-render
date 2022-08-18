@@ -22,9 +22,7 @@ namespace Opipe
         {
             return;
         }
-
-        LOG(ERROR) << "######  CallFrameDelegate packet: "<<packet << "  streamName: " << streamName << "  packetType: " << packetType;
-        
+        LOG(INFO) << "###### CallFrameDelegate streamName:" << streamName << " packetType:" << packetType;
         graph->_delegate.lock()->outputPacket(graph, packet, packetType, streamName);
         graph->_framesInFlight--;  
     }
@@ -96,7 +94,7 @@ namespace Opipe
         // No matter what ownership qualifiers are put on the pointer, NewPermanentCallback will
         // still end up with a strong pointer to MPPGraph*. That is why we use void* instead.
         void *wrapperVoid = this;
-
+        LOG(INFO) << "###### AddCallbackCalculator outputStreamName:" << outputStreamName << " packetType:" << packetType;
         //// 1111111111
         _inputSidePackets[callbackInputName] =
             mediapipe::MakePacket<std::function<void(const mediapipe::Packet &)>>([wrapperVoid, outputStreamName, packetType](const mediapipe::Packet &packet)
