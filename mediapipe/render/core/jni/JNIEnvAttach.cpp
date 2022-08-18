@@ -24,7 +24,7 @@ JNIEnvAttach::JNIEnvAttach(JavaVM *javaVm) : mJavaVM(javaVm) {
             mNewAttach = true;
             mHasAttach = true;
         } else {
-            LOG(INFO) << "###### JNIEnvAttach Failed to attach, cancel attachResult:" << attachResult;
+            LOG(ERROR) << "###### JNIEnvAttach Failed to attach, cancel attachResult:" << attachResult;
             // Failed to attach, cancel
         }
     } else if (JNI_OK == getEnvRes) {

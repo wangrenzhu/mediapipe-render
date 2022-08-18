@@ -104,6 +104,7 @@ namespace Opipe
                     if (packetType != MPPPacketTypeGpuBuffer) {
                         return;
                     }
+                    const auto& video = packet.Get<GpuBuffer>();
                     LOG(INFO) << "######  FaceMeshCallFrameDelegate MPPPacketTypeGpuBuffer:" << packetType;
                     GlTextureView textureView = video.GetReadView<GlTextureView>(0);
                     int textureId = textureView.name();
