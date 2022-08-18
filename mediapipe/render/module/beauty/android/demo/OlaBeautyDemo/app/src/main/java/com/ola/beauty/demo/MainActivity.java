@@ -45,11 +45,12 @@ public class MainActivity extends AppCompatActivity {
         }, 1000);
 
         mOlaWrapper.doAfterSurfaceReady(() -> {
-
-            mOlaWrapper.unWrap().doInit();
-//            beautyJNI.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
-//            beautyJNI.nativeInit(graph, data, EGL14.eglGetCurrentContext().getNativeHandle());
-//            beautyJNI.nativeStartModule(graph);
+            mOlaWrapper.unWrap().doInit().addListener(new Runnable() {
+                @Override
+                public void run() {
+                    mOlaWrapper.start(); //暂时自动开始
+                }
+            }, MainThreadExecutor.getInstance());
         });
     }
 
@@ -103,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         mActivityCameraSession.onWindowDestroy();
-//        mOlaWrapper.doAfterSurfaceReady(() -> {
-//            OlaBeauty.nativeStopModule(graph);
-//            OlaBeauty.nativeRelease(graph);
-//        });
+        mOlaWrapper.doAfterSurfaceReady(() -> {
+            mOlaWrapper.stop();
+            mOlaWrapper.unWrap().destroyInGLThread();
+        });
     }
 
     /**

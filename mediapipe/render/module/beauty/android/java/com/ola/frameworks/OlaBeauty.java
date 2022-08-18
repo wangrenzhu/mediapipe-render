@@ -48,6 +48,10 @@ public class OlaBeauty {
         mCacheDir = cacheDir;
     }
 
+    public void setData(byte[] data) {
+        graphData = data;
+    }
+
     public ListenableFuture<Boolean> doInit() {
         if (mDoInitFuture != null) {
             return mDoInitFuture;
@@ -75,6 +79,31 @@ public class OlaBeauty {
 
     }
 
+    public void startModule() {
+        if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
+            return;
+        }
+
+        mNativeHandler.nativeStartModule(mNativeHandler.getNative());
+    }
+
+    public void stopModule() {
+        if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
+            return;
+        }
+
+        mNativeHandler.nativeStopModule(mNativeHandler.getNative());
+    }
+
+    public void processVideoFrame(TextureInfo input) {
+        if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
+            return;
+        }
+        mNativeHandler.nativeProcessVideoFrame(mNativeHandler.getNative(), input.textureId, input.textureWidth, input.textureHeight, input.timestamp);
+    }
+
+    
+
     public TextureInfo render(TextureInfo input) {
         
         if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
@@ -100,8 +129,7 @@ public class OlaBeauty {
         if (result != 0) {
             mNativeHandler = beautyJNI;
             mNativeHandler.nativeInitAssertManager(mContext, mCacheDir);
-            mNativeHandler.nativeInit(beautyJNI.getNative(), graphData, eglContext.getNativeHandle());
-            mNativeHandler.nativeStartModule(beautyJNI.getNative());
+            mNativeHandler.nativeInit(mNativeHandler.getNative(), graphData, eglContext.getNativeHandle());
         }
 
         return false;
