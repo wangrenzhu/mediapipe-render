@@ -37,20 +37,33 @@ namespace Opipe
         {
             return;
         }
-        LOG(INFO) << "####### 1 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName;
-        _imp->currentDispatch()->runSync([&]
-                                         {
-            LOG(INFO) << "####### 2 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName;
+
+        LOG(INFO) << "####### 1 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;
+
+        if (streamName == kOutputVideo) {
+            const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
+            mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
+            ptr->WaitUntilComplete();
+            LOG(INFO) << "####### 2 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;
+            int textureId = ptr->name();
+            LOG(INFO) << "Out FaceMeshCallFrameDelegate textureId" << textureId;
+        }
+
+        
+        _imp->currentDispatch()->runSync([&, packetType, streamName, packet, graph] {
+            LOG(INFO) << "####### 2 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;;
 
             if (streamName == kLandmarksOutputStream) {
-                LOG(INFO)<<"####### 3 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName;
+                LOG(INFO)<<"####### 3 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;;
 
                 _last_landmark_ts = packet.Timestamp().Value();
+                LOG(INFO)<<"####### 3 FaceMeshCallFrameDelegate::outputPacket  _last_landmark_ts  " << _last_landmark_ts << " packetType:" << packetType;;
                 _hasFace = true;
                 const auto& multi_face_landmarks = packet.Get<std::vector<::mediapipe::NormalizedLandmarkList>>();
+                LOG(INFO)<<"####### 3 FaceMeshCallFrameDelegate::outputPacket  multi_face_landmarks  " << multi_face_landmarks.size();
                 _lastLandmark = multi_face_landmarks[0];
             }
-            LOG(INFO) << "###### 4 FaceMeshCallFrameDelegate landmarkts:" << _last_landmark_ts;
+            LOG(INFO) << "###### 4 FaceMeshCallFrameDelegate landmarkts:" << _last_landmark_ts << " packetType:" << packetType;;
             
             if (streamName == kOutputVideo && (packet.Timestamp().Value() - _last_landmark_ts) > 1000000) {
                 _hasFace = false;
@@ -63,11 +76,11 @@ namespace Opipe
             } else {
                 _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
             }
-            LOG(INFO) << "###### 5 FaceMeshCallFrameDelegate landmarkts:" << _last_landmark_ts;
+            LOG(INFO) << "###### 5 FaceMeshCallFrameDelegate landmarkts:" << _last_landmark_ts << " packetType:" << packetType;;
             
             if (streamName == kSegmentation) {
                 // 人脸分割的数据
-                 LOG(INFO) << "######  FaceMeshCallFrameDelegate kSegmentation:" << streamName;
+                 LOG(INFO) << "######  FaceMeshCallFrameDelegate kSegmentation:" << streamName << " packetType:" << packetType;;
                 const auto& image = packet.Get<Image>();
                 if (image.UsesGpu()) {
                     auto gpubuffer = image.GetGpuBuffer();
@@ -75,24 +88,24 @@ namespace Opipe
                 }
             }
 
-            LOG(INFO) << "###### 6 FaceMeshCallFrameDelegate  before getbuffer  need packetType:" << MPPPacketTypeGpuBuffer 
-            << " packetType:" << packetType;
+            
             if (streamName == kOutputVideo) {
-                
+                LOG(INFO) << "###### 6 FaceMeshCallFrameDelegate  before getbuffer  need packetType:" << MPPPacketTypeGpuBuffer 
+            << " packetType:" << packetType;    
                 // 这里是视频流 需要给 _outputSource
-                LOG(INFO) << "###### 6 FaceMeshCallFrameDelegate  before getbuffer  packetType:" << packetType;
                 LOG(INFO) << "###### 7 FaceMeshCallFrameDelegate after getbuffer kOutputVideo:" << streamName;
                 if (_imp->getOutputSource()) {
                     
                     
-                    LOG(INFO) << "###### 8 FaceMeshCallFrameDelegate _imp:" << _imp;
+                    LOG(INFO) << "###### 8 FaceMeshCallFrameDelegate _imp:" << _imp << " debugTypeName:" << packet.DebugTypeName();
                     SourceCamera *cameraSource = _imp->getOutputSource();
-                    LOG(INFO) << "###### 9 FaceMeshCallFrameDelegate cameraSource:" << cameraSource;
+                    LOG(INFO) << "###### 9 FaceMeshCallFrameDelegate cameraSource:" << cameraSource << " pacekt is empty:" << packet.IsEmpty();
+                    
 #if defined(__APPLE__)
                     if (packetType != MPPPacketTypePixelBuffer) {
                         return;
                     }
-                    const auto& video = packet.Get<GpuBuffer>();
+                    const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
                     CVPixelBufferRef pixelbuffer = mediapipe::GetCVPixelBufferRef(video);
                     IOSurfaceRef ioSurface = CVPixelBufferGetIOSurface(pixelbuffer);
                     IOSurfaceLock(ioSurface, kIOSurfaceLockReadOnly, 0);
@@ -104,17 +117,24 @@ namespace Opipe
                     if (packetType != MPPPacketTypeGpuBuffer) {
                         return;
                     }
-                    const auto& video = packet.Get<GpuBuffer>();
+                    LOG(INFO) << "######  FaceMeshCallFrameDelegate before MPPPacketTypeGpuBuffer:" << packet;
+                    const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
+                    mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
+                    ptr->WaitUntilComplete();
                     LOG(INFO) << "######  FaceMeshCallFrameDelegate MPPPacketTypeGpuBuffer:" << packetType;
-                    GlTextureView textureView = video.GetReadView<GlTextureView>(0);
-                    int textureId = textureView.name();
+                    int textureId = ptr->name();
                     LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;
-                    cameraSource->setRenderTexture(textureId, textureView.width(), textureView.height());
+                    cameraSource->setRenderTexture(textureId, video.width(), video.height());
                     cameraSource->updateTargets(packet.Timestamp().Value());
                     LOG(INFO) << "###### FaceMeshCallFrameDelegate::updateTargets:" << cameraSource;
 #endif
                 }
-            } });
+            } 
+// #if defined(__APPLE__)
+        });
+// #else
+//         }, Context::IOContext);
+// #endif
     }
 
     FaceMeshModuleIMP::FaceMeshModuleIMP()
@@ -239,8 +259,8 @@ namespace Opipe
 #else
                     _inputSource = new OlaCameraSource(_context, Opipe::SourceCamera::SourceType_RGBA);
 #endif
-                    LOG(INFO) << "###### after init _inputSource" << _inputSource; },
-                               Context::IOContext);
+                    LOG(INFO) << "###### after init _inputSource" << _inputSource; 
+            }, Context::IOContext);
         }
 
         return true;

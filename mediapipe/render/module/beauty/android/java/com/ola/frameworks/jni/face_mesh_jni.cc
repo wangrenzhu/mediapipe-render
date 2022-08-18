@@ -187,10 +187,16 @@ namespace OpipeJNI {
 
 
      JNIEXPORT void JNICALL OLA_METHOD(nativeDoTask) (JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> streamPtr, 
-                                                      DispatchTaskPtr ptr) {
+                                                      DispatchTaskPtr ptr) 
+    {
+        LOG(INFO) << "nativeDoTask:" << ptr.p;
+                                                        
         if (ptr.p) {
+            LOG(INFO) << "nativeDoTask have ptr:" << ptr.p;
             if (ptr.p->func) {
+                LOG(INFO) << "nativeDoTask have func";
                 ptr.p->func();
+                LOG(INFO) << "nativeDoTask done func";
             }
             delete ptr.p;
         }
@@ -202,11 +208,13 @@ JNIEXPORT jint
 JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
     gVm = vm;
     JNIEnv *env = nullptr;
-    LOG(INFO) << "###### JNI_OnLoad JNIEnv:" << env;
+    LOG(INFO) << "###### JNI_OnLoad JNIEnv:" << vm;
     if (vm->AttachCurrentThread(&env, nullptr) == JNI_OK) {
+        LOG(INFO) << "###### JNI_OnLoad JNI_OK:" << vm;
 
         return JNI_VERSION_1_6;
     }
+    LOG(INFO) << "###### JNI_OnLoad JNI_ERR:" << vm;
 
     return JNI_ERR;
 }
