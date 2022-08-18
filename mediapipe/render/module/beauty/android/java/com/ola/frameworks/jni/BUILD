@@ -60,6 +60,7 @@ cc_library(
     deps = [
         "//mediapipe/render/core/jni:opipe_android_framework_jni",
         "//mediapipe/render/module/beauty:FaceMeshGPULibrary",
+        "//mediapipe/framework/port:logging",
     ],
     alwayslink = 1,
 )

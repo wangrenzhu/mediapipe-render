@@ -103,7 +103,6 @@ public class OlaBeauty {
     
 
     public TextureInfo render(TextureInfo input) {
-        
         if (mNativeHandler == null || mNativeHandler.getNative() == 0) {
             return input;
         }
@@ -118,7 +117,7 @@ public class OlaBeauty {
 
     private synchronized boolean initInner() {
         EGLContext eglContext = EGL14.eglGetCurrentContext();
-
+        
         if (mNativeHandler != null) {
             return true;
         }

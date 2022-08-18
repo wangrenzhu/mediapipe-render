@@ -15,21 +15,23 @@ GLThreadDispatch::GLThreadDispatch(std::thread::id glThreadId, DispatchAsyncFunc
 }
 
 void GLThreadDispatch::runSync(void *host, std::function<void(void)> func) {
-     LOG(ERROR) << "######  std::this_thread::get_id()  " << std::this_thread::get_id();
-     LOG(ERROR) << "######  _glThreadId  " << _glThreadId;
+     LOG(INFO) << "######  std::this_thread::get_id()  " << std::this_thread::get_id();
+     LOG(INFO) << "######  _glThreadId  " << _glThreadId;
     
     if (std::this_thread::get_id() == _glThreadId) {
         func();
     } else {
-        LOG(ERROR) << "not support run sync in gl thread now";
-        assert("not support run sync in gl thread now");
+        if (_dispatchAsync) {
+            LOG(INFO) << "###### _dispatchAsync host:" << host;
+            _dispatchAsync(host, func);
+        }
     }
 }
 
 void GLThreadDispatch::runAsync(void *host, std::function<void(void)> func) {
-    LOG(ERROR)<<"---------------xxxxxxx";
+    LOG(INFO) << "---------------xxxxxxx";
     if (_dispatchAsync) {
-        LOG(ERROR) << "---------------xxxxxxx22222";
+        LOG(INFO) << "---------------xxxxxxx22222";
         _dispatchAsync(host, func);
     }
 }
