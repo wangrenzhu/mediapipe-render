@@ -130,6 +130,7 @@ namespace Opipe
 #endif
                 }
             }
+    });
     }
 
     FaceMeshModuleIMP::FaceMeshModuleIMP()
