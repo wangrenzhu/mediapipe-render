@@ -40,16 +40,6 @@ namespace Opipe
 
         LOG(INFO) << "####### 1 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;
 
-        if (streamName == kOutputVideo) {
-            const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
-            mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
-            ptr->WaitUntilComplete();
-            LOG(INFO) << "####### 2 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;
-            int textureId = ptr->name();
-            LOG(INFO) << "Out FaceMeshCallFrameDelegate textureId" << textureId;
-        }
-
-
         _imp->currentDispatch()->runSync([&, packetType, streamName, packet, graph] {
             LOG(INFO) << "####### 2 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;;
 
@@ -88,10 +78,10 @@ namespace Opipe
                 }
             }
 
-
+            
             if (streamName == kOutputVideo) {
-                LOG(INFO) << "###### 6 FaceMeshCallFrameDelegate  before getbuffer  need packetType:" << MPPPacketTypeGpuBuffer
-            << " packetType:" << packetType;
+                LOG(INFO) << "###### 6 FaceMeshCallFrameDelegate  before getbuffer  need packetType:" << MPPPacketTypeGpuBuffer 
+            << " packetType:" << packetType;    
                 // 这里是视频流 需要给 _outputSource
                 LOG(INFO) << "###### 7 FaceMeshCallFrameDelegate after getbuffer kOutputVideo:" << streamName;
                 if (_imp->getOutputSource()) {
@@ -100,7 +90,7 @@ namespace Opipe
                     LOG(INFO) << "###### 8 FaceMeshCallFrameDelegate _imp:" << _imp << " debugTypeName:" << packet.DebugTypeName();
                     SourceCamera *cameraSource = _imp->getOutputSource();
                     LOG(INFO) << "###### 9 FaceMeshCallFrameDelegate cameraSource:" << cameraSource << " pacekt is empty:" << packet.IsEmpty();
-
+                    
 #if defined(__APPLE__)
                     if (packetType != MPPPacketTypePixelBuffer) {
                         return;
@@ -255,7 +245,7 @@ namespace Opipe
 #else
                     _inputSource = new OlaCameraSource(_context, Opipe::SourceCamera::SourceType_RGBA);
 #endif
-                    LOG(INFO) << "###### after init _inputSource" << _inputSource;
+                    LOG(INFO) << "###### after init _inputSource" << _inputSource; 
             }, Context::IOContext);
         }
 

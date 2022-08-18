@@ -119,17 +119,17 @@ namespace Opipe {
             _faceDistortFilter->setFacePoints(facePoints);
         });
 
-        registerProperty("eye", 0.0f, "大眼 0.0 - 1.0",
+        registerProperty("eye", 1.0f, "大眼 0.0 - 1.0",
                          [this](float eye) {
             _faceDistortFilter->setEye(eye);
         });
 
-        registerProperty("slim", 0.0f, "瘦脸 0.0 - 1.0",
+        registerProperty("slim", 1.0f, "瘦脸 0.0 - 1.0",
                          [this](float slim) {
             _faceDistortFilter->setSlim(slim);
         });
         
-        registerProperty("nose", 0.0f, "瘦鼻 0.0 - 1.0",
+        registerProperty("nose", 1.0f, "瘦鼻 0.0 - 1.0",
                          [this](float nose) {
             _faceDistortFilter->setNose(nose);
         });
