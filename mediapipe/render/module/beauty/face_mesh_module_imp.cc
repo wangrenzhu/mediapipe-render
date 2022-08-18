@@ -75,18 +75,24 @@ namespace Opipe
                 }
             }
 
-
+            LOG(INFO) << "###### 6 FaceMeshCallFrameDelegate  before getbuffer  need packetType:" << MPPPacketTypeGpuBuffer 
+            << " packetType:" << packetType;
             if (streamName == kOutputVideo) {
+                
                 // 这里是视频流 需要给 _outputSource
                 LOG(INFO) << "###### 6 FaceMeshCallFrameDelegate  before getbuffer  packetType:" << packetType;
-                const auto& video = packet.Get<GpuBuffer>();
                 LOG(INFO) << "###### 7 FaceMeshCallFrameDelegate after getbuffer kOutputVideo:" << streamName;
                 if (_imp->getOutputSource()) {
+                    
+                    
                     LOG(INFO) << "###### 8 FaceMeshCallFrameDelegate _imp:" << _imp;
                     SourceCamera *cameraSource = _imp->getOutputSource();
                     LOG(INFO) << "###### 9 FaceMeshCallFrameDelegate cameraSource:" << cameraSource;
 #if defined(__APPLE__)
-
+                    if (packetType != MPPPacketTypePixelBuffer) {
+                        return;
+                    }
+                    const auto& video = packet.Get<GpuBuffer>();
                     CVPixelBufferRef pixelbuffer = mediapipe::GetCVPixelBufferRef(video);
                     IOSurfaceRef ioSurface = CVPixelBufferGetIOSurface(pixelbuffer);
                     IOSurfaceLock(ioSurface, kIOSurfaceLockReadOnly, 0);
@@ -95,16 +101,16 @@ namespace Opipe
                     cameraSource->updateTargets(packet.Timestamp().Value());
                     IOSurfaceUnlock(ioSurface, kIOSurfaceLockReadOnly, 0);
 #else
-                    if (packetType == MPPPacketTypeGpuBuffer) {
-                        LOG(INFO) << "######  FaceMeshCallFrameDelegate MPPPacketTypeGpuBuffer:" << packetType;
-                        GlTextureView textureView = video.GetReadView<GlTextureView>(0);
-                        int textureId = textureView.name();
-                        LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;
-                        SourceCamera *cameraSource = _imp->getOutputSource();
-                        cameraSource->setRenderTexture(textureId, textureView.width(), textureView.height());
-                        cameraSource->updateTargets(packet.Timestamp().Value());
-                        LOG(INFO) << "###### FaceMeshCallFrameDelegate::updateTargets:" << cameraSource;
+                    if (packetType != MPPPacketTypeGpuBuffer) {
+                        return;
                     }
+                    LOG(INFO) << "######  FaceMeshCallFrameDelegate MPPPacketTypeGpuBuffer:" << packetType;
+                    GlTextureView textureView = video.GetReadView<GlTextureView>(0);
+                    int textureId = textureView.name();
+                    LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;
+                    cameraSource->setRenderTexture(textureId, textureView.width(), textureView.height());
+                    cameraSource->updateTargets(packet.Timestamp().Value());
+                    LOG(INFO) << "###### FaceMeshCallFrameDelegate::updateTargets:" << cameraSource;
 #endif
                 }
             } });
@@ -200,18 +206,20 @@ namespace Opipe
         _graph->addFrameOutputStream(kLandmarksOutputStream, MPPPacketTypeRaw);
 #if defined(__APPLE__)
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypePixelBuffer);
-#endif
+#else
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypeGpuBuffer);
+#endif
 
         _graph->addFrameOutputStream(kSegmentation, MPPPacketTypeImage);
         _isInit = true;
         if (_render == nullptr)
         {
             LOG(INFO) << "###### before init _render" << _render;
-            // _dispatch->runSync([&] {
-
-            // });
+#if defined(__APPLE__)
+            _dispatch->runSync([&] {
+#else
             _context->useAsCurrent();
+#endif
             if (_render == nullptr)
             {
                 _render = new FaceMeshBeautyRender(_context, _omat.width, _omat.height, _omat.data);
@@ -220,6 +228,9 @@ namespace Opipe
                 LOG(INFO) << "###### after init _render" << _render;
             }
             LOG(INFO) << "###### before init _inputSource" << _inputSource;
+#if defined(__APPLE__)
+            });
+#endif
             _dispatch->runSync([&]
                                {
 #if defined(__APPLE__)
@@ -326,10 +337,10 @@ namespace Opipe
         _dispatch->runSync([&]
                            {
             CVPixelBufferLockBaseAddress(pixelbuffer, 0);
-
+            
             int width = (int)CVPixelBufferGetWidth(pixelbuffer);
             int height = (int)CVPixelBufferGetHeight(pixelbuffer);
-
+            
             _inputSource->setFrameData(width,
                                        height,
                                        CVPixelBufferGetBaseAddressOfPlane(pixelbuffer, 0),
@@ -349,8 +360,9 @@ namespace Opipe
                                         MPPPacketTypePixelBuffer,
                                         ts);
                 CVPixelBufferUnlockBaseAddress(framebuffer->renderTarget, 0);
-            } },
-                           Context::IOContext);
+            }
+            
+        },Context::IOContext);
     }
 
     void FaceMeshModuleIMP::setSegmentationBackground(UIImage *image)
@@ -380,6 +392,8 @@ namespace Opipe
                                               int height,
                                               int64_t timeStamp)
     {
+        LOG(INFO) << "###### before processVideoFrame pixel" << width << 
+        " height:" << height << " timeStamp" << timeStamp;
         if (!_isInit)
         {
             return;
