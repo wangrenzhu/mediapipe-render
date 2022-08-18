@@ -3,10 +3,18 @@ import android.opengl.EGL14;
 import android.opengl.EGLContext;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.RejectedExecutionException;
 import androidx.concurrent.futures.CallbackToFutureAdapter;
+
+import android.graphics.Bitmap;
+
+import com.google.common.io.ByteStreams;
+import android.content.res.AssetManager;
+import java.io.IOException;
+import java.io.InputStream;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import android.content.Context;
@@ -26,7 +34,10 @@ public class OlaBeauty {
 
     private String mCacheDir;
 
-    private byte[] mGaphData;
+    private String mGaphPath;
+    private String mLutPath;
+
+    private Bitmap mBitmap;
 
      /**
      * TODO
@@ -45,8 +56,8 @@ public class OlaBeauty {
         mCacheDir = cacheDir;
     }
 
-    public void setData(byte[] data) {
-        mGaphData = data;
+    public void setData(String path) {
+        mGaphPath = path;
     }
 
     public ListenableFuture<Boolean> doInit() {
@@ -63,10 +74,18 @@ public class OlaBeauty {
         return mDoInitFuture;
     }
 
-    public OlaBeauty(Context context, byte[] graphData) {
+    public OlaBeauty(Context context, String graphPath, Bitmap bitmap) {
         this.mContext = context;
         this.mCacheDir = context.getCacheDir().getAbsolutePath();
-        this.mGaphData = graphData;
+        this.mGaphPath = graphPath;
+        this.mBitmap = bitmap;
+    }
+
+    public OlaBeauty(Context context, String graphPath, String lutPath) {
+        this.mContext = context;
+        this.mCacheDir = context.getCacheDir().getAbsolutePath();
+        this.mGaphPath = graphPath;
+        this.mLutPath = lutPath;
     }
 
     public void onSurfaceCreated() {
@@ -100,6 +119,17 @@ public class OlaBeauty {
         mNativeHandler.nativeProcessVideoFrame(mNativeHandler.getNative(), input.textureId, input.textureWidth, input.textureHeight, input.timestamp);
     }
 
+    public byte[] getAssetBytes( String assetName) {
+        byte[] assetData;
+        try {
+            InputStream stream = mContext.getAssets().open(assetName);
+            assetData = ByteStreams.toByteArray(stream);
+            stream.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return assetData;
+    }
     
 
     public TextureInfo render(TextureInfo input) {
@@ -126,7 +156,11 @@ public class OlaBeauty {
         if (result != 0) {
             mNativeHandler = beautyJNI;
             mNativeHandler.nativeInitAssertManager(mContext, mCacheDir);
-            mNativeHandler.nativeInit(mNativeHandler.getNative(), mGaphData, eglContext.getNativeHandle());
+            if(mBitmap !=null)
+                mNativeHandler.nativeInitLut(mNativeHandler.getNative(), mBitmap);
+            else if(mLutPath !=null)
+                mNativeHandler.nativeInitLut2(mNativeHandler.getNative(), getAssetBytes(mLutPath));
+            mNativeHandler.nativeInit(mNativeHandler.getNative(), getAssetBytes(mGaphPath), eglContext.getNativeHandle());
         }
 
         return false;

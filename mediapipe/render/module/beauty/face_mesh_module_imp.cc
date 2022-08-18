@@ -5,6 +5,7 @@
 #include "mediapipe/gpu/gl_texture_buffer.h"
 #include "mediapipe/gpu/gl_base.h"
 #include "mediapipe/gpu/gpu_shared_data_internal.h"
+#include "stb_image.h"
 
 #if defined(__APPLE__)
 #include "mediapipe/render/core/CVFramebuffer.hpp"
@@ -182,10 +183,23 @@ namespace Opipe
         }
     }
 
-    void FaceMeshModuleIMP::initLut(int width, int height, void *lutData, int size)
+    void FaceMeshModuleIMP::initLut(OMat &mat)
     {
-        _omat = OMat(width, height, (char *)lutData);
+        _omat = std::move(mat);
     }
+
+     void FaceMeshModuleIMP::initLut2(unsigned char *pixelBuffer,int size){
+        int width, height, channels_in_file;
+        auto data = stbi_load_from_memory(reinterpret_cast<stbi_uc*>(pixelBuffer),
+                                    size, &width, &height,
+                                    &channels_in_file, 4);
+        if (!data) {
+            LOG(ERROR) << "stbi_load_from_memory failed";
+            return;
+        }
+        LOG(INFO) << "stbi_load_from_memory success";
+        _omat = Opipe::OMat(width, height,std::move(reinterpret_cast<char*>(data)));
+     }
 
     bool FaceMeshModuleIMP::init(GLThreadDispatch *glDispatch, long glcontext, void *binaryData, int size)
     {

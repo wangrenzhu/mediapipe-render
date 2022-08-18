@@ -43,7 +43,10 @@ namespace OpipeJNI {
                                                        jbyteArray data, jlong glContext);
 
         JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
-                                                         jint width, jint height, jbyteArray lutData);
+                                                         jobject whiten_bitmap);
+
+        JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut2) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
+                                                         jbyteArray data);
 
 
         JNIEXPORT void JNICALL OLA_METHOD(nativeStartModule) (JNIEnv* env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance);

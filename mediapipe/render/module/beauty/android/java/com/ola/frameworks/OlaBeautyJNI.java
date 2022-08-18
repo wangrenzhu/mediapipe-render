@@ -4,6 +4,7 @@ import android.content.Context;
 
 import android.opengl.EGL14;
 import android.opengl.EGLContext;
+import android.graphics.Bitmap;
 
 import com.ola.frameworks.TextureInfo;
 
@@ -96,7 +97,9 @@ public class OlaBeautyJNI {
 
     public native long nativeCreate();
 
-    public native long nativeInitLut(long context, int width, int height, byte[] lutData);
+    public native long nativeInitLut(long context, Bitmap bitmap);
+
+    public native long nativeInitLut2(long context, byte[] data);
 
     public native void nativeRelease(long context);
 

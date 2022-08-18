@@ -1,6 +1,9 @@
 package com.ola.beauty.demo;
 
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,6 +14,7 @@ import com.ola.frameworks.TextureInfo;
 import com.ola.olamera.render.entry.RenderFlowData;
 import com.ola.olamera.render.expansion.RenderExpansion;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -23,13 +27,29 @@ public class OlaWrapper extends RenderExpansion {
     private final OlaBeauty mBeauty;
     private Executor mGLExecutor;
 
-
     private final List<Runnable> mDoAfterSurfaceReady = new ArrayList<>();
     private boolean mIsSurfaceReady;
 
 
-    public OlaWrapper(Context context, byte[] graphData) {
-        this.mBeauty = new OlaBeauty(context, graphData);
+    public OlaWrapper(Context context, String graphPath, Bitmap bitmap) {
+        this.mBeauty = new OlaBeauty(context, graphPath, bitmap);
+    }
+
+    public OlaWrapper(Context context, String graphPath, String bitmap) {
+        this.mBeauty = new OlaBeauty(context, graphPath, bitmap);
+    }
+
+
+    private Bitmap getBitmap(AssetManager assets, String assetName) {
+        Bitmap img = null;
+        try {
+            InputStream inputStream = assets.open(assetName);
+            img = BitmapFactory.decodeStream(inputStream);
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return img;
     }
 
 
