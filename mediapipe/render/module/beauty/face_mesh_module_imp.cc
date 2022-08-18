@@ -78,7 +78,7 @@ namespace Opipe
 
             if (streamName == kOutputVideo) {
                 // 这里是视频流 需要给 _outputSource
-                LOG(INFO) << "###### 6 FaceMeshCallFrameDelegate  before getbuffer  kOutputVideo:" << streamName;
+                LOG(INFO) << "###### 6 FaceMeshCallFrameDelegate  before getbuffer  packetType:" << packetType;
                 const auto& video = packet.Get<GpuBuffer>();
                 LOG(INFO) << "###### 7 FaceMeshCallFrameDelegate after getbuffer kOutputVideo:" << streamName;
                 if (_imp->getOutputSource()) {
