@@ -16,6 +16,15 @@ namespace OpipeJNI {
 
     #define OLA_METHOD(METHOD_NAME) \
       Java_com_ola_frameworks_OlaBeautyJNI_##METHOD_NAME
+        
+        struct DispatchTask {
+                std::function<void(void)> func = nullptr;
+            };
+
+        typedef union {
+            DispatchTask *p;
+            jlong v = 0;
+        } DispatchTaskPtr;
 
     // Creates a native opipe context.
         JNIEXPORT jlong JNICALL OLA_METHOD(nativeCreate) (JNIEnv *env, jobject thiz);
@@ -26,6 +35,8 @@ namespace OpipeJNI {
         // Releases a native opipe context.
         JNIEXPORT void JNICALL OLA_METHOD(nativeRelease) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance);
 
+        JNIEXPORT void JNICALL OLA_METHOD(nativeDoTask) (JNIEnv *env, jobject javaObject, 
+                                                         NativeId<Opipe::FaceMeshModule> streamPtr, DispatchTaskPtr ptr);
         //init native opipe
         JNIEXPORT void JNICALL OLA_METHOD(nativeInit) (JNIEnv *env, jobject thiz, 
                                                        NativeId<Opipe::FaceMeshModule> instance,
@@ -48,6 +59,8 @@ namespace OpipeJNI {
         JNIEXPORT void JNICALL OLA_METHOD(nativeProcessVideoFrameBytes) (JNIEnv* env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
                                                                         jbyteArray data, jint width, jint height, jlong frameTime);
 
+
+        JNIEXPORT jint JNIOnLoad(JavaVM *vm, JNIEnv *env);
 
 #ifdef __cplusplus
     }  // extern "C"

@@ -133,6 +133,7 @@ namespace Opipe
             outputTexture.textureId = inputTexture.textureId;
             outputTexture.ioSurfaceId = inputTexture.ioSurfaceId;
         }
+        LOG(INFO) << "###### FaceMeshModuleIMP _outputFilter outputbuffer" << outputTexture.textureId << " width:" << outputTexture.width;
         return outputTexture;
     }
 

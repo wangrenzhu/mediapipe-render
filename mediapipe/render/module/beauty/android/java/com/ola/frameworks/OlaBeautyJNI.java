@@ -22,6 +22,8 @@ public class OlaBeautyJNI {
     public OlaBeautyJNI() {
     }
 
+
+
     public synchronized int init(EGLContext context, Executor glExecutor) {
         if (context == null) {
             return 0;

@@ -75,9 +75,14 @@ public class OlaWrapper extends RenderExpansion {
     RenderFlowData render(@NonNull RenderFlowData input, long timestamp) {
 
         TextureInfo inputTextureInfo = convert(input, timestamp);
-        Log.e("####", "###### inputTextureInfo = " + inputTextureInfo.textureId);
+
+        Log.i("####", "###### before RenderFlowData = " + inputTextureInfo.textureId);
         mBeauty.processVideoFrame(inputTextureInfo);
+        Log.i("####", "###### after RenderFlowData = " + inputTextureInfo.textureId);
+
+        Log.i("####", "###### before outputTextureInfo = " + inputTextureInfo.textureId);
         TextureInfo outputTextureInfo = mBeauty.render(inputTextureInfo);
+        Log.i("####", "###### after outputTextureInfo = " + inputTextureInfo.textureId);
 
         RenderFlowData result = convert(outputTextureInfo);
 
@@ -126,14 +131,6 @@ public class OlaWrapper extends RenderExpansion {
 
     public void stop() {
         mBeauty.stopModule();
-    }
-
-    public void processVideoFrame(TextureInfo input) {
-        mBeauty.processVideoFrame(input);
-    }
-
-    public TextureInfo render(TextureInfo input) {
-        return mBeauty.render(input);
     }
 
     public OlaBeauty unWrap() {

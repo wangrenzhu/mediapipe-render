@@ -163,7 +163,7 @@ namespace Opipe
         absl::Status status = _graph->AddPacketToInputStream(streamName, std::move(packet));
 //        NSLog(@"errors:%@", [NSString stringWithUTF8String:status.ToString().c_str()]);
         if (!status.ok()) {
-            LOG(ERROR) << status;
+            LOG(ERROR) << status << " sendError ######";
         }
         return status.ok();
     }
