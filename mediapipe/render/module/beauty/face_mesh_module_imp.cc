@@ -39,16 +39,6 @@ namespace Opipe
         }
 
         LOG(INFO) << "####### 1 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;
-
-        if (streamName == kOutputVideo) {
-            const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
-            mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
-            ptr->WaitUntilComplete();
-            LOG(INFO) << "####### 2 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;
-            int textureId = ptr->name();
-            LOG(INFO) << "Out FaceMeshCallFrameDelegate textureId" << textureId;
-        }
-
         
         _imp->currentDispatch()->runSync([&, packetType, streamName, packet, graph] {
             LOG(INFO) << "####### 2 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;;
