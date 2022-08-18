@@ -34,12 +34,9 @@ namespace OpipeJNI {
         jlong v = 0;
     } DispatchTaskPtr;
 
-
     static JavaObjectMap<Opipe::FaceMeshModule> gJavaObjectMap;
 
-
     static JavaVM *gVm;
-
 
     void dispatch_async_onjava(void *id, std::function<void(void)> func) {
         if (id == nullptr) {

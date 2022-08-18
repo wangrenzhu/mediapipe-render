@@ -368,12 +368,14 @@ namespace Opipe
 
     TextureInfo FaceMeshModuleIMP::renderTexture(TextureInfo inputTexture)
     {
+        LOG(INFO) << "###### FaceMeshModuleIMP renderTexture begin111";
         TextureInfo textureInfo;
         
         if (!_isInit)
         {
             return textureInfo;
         }
+        LOG(INFO) << "###### FaceMeshModuleIMP renderTexture begin2222";
         textureInfo = _render->outputRenderTexture(inputTexture);
         LOG(INFO) << "###### FaceMeshModuleIMP renderTexture:" << textureInfo.textureId;
         return textureInfo;

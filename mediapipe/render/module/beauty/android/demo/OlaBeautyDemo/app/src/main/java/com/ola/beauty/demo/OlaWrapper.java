@@ -9,8 +9,6 @@ import com.ola.frameworks.OlaBeauty;
 import com.ola.frameworks.TextureInfo;
 import com.ola.olamera.render.entry.RenderFlowData;
 import com.ola.olamera.render.expansion.RenderExpansion;
-import com.ola.frameworks.OlaBeautyJNI;
-import com.ola.frameworks.TextureInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,45 +20,32 @@ import javax.microedition.khronos.opengles.GL10;
 public class OlaWrapper extends RenderExpansion {
 
     private Executor mGLExecutor;
-    private long graph;
     private OlaBeauty mOlaBeauty;
-
-
-    public OlaWrapper(long graph, Context context, byte[] graphData) {
-        this.graph = graph;
-        this.mOlaBeauty = new OlaBeauty(context, graphData);
     private final List<Runnable> mDoAfterSurfaceReady = new ArrayList<>();
     private boolean mIsSurfaceReady;
 
-    public OlaWrapper(Context context, String cacheDir, byte[] data) {
-        mBeauty = new OlaBeauty();
-        mBeauty.setCacheDir(cacheDir);
-        mBeauty.setContext(context);
-        mBeauty.setData(data);
+
+    public OlaWrapper(Context context, byte[] graphData) {
+        this.mOlaBeauty = new OlaBeauty(context, graphData);
     }
 
     public void setGLExecutor(Executor GLExecutor) {
-
         mGLExecutor = GLExecutor;
-        mBeauty.setExecutor(GLExecutor);
+        mOlaBeauty.setExecutor(GLExecutor);
     }
 
     public Executor getGLExecutor() {
         return mGLExecutor;
     }
 
-    private final List<Runnable> mDoAfterSurfaceReady = new ArrayList<>();
-    private boolean mIsSurfaceReady;
-
-
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        mBeauty.onSurfaceCreated();
+        mOlaBeauty.onSurfaceCreated();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        mBeauty.onSurfaceChanged(width, height);
+        mOlaBeauty.onSurfaceChanged(width, height);
         mIsSurfaceReady = true;
         for (Runnable runnable : mDoAfterSurfaceReady) {
             runnable.run();
@@ -83,8 +68,8 @@ public class OlaWrapper extends RenderExpansion {
 
         TextureInfo inputTextureInfo = convert(input, timestamp);
         Log.e("####", "###### inputTextureInfo = " + inputTextureInfo.textureId);
-        mBeauty.processVideoFrame(inputTextureInfo);
-        TextureInfo outputTextureInfo = mBeauty.render(inputTextureInfo);
+        mOlaBeauty.processVideoFrame(inputTextureInfo);
+        TextureInfo outputTextureInfo = mOlaBeauty.render(inputTextureInfo);
 
         RenderFlowData result = convert(outputTextureInfo);
 
@@ -122,25 +107,25 @@ public class OlaWrapper extends RenderExpansion {
 
     @Override
     public void onSurfaceDestroy() {
-        mBeauty.destroyInGLThread();
+        mOlaBeauty.destroyInGLThread();
         mDoAfterSurfaceReady.clear();
     }
 
 
     public void start() {
-        mBeauty.startModule();
+        mOlaBeauty.startModule();
     }
 
     public void stop() {
-        mBeauty.stopModule();
+        mOlaBeauty.stopModule();
     }
 
     public void processVideoFrame(TextureInfo input) {
-        mBeauty.processVideoFrame(input);
+        mOlaBeauty.processVideoFrame(input);
     }
 
     public TextureInfo render(TextureInfo input) {
-        return mBeauty.render(input);
+        return mOlaBeauty.render(input);
     }
 
     public OlaBeauty unWrap() {

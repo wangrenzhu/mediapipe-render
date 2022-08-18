@@ -13,9 +13,7 @@ import android.content.Context;
 
 public class OlaBeauty {
     private Executor mExecutor;
-
     private ListenableFuture<Boolean> mDoInitFuture;
-
     private OlaBeautyJNI mNativeHandler;
 
         /**
@@ -24,12 +22,11 @@ public class OlaBeauty {
     private final Object mRenderTaskLock = new Object();
 
     private long mGLThreadId = -1;
-
     private Context mContext;
 
     private String mCacheDir;
 
-    private byte[] graphData;
+    private byte[] mGaphData;
 
      /**
      * TODO
@@ -49,7 +46,7 @@ public class OlaBeauty {
     }
 
     public void setData(byte[] data) {
-        graphData = data;
+        mGaphData = data;
     }
 
     public ListenableFuture<Boolean> doInit() {
@@ -68,7 +65,8 @@ public class OlaBeauty {
 
     public OlaBeauty(Context context, byte[] graphData) {
         this.mContext = context;
-        this.graphData = graphData;
+        this.mCacheDir = context.getCacheDir().getAbsolutePath();
+        this.mGaphData = graphData;
     }
 
     public void onSurfaceCreated() {
@@ -129,7 +127,7 @@ public class OlaBeauty {
         if (result != 0) {
             mNativeHandler = beautyJNI;
             mNativeHandler.nativeInitAssertManager(mContext, mCacheDir);
-            mNativeHandler.nativeInit(mNativeHandler.getNative(), graphData, eglContext.getNativeHandle());
+            mNativeHandler.nativeInit(mNativeHandler.getNative(), mGaphData, eglContext.getNativeHandle());
         }
 
         return false;

@@ -3,7 +3,6 @@ package com.ola.beauty.demo;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.opengl.EGL14;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -14,6 +13,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.common.io.ByteStreams;
+import com.ola.olamera.camera.concurrent.MainThreadExecutor;
 import com.ola.olamera.render.view.CameraVideoView;
 
 import java.io.IOException;
@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
     private CameraVideoView mCameraVideoView;
     private ActivityCameraSession mActivityCameraSession;
     private OlaWrapper mOlaWrapper;
-    private long graph;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
-        mOlaWrapper = new OlaWrapper(graph, getApplicationContext(), data);
+        mOlaWrapper = new OlaWrapper(getApplicationContext(), data);
 
         mCameraVideoView = new CameraVideoView(this, null);
         setContentView(mCameraVideoView);
@@ -44,14 +43,9 @@ public class MainActivity extends AppCompatActivity {
             mCameraVideoView.getExpansionManager().addRenderExpansion(OlaWrapper.class, mOlaWrapper);
         }, 1000);
 
-        mOlaWrapper.doAfterSurfaceReady(() -> {
-            mOlaWrapper.unWrap().doInit().addListener(new Runnable() {
-                @Override
-                public void run() {
-                    mOlaWrapper.start(); //暂时自动开始
-                }
-            }, MainThreadExecutor.getInstance());
-        });
+        mOlaWrapper.doAfterSurfaceReady(() -> mOlaWrapper.unWrap().doInit().addListener(() -> {
+            mOlaWrapper.start(); //暂时自动开始
+        }, MainThreadExecutor.getInstance()));
     }
 
     public static byte[] getAssetBytes(AssetManager assets, String assetName) {
