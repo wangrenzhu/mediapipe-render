@@ -88,9 +88,9 @@ Framebuffer* FramebufferCache::fetchFramebuffer(Context *context,
                 forceCleanFramebuffer(framebuffer);
                 framebuffer = 0;
             } else if (framebuffer->framebufferRetainCount() == 0 && !framebuffer->isDealloc) {
-//                Log("Framebuffer 【命中缓存】", "hashcode:%s count:%d",
-//                    framebufferHashCodeKey.first.c_str(),
-//                    framebuffer->framebufferRetainCount());
+               Log("Framebuffer 【命中缓存】", "hashcode:%s count:%d",
+                   framebufferHashCodeKey.first.c_str(),
+                   framebuffer->framebufferRetainCount());
                 return framebuffer;
             }
         }

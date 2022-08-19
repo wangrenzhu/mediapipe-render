@@ -91,10 +91,7 @@ public class OlaWrapper extends RenderExpansion {
 
         TextureInfo inputTextureInfo = convert(input, timestamp);
 
-        Log.i("####", "###### before RenderFlowData = " + inputTextureInfo.textureId);
         mBeauty.processVideoFrame(inputTextureInfo);
-        Log.i("####", "###### after RenderFlowData = " + inputTextureInfo.textureId);
-
         Log.i("####", "###### before outputTextureInfo = " + inputTextureInfo.textureId);
         TextureInfo outputTextureInfo = mBeauty.render(inputTextureInfo);
         Log.i("####", "###### after outputTextureInfo = " + inputTextureInfo.textureId);

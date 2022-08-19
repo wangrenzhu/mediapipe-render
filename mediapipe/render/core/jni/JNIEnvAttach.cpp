@@ -21,6 +21,7 @@ JNIEnvAttach::JNIEnvAttach(JavaVM *javaVm) : mJavaVM(javaVm) {
         if (JNI_OK == attachResult) {
             mNewAttach = true;
             mHasAttach = true;
+            LOG(INFO) << "###### JNIEnvAttach  attachOK :" << mHasAttach;
         } else {
             LOG(ERROR) << "###### JNIEnvAttach Failed to attach, cancel attachResult:" << attachResult;
             // Failed to attach, cancel
@@ -29,6 +30,7 @@ JNIEnvAttach::JNIEnvAttach(JavaVM *javaVm) : mJavaVM(javaVm) {
         // Current thread already attached, do not attach 'again' (just to save the attachedHere flag)
         // We make sure to keep mNewAttach Here = 0
         mHasAttach = true;
+        LOG(INFO) << "###### JNIEnvAttach  attachOK :" << mHasAttach;
     } else {
         // JNI_EVERSION, specified version is not supported cancel this..
     }

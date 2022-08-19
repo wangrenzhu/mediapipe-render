@@ -64,11 +64,9 @@ cc_library(
             "-llog",
         ],
     }),
-    deps = select({
-        "//mediapipe:android": [],
-        "//mediapipe:apple": [],
-        "//conditions:default": [],
-    }),
+    deps = [
+        "//mediapipe/framework/port:logging",
+    ],
     copts = select({
         "//mediapipe:apple": [
             "-x objective-c++",
@@ -195,7 +193,6 @@ cc_library(
         ":ref",
         "//mediapipe/render/core/math:math",
         ":gpuimagemath",
-        "//mediapipe/framework/port:logging",
         "@stblib//:stb_image",
     ],
      copts = select({

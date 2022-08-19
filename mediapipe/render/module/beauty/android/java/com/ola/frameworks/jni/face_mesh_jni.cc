@@ -53,18 +53,14 @@ namespace OpipeJNI {
 
     void dispatch_async_onjava(void *id, std::function<void(void)> func) {
         if (id == nullptr) {
-            LOG(INFO) << "###### dispatch_async_onjava id == nullptr";
+            LOG(ERROR) << "###### dispatch_async_onjava id == nullptr";
             return;
         }
-        LOG(INFO) << "###### dispatch_async_onjava before";
         NativeId<Opipe::FaceMeshModule> ptr;
         ptr.p = (Opipe::FaceMeshModule *) id;
 
         JavaHolder *holder = gJavaObjectMap.getJavaObjectHolder(ptr);
-        LOG(INFO) << "###### dispatch_async_onjava holder" << holder;
-
         if (holder->getJObject() == nullptr) {
-            LOG(INFO) << "###### dispatch_async_onjava holder->getJObject() == nullptr";
             return;
         }
 
@@ -73,10 +69,9 @@ namespace OpipeJNI {
             JNIEnvAttach attach(gVm);
 
             if (!attach.isAttach()) {
-                LOG(INFO) << "###### dispatch_async_onjava !attach.isAttach()";
+                LOG(ERROR) << "###### dispatch_async_onjava  ERROR !attach.isAttach() gVM:" << gVm;
                 return;
             }
-            LOG(INFO) << "###### dispatch_async_onjava new DispatchTask";
             auto *task = new DispatchTask();
             task->func = func;
             DispatchTaskPtr taskPtr;
@@ -87,8 +82,9 @@ namespace OpipeJNI {
 
 
             bool result = attach.getEnv()->CallBooleanMethod(holder->getJObject(), post_task_mid, taskPtr.v);
-            LOG(INFO) << "###### dispatch_async_onjava after result:" << result << " jclass" << java_render_clz;
+            
             if (!result) {
+                LOG(ERROR) << "###### dispatch_async_onjava after result:" << result << " jclass" << java_render_clz;
                 delete task;
             }
         }
@@ -96,13 +92,11 @@ namespace OpipeJNI {
 
     JNIEXPORT jlong JNICALL OLA_METHOD(nativeCreate)(JNIEnv *env, jobject thiz)
     {
-        LOG(INFO) << "###### nativeCreate before";
         Opipe::FaceMeshModule *faceModule = Opipe::FaceMeshModule::create();
         NativeId<Opipe::FaceMeshModule> ptr;
         ptr.p = faceModule;
         std::unique_ptr<JavaHolder> javaHolder = std::make_unique<JavaHolder>(env, thiz);
         gJavaObjectMap.addJavaObjectHolder(ptr, std::move(javaHolder));
-        LOG(INFO) << "###### nativeCreate after: " << javaHolder.get() << "faceModule:" << faceModule;
         return reinterpret_cast<int64_t>(faceModule);
     }
 
@@ -229,14 +223,9 @@ namespace OpipeJNI {
      JNIEXPORT void JNICALL OLA_METHOD(nativeDoTask) (JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> streamPtr, 
                                                       DispatchTaskPtr ptr)
     {
-        LOG(INFO) << "nativeDoTask:" << ptr.p;
-
         if (ptr.p) {
-            LOG(INFO) << "nativeDoTask have ptr:" << ptr.p;
             if (ptr.p->func) {
-                LOG(INFO) << "nativeDoTask have func";
                 ptr.p->func();
-                LOG(INFO) << "nativeDoTask done func";
             }
             delete ptr.p;
         }
@@ -245,13 +234,11 @@ namespace OpipeJNI {
     JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
         gVm = vm;
         JNIEnv *env = nullptr;
-        LOG(INFO) << "###### JNI_OnLoad JNIEnv:" << vm;
         if (vm->AttachCurrentThread(&env, nullptr) == JNI_OK) {
-            LOG(INFO) << "###### JNI_OnLoad JNI_OK:" << vm;
-
+            LOG(ERROR) << "###### JNI_OnLoad SUCCESS gVM:" << gVm;
             return JNI_VERSION_1_6;
         }
-        LOG(INFO) << "###### JNI_OnLoad JNI_ERR:" << vm;
+        LOG(ERROR) << "###### JNI_OnLoad JNI_ERR:" << vm;
 
         return JNI_ERR;
     }

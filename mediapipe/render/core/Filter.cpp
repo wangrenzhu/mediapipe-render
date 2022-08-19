@@ -341,8 +341,8 @@ bool Filter::proceed(float frameTime, bool bUpdateTargets/* = true*/) {
         CHECK_GL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
         filter_externDraw();
         _framebuffer->inactive();
-//        Log("Filter", "%s渲染完毕，准备开始Unlock Framebuffer:%s", typeid(*this).name(),
-//            _framebuffer->_hashCode.c_str());
+       Log("Filter", "%s渲染完毕，准备开始Unlock Framebuffer:%s", typeid(*this).name(),
+           _framebuffer->_hashCode.c_str());
 #if DEBUG
 		_framebuffer->unlock(typeid(*this).name());
 #else
