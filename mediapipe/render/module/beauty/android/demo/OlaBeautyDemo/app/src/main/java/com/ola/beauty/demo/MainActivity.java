@@ -7,6 +7,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.SeekBar;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -22,11 +26,19 @@ import java.io.IOException;
 import java.io.InputStream;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
     private CameraVideoView mCameraVideoView;
     private ActivityCameraSession mActivityCameraSession;
     private OlaWrapper mOlaWrapper;
+
+
+    private SeekBar mSmoothSeekBar;
+    private SeekBar mWhitenSeekBar;
+    private SeekBar mSlimSeekBar;
+    private SeekBar mEyeSeekBar;
+    private SeekBar mNoseSeekBar;
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -35,10 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
 //        byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
 //        mOlaWrapper = new OlaWrapper(getApplicationContext(), "face_mesh_mobile_gpu.binarypb",getImageFromAssetsFile("whiten.png"));
-        mOlaWrapper = new OlaWrapper(getApplicationContext(), "face_mesh_mobile_gpu.binarypb","whiten.png");
+        mOlaWrapper = new OlaWrapper(getApplicationContext(), "face_mesh_mobile_gpu.binarypb", "whiten.png");
 
         mCameraVideoView = new CameraVideoView(this, null);
-        setContentView(mCameraVideoView);
+
+        setContentView(R.layout.activity_main);
+        ViewGroup view = findViewById(R.id.camera);
+        view.addView(mCameraVideoView);
+        initView();
+
+//        setContentView(mCameraVideoView);
         mActivityCameraSession = new ActivityCameraSession(this);
         mActivityCameraSession.setCameraPreview(mCameraVideoView);
         requestPermission(() -> mActivityCameraSession.onWindowCreate());
@@ -51,6 +69,21 @@ public class MainActivity extends AppCompatActivity {
         mOlaWrapper.doAfterSurfaceReady(() -> mOlaWrapper.unWrap().doInit().addListener(() -> {
             mOlaWrapper.start(); //暂时自动开始
         }, MainThreadExecutor.getInstance()));
+    }
+
+    private void initView() {
+        ((SeekBar) findViewById(R.id.smoothing)).setOnSeekBarChangeListener(this);
+        ((SeekBar) findViewById(R.id.whitening)).setOnSeekBarChangeListener(this);
+        ((SeekBar) findViewById(R.id.slim)).setOnSeekBarChangeListener(this);
+        ((SeekBar) findViewById(R.id.eye)).setOnSeekBarChangeListener(this);
+        ((SeekBar) findViewById(R.id.nose)).setOnSeekBarChangeListener(this);
+
+        mSmoothSeekBar = findViewById(R.id.smoothing);
+        mWhitenSeekBar = findViewById(R.id.whitening);
+        mSlimSeekBar = findViewById(R.id.slim);
+        mEyeSeekBar = findViewById(R.id.eye);
+        mNoseSeekBar = findViewById(R.id.nose);
+//        ((Switch)findViewById(R.id.seg))
     }
 
     public Bitmap getImageFromAssetsFile(String fileName) {
@@ -123,5 +156,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        switch (seekBar.getId()) {
+            case R.id.smoothing:
+                float res = ((float) mSmoothSeekBar.getProgress()) / 100.0f;
+                mOlaWrapper.unWrap().setSmoothing(res);
+                break;
+            case R.id.whitening:
+                float res2 = ((float) mWhitenSeekBar.getProgress()) / 100.0f;
+                mOlaWrapper.unWrap().setWhitening(res2);
+                break;
+            case R.id.slim:
+                float res3 = ((float) mSlimSeekBar.getProgress()) / 100.0f;
+                mOlaWrapper.unWrap().setSlim(res3);
+                break;
+            case R.id.eye:
+                float res4 = ((float) mEyeSeekBar.getProgress()) / 100.0f;
+                mOlaWrapper.unWrap().setEye(res4);
+                break;
+            case R.id.nose:
+                float res5 = ((float) mNoseSeekBar.getProgress()) / 100.0f;
+                mOlaWrapper.unWrap().setNose(res5);
+                break;
+            default:
+                break;
+        }
+    }
 
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
 }

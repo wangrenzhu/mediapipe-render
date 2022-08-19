@@ -187,4 +187,44 @@ public class OlaBeauty {
             mNativeHandler = null;
         }
     }
+
+
+    public float getSmoothing(){
+        return mNativeHandler.nativeGetSmoothing(mNativeHandler.getNative());
+    }
+    public  float getWhitening(){
+        return mNativeHandler.nativeGetWhitening(mNativeHandler.getNative());
+    }
+    public  float getSlim(){
+        return mNativeHandler.nativeGetSlim(mNativeHandler.getNative());
+    }
+    public  float getEye(){
+        return mNativeHandler.nativeGetEye(mNativeHandler.getNative());
+    }
+    public  float getNose(){
+        return mNativeHandler.nativeGetNose(mNativeHandler.getNative());
+    }
+    public  boolean getSegmentation(){
+        return mNativeHandler.nativeSegmentation(mNativeHandler.getNative());
+    }
+
+
+    public  void setSlim( float slim){
+        mNativeHandler.nativeSetSlim(mNativeHandler.getNative(),slim);
+    }
+    public  void setNose( float nose){
+        mNativeHandler.nativeSetNose(mNativeHandler.getNative(),nose);
+    }
+    public  void setEye(float eye){
+        mNativeHandler.nativeSetEye(mNativeHandler.getNative(),eye);
+    }
+    public  void setSmoothing( float smoothing){
+        mNativeHandler.nativeSetSmoothing(mNativeHandler.getNative(),smoothing);
+    }
+    public  void setWhitening(float whitening){
+        mNativeHandler.nativeSetWhitening(mNativeHandler.getNative(),whitening);
+    }
+    public  void segmentationEnable( boolean segEnable){
+        mNativeHandler.nativeSegmentationEnable(mNativeHandler.getNative(),segEnable);
+    }
 }

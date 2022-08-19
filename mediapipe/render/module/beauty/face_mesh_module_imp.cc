@@ -252,7 +252,11 @@ namespace Opipe
             LOG(INFO) << "检测到人脸输出:" << _lastLandmark.landmark_size();
             for (int i = 0; i < _lastLandmark.landmark_size(); i++)
             {
+                #if defined(__APPLE__)
                 facePoints.emplace_back(_lastLandmark.landmark(i).x(), _lastLandmark.landmark(i).y());
+                #else
+                facePoints.emplace_back(_lastLandmark.landmark(i).x(), 1.0 - _lastLandmark.landmark(i).y());
+                #endif
             }
             LOG(INFO) << "检测到人脸输完毕:" << _lastLandmark.landmark_size();
         }
