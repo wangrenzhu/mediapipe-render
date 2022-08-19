@@ -38,29 +38,41 @@ namespace Opipe
             return;
         }
 
+        if (streamName == kLandmarksOutputStream)
+        {
+            _last_landmark_ts = packet.Timestamp().Value();
+            _hasFace = true;
+            const auto &multi_face_landmarks = packet.Get<std::vector<::mediapipe::NormalizedLandmarkList>>();
+            _lastLandmark = multi_face_landmarks[0];
+        }
+        #if defined(__APPLE__)
+        int64_t distance = 1000000;
+        #else
+        int64_t distance = 50;
+        #endif
+
+        if (streamName == kOutputVideo && (packet.Timestamp().Value() - _last_landmark_ts) > distance)
+        {
+            _hasFace = false;
+            _last_landmark_ts = 0; //输出过一次的时间戳 不再输出
+        }
+
+        if (_hasFace)
+        {
+            // 人脸识别数据
+            _imp->setLandmark(_lastLandmark, packet.Timestamp().Value());
+        }
+        else
+        {
+            _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
+        }
+     
+
         _imp->currentDispatch()->runSync([&, packetType, streamName, packet, graph] {
-            if (streamName == kLandmarksOutputStream) {
-                _last_landmark_ts = packet.Timestamp().Value();
-                _hasFace = true;
-                const auto& multi_face_landmarks = packet.Get<std::vector<::mediapipe::NormalizedLandmarkList>>();
-                _lastLandmark = multi_face_landmarks[0];
-            }
-            
-            if (streamName == kOutputVideo && (packet.Timestamp().Value() - _last_landmark_ts) > 1000000) {
-                _hasFace = false;
-                _last_landmark_ts = 0; //输出过一次的时间戳 不再输出
-            }
-            
-            if (_hasFace) {
-                // 人脸识别数据
-                _imp->setLandmark(_lastLandmark, packet.Timestamp().Value());
-            } else {
-                _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
-            }
-            
+
             if (streamName == kSegmentation) {
                 // 人脸分割的数据
-                 LOG(INFO) << "######  FaceMeshCallFrameDelegate kSegmentation:" << streamName << " packetType:" << packetType;
+                LOG(INFO) << "######  FaceMeshCallFrameDelegate kSegmentation:" << streamName << " packetType:" << packetType;
                 const auto& image = packet.Get<Image>();
                 if (image.UsesGpu()) {
                     auto gpubuffer = image.GetGpuBuffer();
@@ -68,7 +80,6 @@ namespace Opipe
                 }
             }
 
-            
             if (streamName == kOutputVideo) {
                 if (_imp->getOutputSource()) {
                     SourceCamera *cameraSource = _imp->getOutputSource();
@@ -100,7 +111,7 @@ namespace Opipe
 #endif
                 }
             }
-    });
+        });
     }
 
     FaceMeshModuleIMP::FaceMeshModuleIMP()
@@ -239,11 +250,11 @@ namespace Opipe
 
         if (_lastLandmark.landmark_size() == 0)
         {
-            LOG(INFO) << "没有检测到人脸";
+            LOG(INFO) << "hasFace 没有检测到人脸";
         }
         else
         {
-            LOG(INFO) << "检测到人脸输出";
+            LOG(INFO) << "hasFace 检测到人脸输出";
         }
 
         std::vector<Vec2> facePoints;
@@ -252,12 +263,10 @@ namespace Opipe
             LOG(INFO) << "检测到人脸输出:" << _lastLandmark.landmark_size();
             for (int i = 0; i < _lastLandmark.landmark_size(); i++)
             {
-                #if defined(__APPLE__)
+                
                 facePoints.emplace_back(_lastLandmark.landmark(i).x(), _lastLandmark.landmark(i).y());
-                #else
-                facePoints.emplace_back(_lastLandmark.landmark(i).x(), 1.0 - _lastLandmark.landmark(i).y());
-                #endif
             }
+            LOG(INFO) << "@@@facePoint i:" << 0 << " x:" << _lastLandmark.landmark(0).x() << " y:" << _lastLandmark.landmark(0).y();
             LOG(INFO) << "检测到人脸输完毕:" << _lastLandmark.landmark_size();
         }
         _render->setFacePoints(facePoints);
