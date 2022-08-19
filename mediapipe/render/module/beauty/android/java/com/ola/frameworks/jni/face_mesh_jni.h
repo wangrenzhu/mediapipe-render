@@ -65,6 +65,29 @@ namespace OpipeJNI {
 
         JNIEXPORT jint JNIOnLoad(JavaVM *vm, JNIEnv *env);
 
+
+
+        /////////美颜参数相关
+        /// @param smoothing 磨皮 0.0 - 1.0
+        JNIEXPORT float JNICALL OLA_METHOD(nativeGetSmoothing)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance);
+        /// 美白 0.0 - 1.0
+        JNIEXPORT float JNICALL OLA_METHOD(nativeGetWhitening)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance);
+        /// 瘦脸
+        JNIEXPORT float JNICALL OLA_METHOD(nativeGetSlim)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance);
+        ///大眼
+        JNIEXPORT float JNICALL OLA_METHOD(nativeGetEye)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance);
+        /// 瘦鼻
+        JNIEXPORT float JNICALL OLA_METHOD(nativeGetNose)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance);
+        ///分割
+        JNIEXPORT bool JNICALL OLA_METHOD(nativeSegmentation)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance);
+        
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetSlim)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float slim);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetNose)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float nose);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetEye)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float eye);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetSmoothing)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float smoothing);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetWhitening)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float whitening);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSegmentationEnable)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,bool segEnable);
+                
 #ifdef __cplusplus
     }  // extern "C"
 #endif  // __cplusplus

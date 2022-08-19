@@ -118,4 +118,21 @@ public class OlaBeautyJNI {
     public native void nativeProcessVideoFrameBytes(long context, byte[] data, int size, int width, int height,
             long frameTime);
 
+
+    ///美颜参数
+    public native float nativeGetSmoothing(long context);
+    public native float nativeGetWhitening(long context);
+    public native float nativeGetSlim(long context);
+    public native float nativeGetEye(long context);
+    public native float nativeGetNose(long context);
+    public native boolean nativeSegmentation(long context);
+
+
+    public native void nativeSetSlim(long context, float slim);
+    public native void nativeSetNose(long context, float nose);
+    public native void nativeSetEye(long context, float eye);
+    public native void nativeSetSmoothing(long context, float smoothing);
+    public native void nativeSetWhitening(long context, float whitening);
+    public native void nativeSegmentationEnable(long context, bool segEnable);
+
 }

@@ -30,7 +30,6 @@ public class OlaWrapper extends RenderExpansion {
     private final List<Runnable> mDoAfterSurfaceReady = new ArrayList<>();
     private boolean mIsSurfaceReady;
 
-
     public OlaWrapper(Context context, String graphPath, Bitmap bitmap) {
         this.mBeauty = new OlaBeauty(context, graphPath, bitmap);
     }

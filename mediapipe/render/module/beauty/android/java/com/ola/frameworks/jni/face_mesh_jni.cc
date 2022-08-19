@@ -230,20 +230,80 @@ namespace OpipeJNI {
             delete ptr.p;
         }
     }
-}
 
-JNIEXPORT jint
+    JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
+        gVm = vm;
+        JNIEnv *env = nullptr;
+        LOG(INFO) << "###### JNI_OnLoad JNIEnv:" << vm;
+        if (vm->AttachCurrentThread(&env, nullptr) == JNI_OK) {
+            LOG(INFO) << "###### JNI_OnLoad JNI_OK:" << vm;
 
-JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
-    gVm = vm;
-    JNIEnv *env = nullptr;
-    LOG(INFO) << "###### JNI_OnLoad JNIEnv:" << vm;
-    if (vm->AttachCurrentThread(&env, nullptr) == JNI_OK) {
-        LOG(INFO) << "###### JNI_OnLoad JNI_OK:" << vm;
+            return JNI_VERSION_1_6;
+        }
+        LOG(INFO) << "###### JNI_OnLoad JNI_ERR:" << vm;
 
-        return JNI_VERSION_1_6;
+        return JNI_ERR;
     }
-    LOG(INFO) << "###### JNI_OnLoad JNI_ERR:" << vm;
 
-    return JNI_ERR;
+
+    //////////////////////////////////////
+    ///////美颜参数相关
+    JNIEXPORT float JNICALL OLA_METHOD(nativeGetSmoothing)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getSmoothing();
+    }
+    /// 美白 0.0 - 1.0
+    JNIEXPORT float JNICALL OLA_METHOD(nativeGetWhitening)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getWhitening();
+    }
+    /// 瘦脸
+    JNIEXPORT float JNICALL OLA_METHOD(nativeGetSlim)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getSlim();
+    }
+    ///大眼
+    JNIEXPORT float JNICALL OLA_METHOD(nativeGetEye)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getEye();
+    }
+    /// 瘦鼻
+    JNIEXPORT float JNICALL OLA_METHOD(nativeGetNose)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getNose();
+    }
+    ///分割
+    JNIEXPORT bool JNICALL OLA_METHOD(nativeGetSegmentation)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getSegmentation();
+    }
+    
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSetSlim)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float slim){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setSlim(slim);
+    }
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSetNose)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float nose){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setNose(nose);
+    }
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSetEye)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float eye){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setEye(eye);
+    }
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSetSmoothing)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float smoothing){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setSmoothing(smoothing);
+    }
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSetWhitening)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float whitening){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setWhitening(whitening);
+    }
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSegmentationEnable)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,bool segEnable){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setSegmentationEnable(segEnable);
+    }
+                
+
+
 }
+
