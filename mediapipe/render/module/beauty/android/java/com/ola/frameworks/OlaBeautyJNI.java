@@ -99,7 +99,7 @@ public class OlaBeautyJNI {
 
     public native long nativeInitLut(long context, Bitmap bitmap);
 
-    public native long nativeInitLut2(long context, byte[] data);
+    public native long nativeInitLutBytes(long context, byte[] data);
 
     public native void nativeRelease(long context);
 
@@ -133,6 +133,6 @@ public class OlaBeautyJNI {
     public native void nativeSetEye(long context, float eye);
     public native void nativeSetSmoothing(long context, float smoothing);
     public native void nativeSetWhitening(long context, float whitening);
-    public native void nativeSegmentationEnable(long context, bool segEnable);
+    public native void nativeSegmentationEnable(long context, boolean segEnable);
 
 }
