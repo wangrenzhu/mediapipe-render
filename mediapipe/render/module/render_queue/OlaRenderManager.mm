@@ -65,7 +65,7 @@ USING_NS_OLA
     disposeImage();
 }
 
-- (int)render:(int64_t)frameTime textureId:(NSUInteger)inputTexture renderSize:(CGSize)size
+- (int)render:(int64_t)frameTime textureId:(NSUInteger)inputTexture renderSize:(CGSize)size exportFlag:(BOOL)flag
 {
     [self resume];
     TextureInfo info;
@@ -74,7 +74,7 @@ USING_NS_OLA
     info.height = size.height;
     info.frameTime = frameTime;
     info.textureId = (int)inputTexture;
-    TextureInfo rs = olaRender->render(info, false);
+    TextureInfo rs = olaRender->render(info, flag);
     return rs.textureId;
 }
 

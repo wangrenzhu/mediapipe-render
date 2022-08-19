@@ -25,12 +25,12 @@ JNIEXPORT void JNICALL OLA_METHOD(nativeRelease)(JNIEnv* env, jobject thiz, jlon
 
 }
 
-JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut)(JNIEnv* env,jobject thiz,jlong context, jint width, jint height, jbyteArray lutData){
-    Opipe::FaceMeshModule* faceModule = reinterpret_cast<Opipe::FaceMeshModule*>(context);
-    jbyte* data_ptr = env->GetByteArrayElements(lutData, nullptr);
-    int size = env->GetArrayLength(lutData);
-    faceModule->initLut(width, height, data_ptr, size);
-    env->ReleaseByteArrayElements(lutData, data_ptr, JNI_ABORT);
+JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut)(JNIEnv* env,jobject thiz,jlong context, jobject whiten_bitmap){
+    Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        Opipe::OMat lutMat;
+        bitmap_to_mat(env, whiten_bitmap, lutMat);
+        faceModule->initLut(lutMat);
+        env->DeleteLocalRef(whiten_bitmap);
 }
 
 

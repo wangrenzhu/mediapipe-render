@@ -331,7 +331,7 @@ maven_install(
         "androidx.activity:activity:1.2.2",
         "androidx.exifinterface:exifinterface:1.3.3",
         "androidx.fragment:fragment:1.3.4",
-        "androidx.annotation:annotation:aar:1.1.0",
+        "androidx.annotation:annotation:aar:1.3.0",
         "androidx.appcompat:appcompat:aar:1.1.0-rc01",
         "androidx.camera:camera-core:1.0.2",
         "androidx.camera:camera-camera2:1.0.2",
@@ -421,9 +421,9 @@ libedgetpu_dependencies()
 
 load("@coral_crosstool//:configure.bzl", "cc_crosstool")
 cc_crosstool(name = "crosstool")
-android_sdk_repository(name = "androidsdk", path = "/Users/wangrenzhu/Library/Android/sdk")
-android_ndk_repository(name = "androidndk", api_level=21, path = "/Users/wangrenzhu/Library/Android/sdk/ndk/21.2.6472646")
+android_sdk_repository(name = "androidsdk", path = "/Users/weatherfish/Library/Android/sdk")
+android_ndk_repository(name = "androidndk", api_level=21, path = "/Users/weatherfish/Library/Android/sdk/ndk/21.4.7075529")
 # android_sdk_repository(name = "androidsdk", path = "/Users/wangrenzhu/Android/sdk")
 # android_ndk_repository(name = "androidndk", api_level=21, path = "/Users/wangrenzhu/Android/sdk/ndk/android-ndk-r21")
-# android_sdk_repository(name = "androidsdk")
-# android_ndk_repository(name = "androidndk", api_level=22)
+#android_sdk_repository(name = "androidsdk")
+#android_ndk_repository(name = "androidndk", api_level=22)

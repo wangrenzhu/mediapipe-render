@@ -22,7 +22,7 @@ namespace Opipe
         {
             return;
         }
-        LOG(INFO) << "###### CallFrameDelegate streamName:" << streamName << " packetType:" << packetType;   
+        LOG(INFO) << "###### CallFrameDelegate streamName:" << streamName << " packetType:" << packetType;
         graph->_delegate.lock()->outputPacket(graph, packet, packetType, streamName);
         graph->_framesInFlight--;  
     }

@@ -15,22 +15,40 @@
 
 #include "mediapipe/render/core/OlaContext.hpp"
 #include "mediapipe/render/module/beauty/face_mesh_common.h"
+#include "mediapipe/render/module/beauty/face_mesh_module.h"
 #include "mediapipe/util/android/asset_manager_util.h"
 #include "mediapipe/render/core/GLThreadDispatch.h"
 #include "mediapipe/render/core/jni/JNIEnvAttach.h"
 #include "mediapipe/framework/port/logging.h"
 #include "face_mesh_jni.h"
 
-
+#include <android/bitmap.h>
 
 using namespace OpipeJNI;
 
 namespace OpipeJNI {
-  
+
     static JavaObjectMap<Opipe::FaceMeshModule> gJavaObjectMap;
 
 
     static JavaVM *gVm;
+
+     void bitmap_to_mat(JNIEnv *env, jobject &srcBitmap, Opipe::OMat &srcMat) {
+        void *srcPixels = nullptr;
+        AndroidBitmapInfo srcBitmapInfo;
+        AndroidBitmap_getInfo(env, srcBitmap, &srcBitmapInfo);
+        AndroidBitmap_lockPixels(env, srcBitmap, &srcPixels);
+
+        uint32_t srcHeight = srcBitmapInfo.height;
+        uint32_t srcWidth = srcBitmapInfo.width;
+        if (srcHeight == 0 || srcWidth == 0 || srcPixels == nullptr) {
+            return;
+        }
+        srcMat = Opipe::OMat((int)srcWidth, (int)srcHeight, (int)srcBitmapInfo.stride);
+        memcpy(srcMat.data, srcPixels, srcBitmapInfo.stride * srcBitmapInfo.height);
+        AndroidBitmap_unlockPixels(env, srcBitmap);
+        return;
+    }
 
 
     void dispatch_async_onjava(void *id, std::function<void(void)> func) {
@@ -131,16 +149,27 @@ namespace OpipeJNI {
     }
 
     JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut)(JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
-                                                     jint width, jint height, jbyteArray lutData) 
+                                                     jobject whiten_bitmap) 
     {
         LOG(INFO) << "###### nativeInitLut before";
         Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
-        jbyte *data_ptr = env->GetByteArrayElements(lutData, nullptr);
-        int size = env->GetArrayLength(lutData);
-        faceModule->initLut(width, height, data_ptr, size);
-        env->ReleaseByteArrayElements(lutData, data_ptr, JNI_ABORT);
-        LOG(INFO) << "###### nativeInitLut after size:" << size;
+        Opipe::OMat lutMat;
+        bitmap_to_mat(env, whiten_bitmap, lutMat);
+        faceModule->initLut(lutMat);
+        env->DeleteLocalRef(whiten_bitmap);
+        LOG(INFO) << "###### nativeInitLut after";
     }
+
+    JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut2) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
+                                                         jbyteArray data)
+    {
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        jbyte *data_ptr = env->GetByteArrayElements(data, nullptr);
+        int size = env->GetArrayLength(data);
+        faceModule->initLut2(reinterpret_cast<unsigned char*>(data_ptr), size);
+        env->ReleaseByteArrayElements(data, data_ptr, JNI_ABORT);
+    }
+                                                
 
     JNIEXPORT void JNICALL OLA_METHOD(nativeStartModule) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance)
     {
@@ -187,10 +216,10 @@ namespace OpipeJNI {
 
 
      JNIEXPORT void JNICALL OLA_METHOD(nativeDoTask) (JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> streamPtr, 
-                                                      DispatchTaskPtr ptr) 
+                                                      DispatchTaskPtr ptr)
     {
         LOG(INFO) << "nativeDoTask:" << ptr.p;
-                                                        
+
         if (ptr.p) {
             LOG(INFO) << "nativeDoTask have ptr:" << ptr.p;
             if (ptr.p->func) {
@@ -201,20 +230,80 @@ namespace OpipeJNI {
             delete ptr.p;
         }
     }
-}
 
-JNIEXPORT jint
+    JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
+        gVm = vm;
+        JNIEnv *env = nullptr;
+        LOG(INFO) << "###### JNI_OnLoad JNIEnv:" << vm;
+        if (vm->AttachCurrentThread(&env, nullptr) == JNI_OK) {
+            LOG(INFO) << "###### JNI_OnLoad JNI_OK:" << vm;
 
-JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
-    gVm = vm;
-    JNIEnv *env = nullptr;
-    LOG(INFO) << "###### JNI_OnLoad JNIEnv:" << vm;
-    if (vm->AttachCurrentThread(&env, nullptr) == JNI_OK) {
-        LOG(INFO) << "###### JNI_OnLoad JNI_OK:" << vm;
+            return JNI_VERSION_1_6;
+        }
+        LOG(INFO) << "###### JNI_OnLoad JNI_ERR:" << vm;
 
-        return JNI_VERSION_1_6;
+        return JNI_ERR;
     }
-    LOG(INFO) << "###### JNI_OnLoad JNI_ERR:" << vm;
 
-    return JNI_ERR;
+
+    //////////////////////////////////////
+    ///////美颜参数相关
+    JNIEXPORT float JNICALL OLA_METHOD(nativeGetSmoothing)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getSmoothing();
+    }
+    /// 美白 0.0 - 1.0
+    JNIEXPORT float JNICALL OLA_METHOD(nativeGetWhitening)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getWhitening();
+    }
+    /// 瘦脸
+    JNIEXPORT float JNICALL OLA_METHOD(nativeGetSlim)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getSlim();
+    }
+    ///大眼
+    JNIEXPORT float JNICALL OLA_METHOD(nativeGetEye)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getEye();
+    }
+    /// 瘦鼻
+    JNIEXPORT float JNICALL OLA_METHOD(nativeGetNose)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getNose();
+    }
+    ///分割
+    JNIEXPORT bool JNICALL OLA_METHOD(nativeGetSegmentation)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        return faceModule->getSegmentation();
+    }
+    
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSetSlim)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float slim){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setSlim(slim);
+    }
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSetNose)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float nose){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setNose(nose);
+    }
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSetEye)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float eye){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setEye(eye);
+    }
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSetSmoothing)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float smoothing){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setSmoothing(smoothing);
+    }
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSetWhitening)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float whitening){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setWhitening(whitening);
+    }
+    JNIEXPORT void JNICALL OLA_METHOD(nativeSegmentationEnable)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,bool segEnable){
+        Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+        faceModule->setSegmentationEnable(segEnable);
+    }
+                
+
+
 }
+

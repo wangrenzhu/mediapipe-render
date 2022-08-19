@@ -61,6 +61,7 @@ cc_library(
         "//mediapipe/render/core/jni:opipe_android_framework_jni",
         "//mediapipe/render/module/beauty:FaceMeshGPULibrary",
         "//mediapipe/framework/port:logging",
+        "@stblib//:stb_image",
     ],
     alwayslink = 1,
 )
