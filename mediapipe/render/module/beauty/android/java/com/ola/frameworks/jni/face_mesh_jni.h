@@ -8,6 +8,7 @@
 #include <jni.h>
 #include "mediapipe/render/core/jni/JavaObjectMap.hpp"
 #include "mediapipe/render/module/beauty/face_mesh_module.h"
+#include "stb_image.h"
 
 namespace OpipeJNI {
 #ifdef __cplusplus

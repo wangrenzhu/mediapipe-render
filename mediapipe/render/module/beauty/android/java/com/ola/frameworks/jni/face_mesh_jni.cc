@@ -166,7 +166,18 @@ namespace OpipeJNI {
         Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
         jbyte *data_ptr = env->GetByteArrayElements(data, nullptr);
         int size = env->GetArrayLength(data);
-        faceModule->initLut(reinterpret_cast<unsigned char*>(data_ptr), size);
+        
+        int width, height, channels_in_file;
+        auto pixdata = stbi_load_from_memory(reinterpret_cast<stbi_uc*>(data_ptr),
+                                    size, &width, &height,
+                                    &channels_in_file, 4);
+        if (!pixdata) {
+            LOG(ERROR) << "stbi_load_from_memory failed";
+            return;
+        }
+        Opipe::OMat lutMat = Opipe::OMat(width, height,std::move(reinterpret_cast<char*>(pixdata)));
+
+        faceModule->initLut(lutMat);
         env->ReleaseByteArrayElements(data, data_ptr, JNI_ABORT);
     }
                                                 
