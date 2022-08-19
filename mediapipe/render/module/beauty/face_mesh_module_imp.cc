@@ -38,22 +38,13 @@ namespace Opipe
             return;
         }
 
-        LOG(INFO) << "####### 1 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;
-
         _imp->currentDispatch()->runSync([&, packetType, streamName, packet, graph] {
-            LOG(INFO) << "####### 2 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;;
-
             if (streamName == kLandmarksOutputStream) {
-                LOG(INFO)<<"####### 3 FaceMeshCallFrameDelegate::outputPacket  streamName  " << streamName << " packetType:" << packetType;;
-
                 _last_landmark_ts = packet.Timestamp().Value();
-                LOG(INFO)<<"####### 3 FaceMeshCallFrameDelegate::outputPacket  _last_landmark_ts  " << _last_landmark_ts << " packetType:" << packetType;;
                 _hasFace = true;
                 const auto& multi_face_landmarks = packet.Get<std::vector<::mediapipe::NormalizedLandmarkList>>();
-                LOG(INFO)<<"####### 3 FaceMeshCallFrameDelegate::outputPacket  multi_face_landmarks  " << multi_face_landmarks.size();
                 _lastLandmark = multi_face_landmarks[0];
             }
-            LOG(INFO) << "###### 4 FaceMeshCallFrameDelegate landmarkts:" << _last_landmark_ts << " packetType:" << packetType;;
             
             if (streamName == kOutputVideo && (packet.Timestamp().Value() - _last_landmark_ts) > 1000000) {
                 _hasFace = false;
@@ -66,11 +57,10 @@ namespace Opipe
             } else {
                 _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
             }
-            LOG(INFO) << "###### 5 FaceMeshCallFrameDelegate landmarkts:" << _last_landmark_ts << " packetType:" << packetType;;
             
             if (streamName == kSegmentation) {
                 // 人脸分割的数据
-                 LOG(INFO) << "######  FaceMeshCallFrameDelegate kSegmentation:" << streamName << " packetType:" << packetType;;
+                 LOG(INFO) << "######  FaceMeshCallFrameDelegate kSegmentation:" << streamName << " packetType:" << packetType;
                 const auto& image = packet.Get<Image>();
                 if (image.UsesGpu()) {
                     auto gpubuffer = image.GetGpuBuffer();
@@ -80,16 +70,8 @@ namespace Opipe
 
             
             if (streamName == kOutputVideo) {
-                LOG(INFO) << "###### 6 FaceMeshCallFrameDelegate  before getbuffer  need packetType:" << MPPPacketTypeGpuBuffer 
-            << " packetType:" << packetType;    
-                // 这里是视频流 需要给 _outputSource
-                LOG(INFO) << "###### 7 FaceMeshCallFrameDelegate after getbuffer kOutputVideo:" << streamName;
                 if (_imp->getOutputSource()) {
-                    
-                    
-                    LOG(INFO) << "###### 8 FaceMeshCallFrameDelegate _imp:" << _imp << " debugTypeName:" << packet.DebugTypeName();
                     SourceCamera *cameraSource = _imp->getOutputSource();
-                    LOG(INFO) << "###### 9 FaceMeshCallFrameDelegate cameraSource:" << cameraSource << " pacekt is empty:" << packet.IsEmpty();
                     
 #if defined(__APPLE__)
                     if (packetType != MPPPacketTypePixelBuffer) {
@@ -107,11 +89,9 @@ namespace Opipe
                     if (packetType != MPPPacketTypeGpuBuffer) {
                         return;
                     }
-                    LOG(INFO) << "######  FaceMeshCallFrameDelegate before MPPPacketTypeGpuBuffer:" << packet;
                     const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
                     mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
                     ptr->WaitUntilComplete();
-                    LOG(INFO) << "######  FaceMeshCallFrameDelegate MPPPacketTypeGpuBuffer:" << packetType;
                     int textureId = ptr->name();
                     LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;
                     cameraSource->setRenderTexture(textureId, video.width(), video.height());
@@ -269,16 +249,14 @@ namespace Opipe
         std::vector<Vec2> facePoints;
         if (_lastLandmark.landmark_size() > 0)
         {
-            LOG(INFO) << "检测到人脸输出";
+            LOG(INFO) << "检测到人脸输出:" << _lastLandmark.landmark_size();
             for (int i = 0; i < _lastLandmark.landmark_size(); i++)
             {
                 facePoints.emplace_back(_lastLandmark.landmark(i).x(), _lastLandmark.landmark(i).y());
             }
-            LOG(INFO) << "检测到人脸输完毕";
+            LOG(INFO) << "检测到人脸输完毕:" << _lastLandmark.landmark_size();
         }
-        LOG(INFO) << "###### setLandmark before _render->setFacePoints(facePoints) : " << _render;
         _render->setFacePoints(facePoints);
-        LOG(INFO) << "###### setLandmark after _render->setFacePoints(facePoints) : " << _render;
     }
 
     void FaceMeshModuleIMP::startModule()
@@ -399,8 +377,6 @@ namespace Opipe
                                               int height,
                                               int64_t timeStamp)
     {
-        LOG(INFO) << "###### before processVideoFrame pixel" << width << 
-        " height:" << height << " timeStamp" << timeStamp;
         if (!_isInit)
         {
             return;
@@ -414,11 +390,7 @@ namespace Opipe
         {
             return;
         }
-        LOG(INFO) << "###### before processVideoFrame texture:" << textureId << " width:" 
-        << width << " height:" << height << " timeStamp" << timeStamp;
         _graph->sendPacket(textureId, width, height, kInputVideo, timeStamp);
-        LOG(INFO) << "###### after processVideoFrame texture:" << textureId << " width:" 
-        << width << " height:" << height << " timeStamp" << timeStamp;
     }
 
     TextureInfo FaceMeshModuleIMP::renderTexture(TextureInfo inputTexture)

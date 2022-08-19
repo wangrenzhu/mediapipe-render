@@ -108,9 +108,8 @@ namespace Opipe
 
     TextureInfo FaceMeshBeautyRender::outputRenderTexture(TextureInfo inputTexture)
     {
-        LOG(INFO) << "###### FaceMeshModuleIMP 111111111111";
         if (_outputFilter == nullptr) {
-            LOG(INFO) << "###### FaceMeshModuleIMP _outputFilter null";
+            LOG(ERROR) << "###### FaceMeshModuleIMP _outputFilter null";
             return inputTexture;
         }
         LOG(INFO) << "###### FaceMeshModuleIMP _outputFilter not null" << _outputFilter;

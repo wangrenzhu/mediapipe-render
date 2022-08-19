@@ -26,6 +26,8 @@
 #define openLog 1
 #define ANDROID_LOG_INFO 'gpu_log_info'
 
+#include "mediapipe/framework/port/logging.h"
+
 namespace Opipe {
 
 
@@ -44,26 +46,26 @@ namespace Opipe {
     }
 
     void Log(const std::string &tag, const std::string &format, ...) {
-#if openLog
         char buffer[10240];
         va_list args;
         va_start(args, format);
         vsprintf(buffer, format.c_str(), args);
         va_end(args);
-#if defined(__APPLE__)
-        NSLog(@"%s: %s", tag.c_str(), buffer);
-#else
-        __android_log_print(ANDROID_LOG_INFO, tag.c_str(), "%s", buffer);
-        
-#endif
-#endif
+
+        LOG(INFO) << tag << ": " << buffer;
     }
 
     /**
      * 总是会输出日志，ERROR级别的日志
      */
     void LogE(const std::string &tag, const std::string &format, ...) {
+        char buffer[10240];
+        va_list args;
+        va_start(args, format);
+        vsprintf(buffer, format.c_str(), args);
+        va_end(args);
 
+        LOG(ERROR) << tag << ": " << buffer;
     }
 
 }

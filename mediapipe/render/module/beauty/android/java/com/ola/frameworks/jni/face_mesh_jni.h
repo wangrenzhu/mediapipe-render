@@ -64,7 +64,6 @@ namespace OpipeJNI {
                                                                         jbyteArray data, jint width, jint height, jlong frameTime);
 
 
-        JNIEXPORT jint JNIOnLoad(JavaVM *vm, JNIEnv *env);
 
 
 
@@ -93,5 +92,13 @@ namespace OpipeJNI {
     }  // extern "C"
 #endif  // __cplusplus
 }
+
+#ifdef __cplusplus
+    extern "C" {
+#endif  
+        JNIEXPORT jint JNIOnLoad(JavaVM *vm, JNIEnv *env);
+#ifdef __cplusplus
+    }  // extern "C"
+#endif  
 
 #endif //OPIPE_FACE_MESH_JNI_H
