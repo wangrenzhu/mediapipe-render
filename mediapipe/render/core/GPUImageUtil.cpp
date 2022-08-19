@@ -46,14 +46,26 @@ namespace Opipe {
     }
 
     void Log(const std::string &tag, const std::string &format, ...) {
-        LOG(INFO) << "GPU:" << tag << ":" << format;
+        char buffer[10240];
+        va_list args;
+        va_start(args, format);
+        vsprintf(buffer, format.c_str(), args);
+        va_end(args);
+
+        LOG(INFO) << tag << ": " << buffer;
     }
 
     /**
      * 总是会输出日志，ERROR级别的日志
      */
     void LogE(const std::string &tag, const std::string &format, ...) {
-        LOG(ERROR) << tag << ":" << format;
+        char buffer[10240];
+        va_list args;
+        va_start(args, format);
+        vsprintf(buffer, format.c_str(), args);
+        va_end(args);
+
+        LOG(ERROR) << tag << ": " << buffer;
     }
 
 }

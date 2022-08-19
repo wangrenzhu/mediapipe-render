@@ -231,19 +231,6 @@ namespace OpipeJNI {
         }
     }
 
-    JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
-        gVm = vm;
-        JNIEnv *env = nullptr;
-        if (vm->AttachCurrentThread(&env, nullptr) == JNI_OK) {
-            LOG(ERROR) << "###### JNI_OnLoad SUCCESS gVM:" << gVm;
-            return JNI_VERSION_1_6;
-        }
-        LOG(ERROR) << "###### JNI_OnLoad JNI_ERR:" << vm;
-
-        return JNI_ERR;
-    }
-
-
     //////////////////////////////////////
     ///////美颜参数相关
     JNIEXPORT float JNICALL OLA_METHOD(nativeGetSmoothing)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
@@ -305,3 +292,15 @@ namespace OpipeJNI {
 
 }
 
+JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
+    gVm = vm;
+    JNIEnv *env = nullptr;
+    LOG(INFO) << "###### JNI_OnLoad" << vm;
+    if (vm->AttachCurrentThread(&env, nullptr) == JNI_OK) {
+        LOG(INFO) << "###### JNI_OnLoad SUCCESS gVM:" << gVm;
+        return JNI_VERSION_1_6;
+    }
+    LOG(ERROR) << "###### JNI_OnLoad JNI_ERR:" << vm;
+
+    return JNI_ERR;
+}
