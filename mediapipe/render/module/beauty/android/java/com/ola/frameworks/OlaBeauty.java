@@ -159,7 +159,7 @@ public class OlaBeauty {
             if(mBitmap !=null)
                 mNativeHandler.nativeInitLut(mNativeHandler.getNative(), mBitmap);
             else if(mLutPath !=null)
-                mNativeHandler.nativeInitLut2(mNativeHandler.getNative(), getAssetBytes(mLutPath));
+                mNativeHandler.nativeInitLutBytes(mNativeHandler.getNative(), getAssetBytes(mLutPath));
             mNativeHandler.nativeInit(mNativeHandler.getNative(), getAssetBytes(mGaphPath), eglContext.getNativeHandle());
         }
 

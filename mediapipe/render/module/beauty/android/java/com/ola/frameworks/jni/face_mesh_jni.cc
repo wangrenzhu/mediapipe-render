@@ -160,13 +160,13 @@ namespace OpipeJNI {
         LOG(INFO) << "###### nativeInitLut after";
     }
 
-    JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut2) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
+    JNIEXPORT void JNICALL OLA_METHOD(nativeInitLutBytes) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
                                                          jbyteArray data)
     {
         Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
         jbyte *data_ptr = env->GetByteArrayElements(data, nullptr);
         int size = env->GetArrayLength(data);
-        faceModule->initLut2(reinterpret_cast<unsigned char*>(data_ptr), size);
+        faceModule->initLut(reinterpret_cast<unsigned char*>(data_ptr), size);
         env->ReleaseByteArrayElements(data, data_ptr, JNI_ABORT);
     }
                                                 

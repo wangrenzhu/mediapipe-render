@@ -188,7 +188,7 @@ namespace Opipe
         _omat = std::move(mat);
     }
 
-     void FaceMeshModuleIMP::initLut2(unsigned char *pixelBuffer,int size){
+     void FaceMeshModuleIMP::initLut(unsigned char *pixelBuffer,int size){
         int width, height, channels_in_file;
         auto data = stbi_load_from_memory(reinterpret_cast<stbi_uc*>(pixelBuffer),
                                     size, &width, &height,

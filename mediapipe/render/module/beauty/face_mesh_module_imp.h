@@ -55,7 +55,7 @@ namespace Opipe
         virtual void stopModule() override;
 
         virtual void initLut(OMat &mat) override;
-        virtual void initLut2(unsigned char *pixelBuffer,int size) override;
+        virtual void initLut(unsigned char *pixels,int size) override;
 
         // 外部共享Context用
         virtual OlaContext* currentContext() override {

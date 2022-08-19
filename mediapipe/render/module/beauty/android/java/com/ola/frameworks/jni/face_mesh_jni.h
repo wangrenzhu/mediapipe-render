@@ -45,7 +45,7 @@ namespace OpipeJNI {
         JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
                                                          jobject whiten_bitmap);
 
-        JNIEXPORT void JNICALL OLA_METHOD(nativeInitLut2) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
+        JNIEXPORT void JNICALL OLA_METHOD(nativeInitLutBytes) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
                                                          jbyteArray data);
 
 

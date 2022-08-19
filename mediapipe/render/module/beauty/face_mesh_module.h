@@ -177,7 +177,7 @@ namespace Opipe
                 virtual Filter* getOutputFilter() = 0;
 
                 virtual void initLut(OMat &mat) = 0;
-                virtual void initLut2(unsigned char *pixelBuffer,int size) = 0;
+                virtual void initLut(unsigned char *pixels,int size) = 0;
         };
 }
 #endif
