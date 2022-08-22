@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
 //        byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
 //        mOlaWrapper = new OlaWrapper(getApplicationContext(), "face_mesh_mobile_gpu.binarypb",getImageFromAssetsFile("whiten.png"));
-        mOlaWrapper = new OlaWrapper(getApplicationContext(), "face_mesh_mobile_gpu.binarypb", "whiten.png");
+        mOlaWrapper = new OlaWrapper(getApplicationContext(), "face_mesh_mobile_vFlip.binarypb", "whiten.png");
 
         mCameraVideoView = new CameraVideoView(this, null);
 

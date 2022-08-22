@@ -11,6 +11,7 @@
 #endif
 
 static const char *kNumFacesInputSidePacket = "num_faces";
+static const char *kVFlipInputSidePacket = "vflip";
 static const char *kLandmarksOutputStream = "multi_face_landmarks";
 static const char *kDetectionsOutputStream = "face_detections";
 static const char *kOutputVideo = "output_video";
@@ -38,38 +39,38 @@ namespace Opipe
             return;
         }
 
-        if (streamName == kLandmarksOutputStream)
-        {
-            _last_landmark_ts = packet.Timestamp().Value();
-            _hasFace = true;
-            const auto &multi_face_landmarks = packet.Get<std::vector<::mediapipe::NormalizedLandmarkList>>();
-            _lastLandmark = multi_face_landmarks[0];
-        }
-        #if defined(__APPLE__)
-        int64_t distance = 1000000;
-        #else
-        int64_t distance = 50;
-        #endif
-
-        if (streamName == kOutputVideo && (packet.Timestamp().Value() - _last_landmark_ts) > distance)
-        {
-            _hasFace = false;
-            _last_landmark_ts = 0; //输出过一次的时间戳 不再输出
-        }
-
-        if (_hasFace)
-        {
-            // 人脸识别数据
-            _imp->setLandmark(_lastLandmark, packet.Timestamp().Value());
-        }
-        else
-        {
-            _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
-        }
-     
-
         _imp->currentDispatch()->runSync([&, packetType, streamName, packet, graph] {
 
+            if (streamName == kLandmarksOutputStream)
+            {
+                _last_landmark_ts = packet.Timestamp().Value();
+                _hasFace = true;
+                const auto &multi_face_landmarks = packet.Get<std::vector<::mediapipe::NormalizedLandmarkList>>();
+                _lastLandmark = multi_face_landmarks[0];
+            }
+            #if defined(__APPLE__)
+            int64_t distance = 1000000;
+            #else
+            int64_t distance = 50;
+            #endif
+
+            if (streamName == kOutputVideo && (packet.Timestamp().Value() - _last_landmark_ts) > distance)
+            {
+                _hasFace = false;
+                _last_landmark_ts = 0; //输出过一次的时间戳 不再输出
+            }
+
+            if (_hasFace)
+            {
+                // 人脸识别数据
+                _imp->setLandmark(_lastLandmark, packet.Timestamp().Value());
+            }
+            else
+            {
+                _imp->setLandmark(_emptyLandmark, packet.Timestamp().Value());
+            }
+         
+            
             if (streamName == kSegmentation) {
                 // 人脸分割的数据
                 LOG(INFO) << "######  FaceMeshCallFrameDelegate kSegmentation:" << streamName << " packetType:" << packetType;
@@ -102,7 +103,7 @@ namespace Opipe
                     }
                     const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
                     mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
-                    ptr->WaitUntilComplete();
+                    ptr->WaitOnGpu();
                     int textureId = ptr->name();
                     LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;
                     cameraSource->setRenderTexture(textureId, video.width(), video.height());
@@ -201,10 +202,13 @@ namespace Opipe
 
         _graph->setDelegate(_delegate);
         _graph->setSidePacket(mediapipe::MakePacket<int>(1), kNumFacesInputSidePacket);
+        
         _graph->addFrameOutputStream(kLandmarksOutputStream, MPPPacketTypeRaw);
 #if defined(__APPLE__)
+        _graph->setSidePacket(mediapipe::MakePacket<bool>(false), kVFlipInputSidePacket);
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypePixelBuffer);
 #else
+        _graph->setSidePacket(mediapipe::MakePacket<bool>(true), kVFlipInputSidePacket);
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypeGpuBuffer);
 #endif
 
@@ -266,7 +270,7 @@ namespace Opipe
                 
                 facePoints.emplace_back(_lastLandmark.landmark(i).x(), _lastLandmark.landmark(i).y());
             }
-            LOG(INFO) << "@@@facePoint i:" << 0 << " x:" << _lastLandmark.landmark(0).x() << " y:" << _lastLandmark.landmark(0).y();
+            LOG(INFO) << "@@@facePoint i:" << 0 << " x:" << _lastLandmark.landmark(152).x() << " y:" << _lastLandmark.landmark(152).y();
             LOG(INFO) << "检测到人脸输完毕:" << _lastLandmark.landmark_size();
         }
         _render->setFacePoints(facePoints);

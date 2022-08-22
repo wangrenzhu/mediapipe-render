@@ -107,8 +107,11 @@ namespace Opipe
 
         if (status.ok()) {
             status = performStart();
-
+            
             _started = status.ok();
+            if (!status.ok()) {
+                LOG(ERROR) << "###### start failed: " << status.message();
+            }
         } else {
             LOG(ERROR) << "###### start failed: " << status.message();
         }

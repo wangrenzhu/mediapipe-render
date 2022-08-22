@@ -64,6 +64,7 @@ cc_library(
         "//mediapipe/calculators/image:segmentation_smoothing_calculator",
         "//mediapipe/calculators/util:from_image_calculator",
         "//mediapipe/modules/pose_landmark:pose_segmentation_filtering",
+        "//mediapipe/calculators/image:image_transformation_calculator",
     ],
 )
 
@@ -78,5 +79,13 @@ mediapipe_binary_graph(
     name = "face_mesh_mobile_landmark_gpu_binary_graph",
     graph = "face_mesh_mobile_landmark.pbtxt",
     output_name = "face_mesh_mobile_landmark_gpu.binarypb",
+    deps = [":mobile_calculators"],
+)
+
+
+mediapipe_binary_graph(
+    name = "face_mesh_mobile_vFlip_gpu_binary_graph",
+    graph = "face_mesh_mobile_vFlip.pbtxt",
+    output_name = "face_mesh_mobile_vFlip.binarypb",
     deps = [":mobile_calculators"],
 )
