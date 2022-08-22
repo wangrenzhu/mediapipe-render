@@ -51,7 +51,7 @@ namespace Opipe
             #if defined(__APPLE__)
             int64_t distance = 1000000;
             #else
-            int64_t distance = 50;
+            int64_t distance = 100;
             #endif
 
             if (streamName == kOutputVideo && (packet.Timestamp().Value() - _last_landmark_ts) > distance)
@@ -103,7 +103,7 @@ namespace Opipe
                     }
                     const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
                     mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
-                    ptr->WaitOnGpu();
+                    ptr->WaitUntilComplete();
                     int textureId = ptr->name();
                     LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;
                     cameraSource->setRenderTexture(textureId, video.width(), video.height());
@@ -267,8 +267,11 @@ namespace Opipe
             LOG(INFO) << "检测到人脸输出:" << _lastLandmark.landmark_size();
             for (int i = 0; i < _lastLandmark.landmark_size(); i++)
             {
-                
+                #if defined(__APPLE__)
                 facePoints.emplace_back(_lastLandmark.landmark(i).x(), _lastLandmark.landmark(i).y());
+                #else
+                facePoints.emplace_back(_lastLandmark.landmark(i).x(), 1.0 - _lastLandmark.landmark(i).y());
+                #endif
             }
             LOG(INFO) << "@@@facePoint i:" << 0 << " x:" << _lastLandmark.landmark(152).x() << " y:" << _lastLandmark.landmark(152).y();
             LOG(INFO) << "检测到人脸输完毕:" << _lastLandmark.landmark_size();
