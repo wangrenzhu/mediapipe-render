@@ -62,7 +62,7 @@ node {
     [mediapipe.FlowLimiterCalculatorOptions.ext] {
       max_in_flight: 1
       max_in_queue: 1
-      in_flight_timeout: 300000
+      in_flight_timeout: 30000
     }
   }
 }

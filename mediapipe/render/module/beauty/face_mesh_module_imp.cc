@@ -51,7 +51,7 @@ namespace Opipe
             #if defined(__APPLE__)
             int64_t distance = 1000000;
             #else
-            int64_t distance = 100;
+            int64_t distance = 1000;
             #endif
 
             if (streamName == kOutputVideo && (packet.Timestamp().Value() - _last_landmark_ts) > distance)
