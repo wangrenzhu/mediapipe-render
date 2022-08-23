@@ -45,7 +45,7 @@ namespace Opipe
         BilateralFilter *_bilateralFilter = 0;
         AlphaBlendFilter *_alphaBlendFilter = 0;
         LUTFilter *_lutFilter = 0;
-        SegmentationFilter *_segmentationFilter = 0;
+        // SegmentationFilter *_segmentationFilter = 0;
         BilateralAdjustFilter *_bilateralAdjustFilter = 0;
         UnSharpMaskFilter *_unSharpMaskFilter = 0;
         FaceDistortionFilter *_faceDistortFilter = 0;

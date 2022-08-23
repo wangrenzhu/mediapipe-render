@@ -1,7 +1,7 @@
 load("@build_bazel_rules_apple//apple:ios.bzl", "ios_framework", "ios_static_framework", "ios_application")
 # bazel build --copt=-fembed-bitcode --apple_bitcode=embedded --config=ios_arm64
 # 用上面这条指令build
-
+#  bazel build --copt=-fembed-bitcode --apple_bitcode=embedded --config=ios_arm64 mediapipe/render/module/beauty/ios/framework:OlaFaceUnityFramework
 
 ios_framework(
     name = "OlaFaceUnityFramework",

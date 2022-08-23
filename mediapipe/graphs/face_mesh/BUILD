@@ -65,6 +65,7 @@ cc_library(
         "//mediapipe/calculators/util:from_image_calculator",
         "//mediapipe/modules/pose_landmark:pose_segmentation_filtering",
         "//mediapipe/calculators/image:image_transformation_calculator",
+        "//mediapipe/calculators/image:recolor_calculator",
     ],
 )
 

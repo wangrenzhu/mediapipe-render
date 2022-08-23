@@ -140,8 +140,6 @@ namespace Opipe
         }
         
         void setSegmentationEnable(bool segEnable) override;
-
-        void setSegmentationMask(mediapipe::GpuBuffer segMask);
         
         OpipeDispatch* currentDispatch() {
             return _dispatch.get();

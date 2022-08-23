@@ -16,7 +16,7 @@ static const char *kLandmarksOutputStream = "multi_face_landmarks";
 static const char *kDetectionsOutputStream = "face_detections";
 static const char *kOutputVideo = "output_video";
 static const char *kInputVideo = "input_video";
-static const char *kSegmentation = "filtered_segmentation_mask";
+static const char *kSegmentation = "segment_video";
 static const char *kUseSegmentation = "use_segmentation";
 
 namespace Opipe
@@ -71,17 +71,38 @@ namespace Opipe
             }
          
             
-            if (streamName == kSegmentation) {
+            if (streamName == kSegmentation && _imp->getSegmentation()) {
                 // 人脸分割的数据
                 LOG(INFO) << "######  FaceMeshCallFrameDelegate kSegmentation:" << streamName << " packetType:" << packetType;
-                const auto& image = packet.Get<Image>();
-                if (image.UsesGpu()) {
-                    auto gpubuffer = image.GetGpuBuffer();
-                    _imp->setSegmentationMask(gpubuffer);
-                }
+                SourceCamera *cameraSource = _imp->getOutputSource();
+#if defined(__APPLE__)
+                    if (packetType != MPPPacketTypePixelBuffer) {
+                        return;
+                    }
+                    const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
+                    CVPixelBufferRef pixelbuffer = mediapipe::GetCVPixelBufferRef(video);
+                    IOSurfaceRef ioSurface = CVPixelBufferGetIOSurface(pixelbuffer);
+                    IOSurfaceLock(ioSurface, kIOSurfaceLockReadOnly, 0);
+                    int ioSurfaceId = IOSurfaceGetID(ioSurface);
+                    cameraSource->setIOSurfaceSource(ioSurfaceId, video.width(), video.height());
+                    cameraSource->updateTargets(packet.Timestamp().Value());
+                    IOSurfaceUnlock(ioSurface, kIOSurfaceLockReadOnly, 0);
+#else
+                    if (packetType != MPPPacketTypeGpuBuffer) {
+                        return;
+                    }
+                    const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
+                    mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
+                    ptr->WaitUntilComplete();
+                    int textureId = ptr->name();
+                    LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;
+                    cameraSource->setRenderTexture(textureId, video.width(), video.height());
+                    cameraSource->updateTargets(packet.Timestamp().Value());
+                    LOG(INFO) << "###### FaceMeshCallFrameDelegate::updateTargets:" << cameraSource;
+#endif
             }
 
-            if (streamName == kOutputVideo) {
+            if (streamName == kOutputVideo && !_imp->getSegmentation()) {
                 if (_imp->getOutputSource()) {
                     SourceCamera *cameraSource = _imp->getOutputSource();
                     
@@ -211,8 +232,12 @@ namespace Opipe
         _graph->setSidePacket(mediapipe::MakePacket<bool>(true), kVFlipInputSidePacket);
         _graph->addFrameOutputStream(kOutputVideo, MPPPacketTypeGpuBuffer);
 #endif
-
-        _graph->addFrameOutputStream(kSegmentation, MPPPacketTypeImage);
+        
+#if defined(__APPLE__)
+        _graph->addFrameOutputStream(kSegmentation, MPPPacketTypePixelBuffer);
+#else
+        _graph->addFrameOutputStream(kSegmentation, MPPPacketTypeGpuBuffer);
+#endif
         _isInit = true;
         if (_render == nullptr)
         {
@@ -312,25 +337,6 @@ namespace Opipe
         }
     }
 
-    void FaceMeshModuleIMP::setSegmentationMask(mediapipe::GpuBuffer segMask)
-    {
-#if defined(__APPLE__)
-
-        CVPixelBufferRef maskBuffer = mediapipe::GetCVPixelBufferRef(segMask);
-        IOSurfaceRef maskSurface = CVPixelBufferGetIOSurface(maskBuffer);
-        int width = (int)IOSurfaceGetWidth(maskSurface);
-        int height = (int)IOSurfaceGetHeight(maskSurface);
-        _context->useAsCurrent();
-        CVFramebuffer *framebuffer = new CVFramebuffer(_context, width, height,
-                                                       IOSurfaceGetID(maskSurface));
-        _render->setSegmentationMask(std::move(framebuffer));
-
-#else
-        //这里需要好好写一下 怎么消费 mask
-        // Android 需要异步渲染 需要waitOnGPU
-#endif
-    }
-
 #if defined(__APPLE__)
     void FaceMeshModuleIMP::processVideoFrame(CVPixelBufferRef pixelbuffer,
                                               int64_t timeStamp)
@@ -367,7 +373,7 @@ namespace Opipe
                 CVPixelBufferUnlockBaseAddress(framebuffer->renderTarget, 0);
             }
             
-        },Context::IOContext);
+        }, Context::IOContext);
     }
 
     void FaceMeshModuleIMP::setSegmentationBackground(UIImage *image)
@@ -383,10 +389,12 @@ namespace Opipe
 #else
     void FaceMeshModuleIMP::setSegmentationBackground(OMat background)
     {
+        LOG(INFO) << "setSegmentationBackground begin";
         if (_render)
         {
             SourceImage *image = SourceImage::create(_context, background.width, background.height, background.data);
             _render->setSegmentationBackground(std::move(image));
+            LOG(INFO) << "setSegmentationBackground end width:" << background.width << " height:" << background.height;
         }
     }
 #endif
@@ -397,20 +405,30 @@ namespace Opipe
                                               int height,
                                               int64_t timeStamp)
     {
-        if (!_isInit)
-        {
-            return;
-        }
-        _graph->sendPacket(pixelbuffer, width, height, kInputVideo, timeStamp);
+        _dispatch->runSync([&]
+                           {
+            if (!_isInit)
+            {
+                return;
+            }
+            Timestamp ts(timeStamp);
+            _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
+            _graph->sendPacket(pixelbuffer, width, height, kInputVideo, timeStamp);
+        }, Context::IOContext);
     }
 
     void FaceMeshModuleIMP::processVideoFrame(int textureId, int width, int height, int64_t timeStamp)
     {
-        if (!_isInit)
-        {
-            return;
-        }
-        _graph->sendPacket(textureId, width, height, kInputVideo, timeStamp);
+        _dispatch->runSync([&]
+                           {
+            if (!_isInit)
+            {
+                return;
+            }
+            Timestamp ts(timeStamp);
+            _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
+            _graph->sendPacket(textureId, width, height, kInputVideo, timeStamp);
+        }, Context::IOContext);
     }
 
     TextureInfo FaceMeshModuleIMP::renderTexture(TextureInfo inputTexture)

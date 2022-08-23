@@ -16,9 +16,8 @@ input_stream: "use_segmentation"
 # landmarks. (std::vector<NormalizedLandmarkList>)
 output_stream: "multi_face_landmarks"
 
-output_stream: "filtered_segmentation_mask"
-
 output_stream: "output_video"
+output_stream: "segment_video"
 
 # output_stream: "face_detections"
 
@@ -53,7 +52,7 @@ node {
 node {
   calculator: "FlowLimiterCalculator"
   input_stream: "throttled_segmentation_video"
-  input_stream: "FINISHED:filtered_segmentation_mask"
+  input_stream: "FINISHED:output_video"
   input_stream_info: {
     tag_index: "FINISHED"
     back_edge: true
@@ -68,23 +67,11 @@ node {
   }
 }
 
-node: {
-  calculator: "ImageTransformationCalculator"
-  input_stream: "IMAGE_GPU:throttled_segmentation_video2"
-  input_side_packet: "FLIP_VERTICALLY:vflip"
-  output_stream: "IMAGE_GPU:filtered_segmentation_transform_mask"
-}
-
 node {
   calculator: "GateCalculator"
   input_stream: "ALLOW:use_segmentation"
   input_stream: "input_video"
   output_stream: "throttled_segmentation_video"
-  # options: {
-  #   [mediapipe.GateCalculatorOptions.ext] {
-  #     allow: false
-  #   }
-  # }
 }
 
 # Defines side packets for further use in the graph.
@@ -128,28 +115,37 @@ node {
 
 node {
   calculator: "SelfieSegmentationGpu"
-  input_stream: "IMAGE:filtered_segmentation_transform_mask"
+  input_stream: "IMAGE:throttled_segmentation_video2"
   output_stream: "SEGMENTATION_MASK:segmentation_mask_gpu_buffer"
   # output_stream: "SEGMENTATION_MASK:filtered_segmentation_mask"
 }
 
 
 node {
-  calculator: "ToImageCalculator"
-  input_stream: "IMAGE_GPU:segmentation_mask_gpu_buffer"
-  output_stream: "IMAGE:segmentation_mask"
-}
-
-node {
-  calculator: "PoseSegmentationFiltering"
-  input_side_packet: "ENABLE:enable"
-  input_stream: "SEGMENTATION_MASK:segmentation_mask"
-  output_stream: "FILTERED_SEGMENTATION_MASK:filtered_segmentation_mask"
+  calculator: "RecolorCalculator"
+  input_stream: "IMAGE_GPU:throttled_segmentation_video2"
+  input_stream: "MASK_GPU:segmentation_mask_gpu_buffer"
+  output_stream: "IMAGE_GPU:segment_video"
+  node_options: {
+    [type.googleapis.com/mediapipe.RecolorCalculatorOptions] {
+      color { r: 0 g: 255 b: 0 }
+      mask_channel: RED
+      invert_mask: true
+      adjust_with_luminance: false
+    }
+  }
 }
 
 # Converts the incoming segmentation mask represented as an Image into the
 # corresponding GpuBuffer type.
-
+node {
+  calculator: "AnnotationOverlayCalculator"
+  input_stream: "IMAGE_GPU:throttled_input_video"
+  # input_stream: "detections_render_data"
+  # input_stream: "VECTOR:0:multi_face_landmarks_render_data"
+  # input_stream: "rects_render_data"
+  output_stream: "IMAGE_GPU:output_video"
+}
 
 
 # Subgraph that renders face-landmark annotation onto the input image.  //画标记 用于调试
@@ -163,11 +159,3 @@ node {
 # }
 
 # Draws annotations and overlays them on top of the input images.
-node {
-  calculator: "AnnotationOverlayCalculator"
-  input_stream: "IMAGE_GPU:throttled_input_video"
-  # input_stream: "detections_render_data"
-  # input_stream: "VECTOR:0:multi_face_landmarks_render_data"
-  # input_stream: "rects_render_data"
-  output_stream: "IMAGE_GPU:output_video"
-}

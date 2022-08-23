@@ -36,6 +36,8 @@ public class OlaBeauty {
 
     private String mGaphPath;
     private String mLutPath;
+    private String mBgPath;
+
 
     private Bitmap mBitmap;
 
@@ -82,11 +84,17 @@ public class OlaBeauty {
     }
 
     public OlaBeauty(Context context, String graphPath, String lutPath) {
+        this(context, graphPath, lutPath, null);
+    }
+
+    public OlaBeauty(Context context, String graphPath, String lutPath, String bgPath) {
         this.mContext = context;
         this.mCacheDir = context.getCacheDir().getAbsolutePath();
         this.mGaphPath = graphPath;
         this.mLutPath = lutPath;
+        this.mBgPath = bgPath;
     }
+
 
     public void onSurfaceCreated() {
 
@@ -156,11 +164,17 @@ public class OlaBeauty {
         if (result != 0) {
             mNativeHandler = beautyJNI;
             mNativeHandler.nativeInitAssertManager(mContext, mCacheDir);
-            if(mBitmap !=null)
+            if(mBitmap != null) {
                 mNativeHandler.nativeInitLut(mNativeHandler.getNative(), mBitmap);
-            else if(mLutPath !=null)
+            }  else if(mLutPath != null) {
                 mNativeHandler.nativeInitLutBytes(mNativeHandler.getNative(), getAssetBytes(mLutPath));
+            }
+
             mNativeHandler.nativeInit(mNativeHandler.getNative(), getAssetBytes(mGaphPath), eglContext.getNativeHandle());
+
+            if(mBgPath != null) {
+                mNativeHandler.nativeSetSegmentationBackgroud(mNativeHandler.getNative(), getAssetBytes(mBgPath));
+            }
         }
 
         return false;

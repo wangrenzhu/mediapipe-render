@@ -81,13 +81,14 @@ namespace OpipeJNI {
         ///分割
         JNIEXPORT bool JNICALL OLA_METHOD(nativeSegmentation)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance);
         
-        JNIEXPORT void JNICALL OLA_METHOD(nativeSetSlim)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float slim);
-        JNIEXPORT void JNICALL OLA_METHOD(nativeSetNose)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float nose);
-        JNIEXPORT void JNICALL OLA_METHOD(nativeSetEye)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float eye);
-        JNIEXPORT void JNICALL OLA_METHOD(nativeSetSmoothing)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float smoothing);
-        JNIEXPORT void JNICALL OLA_METHOD(nativeSetWhitening)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,float whitening);
-        JNIEXPORT void JNICALL OLA_METHOD(nativeSegmentationEnable)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance,bool segEnable);
-                
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetSlim)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance, float slim);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetNose)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance, float nose);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetEye)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance, float eye);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetSmoothing)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance, float smoothing);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetWhitening)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance, float whitening);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSegmentationEnable)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance, jboolean segEnable);
+        JNIEXPORT void JNICALL OLA_METHOD(nativeSetSegmentationBackgroud)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance, jbyteArray data);
+
 #ifdef __cplusplus
     }  // extern "C"
 #endif  // __cplusplus

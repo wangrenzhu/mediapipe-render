@@ -14,10 +14,10 @@ namespace Opipe {
             _lutImage = nullptr;
         }
 
-        if (_segmentationFilter) {
-            _segmentationFilter->release();
-            _segmentationFilter = nullptr;
-        }
+        // if (_segmentationFilter) {
+        //     _segmentationFilter->release();
+        //     _segmentationFilter = nullptr;
+        // }
         
         if (_bilateralFilter) {
             _bilateralFilter->release();
@@ -106,11 +106,12 @@ namespace Opipe {
         _unSharpMaskFilter->setBlurRadiusInPixel(2.0f, false);
         _unSharpMaskFilter->setIntensity(2.365);
         
-        _segmentationFilter = SegmentationFilter::create(context);
-        _segmentationFilter->setEnable(false);
+        // _segmentationFilter = SegmentationFilter::create(context);
+        // _segmentationFilter->setEnable(false);
 
 
-        _alphaBlendFilter->addTarget(_segmentationFilter)->addTarget(_faceDistortFilter);
+        // _alphaBlendFilter->addTarget(_segmentationFilter)->addTarget(_faceDistortFilter);
+        _alphaBlendFilter->addTarget(_faceDistortFilter);
 
         setTerminalFilter(_faceDistortFilter);
         std::vector<Vec2> defaultFace;
@@ -177,22 +178,22 @@ namespace Opipe {
     }
 
     void OlaBeautyFilter::setUseSegmentation(bool useSegmentation) {
-        if (_segmentationFilter) {
-            _segmentationFilter->setEnable(useSegmentation);
-        }
+        // if (_segmentationFilter) {
+        //     _segmentationFilter->setEnable(useSegmentation);
+        // }
     }
 
     void OlaBeautyFilter::setSegmentationBackground(SourceImage *background) {
-        if (_segmentationFilter) {
-            _segmentationFilter->setBackgroundImage(background);
-        }
+        // if (_segmentationFilter) {
+        //     _segmentationFilter->setBackgroundImage(background);
+        // }
     }
 
     void OlaBeautyFilter::setSegmentationMask(Framebuffer *maskbuffer) {
-        if (_segmentationFilter) {
-            // 有个异步问题 需要外部处理WaitOnGPU
-            _segmentationFilter->updateSegmentationMask(maskbuffer);
-        }
+        // if (_segmentationFilter) {
+        //     // 有个异步问题 需要外部处理WaitOnGPU
+        //     _segmentationFilter->updateSegmentationMask(maskbuffer);
+        // }
     }
 
 }

@@ -38,6 +38,11 @@ public class OlaWrapper extends RenderExpansion {
         this.mBeauty = new OlaBeauty(context, graphPath, bitmap);
     }
 
+    public OlaWrapper(Context context, String graphPath, String bitmap, String bgPath) {
+        this.mBeauty = new OlaBeauty(context, graphPath, bitmap, bgPath);
+    }
+
+
 
     private Bitmap getBitmap(AssetManager assets, String assetName) {
         Bitmap img = null;

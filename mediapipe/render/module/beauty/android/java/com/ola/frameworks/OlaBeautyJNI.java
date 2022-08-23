@@ -134,5 +134,7 @@ public class OlaBeautyJNI {
     public native void nativeSetSmoothing(long context, float smoothing);
     public native void nativeSetWhitening(long context, float whitening);
     public native void nativeSegmentationEnable(long context, boolean segEnable);
+    public native void nativeSetSegmentationBackgroud(long context, byte[] data);
+
 
 }
