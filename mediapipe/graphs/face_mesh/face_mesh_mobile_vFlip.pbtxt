@@ -1,6 +1,6 @@
 # MediaPipe graph that performs face mesh with TensorFlow Lite on GPU.
-max_queue_size: 2
-num_threads: 2
+max_queue_size: 3
+num_threads: 3
 # GPU buffer. (GpuBuffer)
 input_stream: "input_video"
 
@@ -113,18 +113,32 @@ node {
 # never empty because HandLandmarkSubgraphs processes all images (that went
 # through FlowLimiterCaculator).
 
+node: {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:throttled_segmentation_video2"
+  input_side_packet: "FLIP_VERTICALLY:vflip"
+  output_stream: "IMAGE_GPU:throttled_segmentation_transform_video2"
+}
+
 node {
   calculator: "SelfieSegmentationGpu"
-  input_stream: "IMAGE:throttled_segmentation_video2"
+  input_stream: "IMAGE:throttled_segmentation_transform_video2"
   output_stream: "SEGMENTATION_MASK:segmentation_mask_gpu_buffer"
   # output_stream: "SEGMENTATION_MASK:filtered_segmentation_mask"
+}
+
+node: {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:segmentation_mask_gpu_buffer"
+  input_side_packet: "FLIP_VERTICALLY:vflip"
+  output_stream: "IMAGE_GPU:segmentation_mask_gpu_buffer_vflip"
 }
 
 
 node {
   calculator: "RecolorCalculator"
   input_stream: "IMAGE_GPU:throttled_segmentation_video2"
-  input_stream: "MASK_GPU:segmentation_mask_gpu_buffer"
+  input_stream: "MASK_GPU:segmentation_mask_gpu_buffer_vflip"
   output_stream: "IMAGE_GPU:segment_video"
   node_options: {
     [type.googleapis.com/mediapipe.RecolorCalculatorOptions] {
