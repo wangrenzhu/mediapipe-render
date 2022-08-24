@@ -39,7 +39,7 @@ namespace Opipe
             return;
         }
 
-        _imp->currentDispatch()->runSync([&, packetType, streamName, packet, graph] {
+        _imp->currentDispatch()->runAsync([&, packetType, streamName, packet, graph] {
 
             if (streamName == kLandmarksOutputStream)
             {

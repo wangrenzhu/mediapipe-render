@@ -204,6 +204,7 @@ class ImageTransformationCalculator : public CalculatorBase {
   mediapipe::ScaleMode_Mode scale_mode_;
   bool flip_horizontally_ = false;
   bool flip_vertically_ = false;
+  float gpu_scale_ = 1.0f;
 
   bool use_gpu_ = false;
 #if !MEDIAPIPE_DISABLE_GPU
@@ -279,6 +280,10 @@ absl::Status ImageTransformationCalculator::GetContract(
   if (cc->InputSidePackets().HasTag("FLIP_VERTICALLY")) {
     cc->InputSidePackets().Tag("FLIP_VERTICALLY").Set<bool>();
   }
+  if (cc->InputSidePackets().HasTag("GPU_SCALE")) {
+    cc->InputSidePackets().Tag("GPU_SCALE").Set<float>();
+  }
+
 
   if (cc->Outputs().HasTag("LETTERBOX_PADDING")) {
     cc->Outputs().Tag("LETTERBOX_PADDING").Set<std::array<float, 4>>();
@@ -335,6 +340,11 @@ absl::Status ImageTransformationCalculator::Open(CalculatorContext* cc) {
   } else {
     flip_vertically_ = options_.flip_vertically();
   }
+
+  if (cc->InputSidePackets().HasTag("GPU_SCALE")) {
+    gpu_scale_ = cc->InputSidePackets().Tag("GPU_SCALE").Get<float>();
+  } 
+  
 
   scale_mode_ = ParseScaleMode(options_.scale_mode(), DEFAULT_SCALE_MODE);
 
@@ -556,9 +566,14 @@ absl::Status ImageTransformationCalculator::RenderGpu(CalculatorContext* cc) {
                           &output_height);
 
   if (scale_mode_ == mediapipe::ScaleMode_Mode_FILL_AND_CROP) {
-    const float scale =
+    float scale =
         std::min(static_cast<float>(output_width_) / input_width,
                  static_cast<float>(output_height_) / input_height);
+    if (gpu_scale_ != 1.0)
+    {
+      scale = gpu_scale_;
+    }
+    
     output_width = std::round(input_width * scale);
     output_height = std::round(input_height * scale);
   }

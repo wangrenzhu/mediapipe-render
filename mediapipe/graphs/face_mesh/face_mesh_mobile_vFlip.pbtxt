@@ -85,6 +85,16 @@ node {
   }
 }
 
+node {
+  calculator: "ConstantSidePacketCalculator"
+  output_side_packet: "PACKET:gpu_scale"
+  node_options: {
+    [type.googleapis.com/mediapipe.ConstantSidePacketCalculatorOptions]: {
+      packet { float_value: 0.5 }
+    }
+  }
+}
+
 node: {
   calculator: "ImageTransformationCalculator"
   input_stream: "IMAGE_GPU:throttled_input_video"
@@ -117,6 +127,7 @@ node: {
   calculator: "ImageTransformationCalculator"
   input_stream: "IMAGE_GPU:throttled_segmentation_video2"
   input_side_packet: "FLIP_VERTICALLY:vflip"
+  input_side_packet: "GPU_SCALE:gpu_scale"
   output_stream: "IMAGE_GPU:throttled_segmentation_transform_video2"
 }
 
