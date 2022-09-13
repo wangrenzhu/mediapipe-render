@@ -84,6 +84,8 @@ cc_library(
 
 exports_files(
     srcs = [
+        "skinGray.png",
+        "skinLookup.png",
         "whiten.png",
     ],
 )

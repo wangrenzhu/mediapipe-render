@@ -46,7 +46,7 @@ using namespace Opipe;
     NSURL* graphURL = [bundle URLForResource:@"face_mesh_mobile_vFlip" withExtension:@"binarypb"];
     NSData* data = [NSData dataWithContentsOfURL:graphURL options:0 error:nil];
     if (data) {
-        _face_module->init(nullptr, 0, (void *)data.bytes, data.length);
+        _face_module->init(nullptr, 0, (void *)data.bytes, data.length, _useNewBeauty);
         _face_module->startModule();
     }
     if (_useGLRender) {
@@ -197,6 +197,11 @@ using namespace Opipe;
 - (void)setNose:(CGFloat)nose
 {
     _face_module->setNose(nose);
+}
+
+- (void)setSharpness:(CGFloat)sharpness
+{
+    _face_module->setSharpness(sharpness);
 }
 
 - (BOOL)useSegmentation

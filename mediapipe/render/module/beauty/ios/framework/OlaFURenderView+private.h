@@ -12,6 +12,8 @@
 #import "mediapipe/render/core/Context.hpp"
 #include "mediapipe/render/core/TargetView.hpp"
 
+#define snapshotMode 0
+
 @interface OlaFURenderView()  <GPUImageTarget>
 {
     Opipe::RotationMode inputRotation;
@@ -25,6 +27,9 @@
     Opipe::Context *_context;
     CGRect renderBounds;
     GLfloat backgroundColorRed, backgroundColorGreen, backgroundColorBlue, backgroundColorAlpha;
+#if snapshotMode
+    CADisplayLink *_link;
+#endif
 }
 @property(readwrite, nonatomic) Opipe::TargetView::FillMode fillMode;
 @property(nonatomic) Opipe::Framebuffer* inputFramebuffer;

@@ -15,7 +15,6 @@
 
 #include "mediapipe/render/core/OlaContext.hpp"
 #include "mediapipe/render/module/beauty/face_mesh_common.h"
-#include "mediapipe/render/module/beauty/face_mesh_module.h"
 #include "mediapipe/util/android/asset_manager_util.h"
 #include "mediapipe/render/core/GLThreadDispatch.h"
 #include "mediapipe/render/core/jni/JNIEnvAttach.h"
@@ -310,6 +309,10 @@ namespace OpipeJNI {
         env->ReleaseByteArrayElements(data, data_ptr, JNI_ABORT);
     }
 
+JNIEXPORT jfloat JNICALL OLA_METHOD(nativeGetAvgRenderTime)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance){
+    Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
+    return faceModule->currentProfile().avgRenderTime;
+}
 
 
 }

@@ -3,18 +3,14 @@ package(default_visibility = ["//visibility:public"])
 
 BEAUTYFILTERS_SRCS = [
         "BilateralAdjustFilter.cpp",
-        "FaceDistortionFilter.cpp",
         "OlaBeautyFilter.cpp",
         "UnSharpMaskFilter.cpp",
-        "SegmentationFilter.cpp"
 ]
 
 BEAUTYFILTERS_HDRS = [
         "BilateralAdjustFilter.hpp",
-        "FaceDistortionFilter.hpp",
         "OlaBeautyFilter.hpp",
         "UnSharpMaskFilter.hpp",
-        "SegmentationFilter.hpp"
 ]
 
 cc_library(
@@ -28,9 +24,11 @@ cc_library(
     ] + select({
         "//mediapipe:apple": [
             "//mediapipe/render/core:core-ios",
+            "//mediapipe/render/module/beauty/filters/BeautyV2:BeautyFilters",
          ],
         "//conditions:default": [
             "//mediapipe/render/core:core",
+            "//mediapipe/render/module/beauty/filters/BeautyV2:BeautyFilters",
         ],
     }),
     copts = select({

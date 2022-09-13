@@ -2,15 +2,22 @@
 #define OPIPE_FaceMeshBeautyRender
 #include "face_mesh_common.h"
 #include "mediapipe/render/module/beauty/filters/OlaBeautyFilter.hpp"
+#include "mediapipe/render/module/beauty/filters/BeautyV2/OlaBeautyFilterV2.hpp"
 #include "mediapipe/render/core/OlaShareTextureFilter.hpp"
 #include "mediapipe/render/core/SourceImage.hpp"
 #include "mediapipe/render/core/math/vec2.hpp"
+#include "mediapipe/render/module/beauty/face_mesh_module.h"
 
 
 namespace Opipe {
     class FaceMeshBeautyRender {
         public:
-            FaceMeshBeautyRender(Context *context, int width, int height, void* data);
+            // V1 美颜
+            FaceMeshBeautyRender(Context *context, OMat lutMat);
+
+            // V2 美颜
+            FaceMeshBeautyRender(Context *context, OMat lutMat, OMat grayMat);
+
             ~FaceMeshBeautyRender();
 
             void suspend();
@@ -40,10 +47,13 @@ namespace Opipe {
                 return _noseFactor;
             }
         
+            float getSharpness() {
+                return _sharpnessFactor;
+            }
+        
             /// 磨皮
             /// @param smoothing 磨皮 0.0 - 1.0
             void setSmoothing(float smoothing);
-            
             
             /// 美白
             /// @param whitening 美白 0.0 - 1.0
@@ -60,6 +70,9 @@ namespace Opipe {
         
             // 瘦鼻
             void setNoseFactor(float noseFactor);
+            
+            // 锐化
+            void setSharpness(float sharpnessFactor);
 
             Filter* outputFilter() {
                 return _outputFilter;
@@ -67,15 +80,10 @@ namespace Opipe {
         
             void setInputSource(Source *source);
 
-            void setUseSegmentation(bool useSegmentation);    
-
-            void setSegmentationBackground(SourceImage *background);
-
-            void setSegmentationMask(Framebuffer *maskbuffer);        
-        
         private:
             Source *_source = nullptr;
             OlaBeautyFilter *_olaBeautyFilter = nullptr;
+            OlaBeautyFilterV2 *_olaBeautyFilterV2 = nullptr;
             OlaShareTextureFilter *_outputFilter = nullptr;
             Framebuffer *_inputFramebuffer = nullptr;
             float _smoothing = 0.0;
@@ -83,9 +91,11 @@ namespace Opipe {
             float _noseFactor = 0.0;
             float _faceFactor = 0.0;
             float _eyeFactor = 0.0;
+            float _sharpnessFactor = 0.0;
             bool _isRendering = false;
             Context *_context = nullptr;
             SourceImage *_lutImage = nullptr;
+            SourceImage *_grayImage = nullptr;
             bool _useSegmentation = false;
 
     };

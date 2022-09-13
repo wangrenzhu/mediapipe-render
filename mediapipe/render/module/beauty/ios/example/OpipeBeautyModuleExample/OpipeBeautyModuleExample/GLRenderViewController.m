@@ -55,6 +55,11 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
     [[OlaFaceUnity sharedInstance] dispose];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.pixelFormatType = kCVPixelFormatType_420YpCbCr8BiPlanarFullRange;
@@ -63,6 +68,7 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
         _startRunTime = CFAbsoluteTimeGetCurrent();
         _currentRunTIme = 0.;
     }
+
     [OlaFaceUnity sharedInstance].useGLRender = YES;
     [self setupSession];
     [[OlaFaceUnity sharedInstance] initModule];
@@ -145,8 +151,8 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
            dimensions.height ==[[outputSettings objectForKey:@"Height"]  intValue]) {
             if (YES == [self.captureDevice lockForConfiguration:NULL] ) {
                 self.captureDevice.activeFormat = vFormat;
-                [self.captureDevice setActiveVideoMinFrameDuration:CMTimeMake(1,glfps)];
-                [self.captureDevice setActiveVideoMaxFrameDuration:CMTimeMake(1,glfps)];
+                [self.captureDevice setActiveVideoMinFrameDuration:CMTimeMake(1, glfps)];
+                [self.captureDevice setActiveVideoMaxFrameDuration:CMTimeMake(1, glfps)];
                 [self.captureDevice unlockForConfiguration];
             }
         }
@@ -208,7 +214,7 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
     AVCaptureDeviceInput *newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:backFacingCamera error:&error];
     if (newVideoInput != nil) {
         [self.captureSession beginConfiguration];
-        [self.captureSession setSessionPreset:AVCaptureSessionPreset1920x1080];
+        [self.captureSession setSessionPreset:AVCaptureSessionPreset1280x720];
         
         [self.captureSession removeInput:self.videoInput];
         if ([self.captureSession canAddInput:newVideoInput]) {
@@ -275,6 +281,8 @@ AVCaptureAudioDataOutputSampleBufferDelegate>
         [OlaFaceUnity sharedInstance].eyeFactor = sender.value;
     } else if (sender.tag == 3) {
         [OlaFaceUnity sharedInstance].nose = sender.value;
+    } else if (sender.tag == 4) {
+        [OlaFaceUnity sharedInstance].sharpness = sender.value;
     }
 }
 

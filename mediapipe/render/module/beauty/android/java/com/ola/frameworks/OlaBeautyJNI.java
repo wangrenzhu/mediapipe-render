@@ -118,6 +118,8 @@ public class OlaBeautyJNI {
     public native void nativeProcessVideoFrameBytes(long context, byte[] data, int size, int width, int height,
             long frameTime);
 
+    public native float nativeGetAvgRenderTime(long context);
+
 
     ///美颜参数
     public native float nativeGetSmoothing(long context);

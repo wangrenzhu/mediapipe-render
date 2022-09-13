@@ -26,6 +26,9 @@ namespace Opipe
         void attach(FaceMeshModuleIMP *imp) {
             _imp = imp;
         }
+        OpipeProfile currentProfile() {
+             return _profile;
+        }
         
     private:
         int64_t _last_landmark_ts = 0;
@@ -33,6 +36,7 @@ namespace Opipe
         NormalizedLandmarkList _lastLandmark;
         NormalizedLandmarkList _emptyLandmark;
         FaceMeshModuleIMP *_imp = nullptr;
+        OpipeProfile _profile;
     };
 
     class FaceMeshModuleIMP : public FaceMeshModule
@@ -48,13 +52,14 @@ namespace Opipe
         virtual void resume() override;
 
         // env iOS给空
-        virtual bool init(GLThreadDispatch *glDispatch, long glcontext, void *binaryData, int size) override;
+        virtual bool init(GLThreadDispatch *glDispatch, long glcontext, void *binaryData, int size, 
+                          bool useBeautyV2) override;
 
         virtual void startModule() override;
 
         virtual void stopModule() override;
 
-        virtual void initLut(OMat &mat) override;
+        virtual void initLut(OMat &mat, OMat &grayMat) override;
 
         // 外部共享Context用
         virtual OlaContext* currentContext() override {
@@ -111,6 +116,10 @@ namespace Opipe
             return _render->getNose();
         }
         
+        float getSharpness() override {
+            return _render->getSharpness();
+        }
+        
         /// 磨皮
         /// @param smoothing 磨皮 0.0 - 1.0
         void setSmoothing(float smoothing) override {
@@ -135,6 +144,10 @@ namespace Opipe
             _render->setNoseFactor(nose);
         }
         
+        void setSharpness(float sharpness) override {
+            _render->setSharpness(sharpness);
+        }
+        
         bool getSegmentation() override {
             return _segEnable;
         }
@@ -153,18 +166,24 @@ namespace Opipe
             return _outputSource;
         }
 
+        virtual OpipeProfile currentProfile() override {
+             return _delegate->currentProfile();
+        }
+
     private:
         std::unique_ptr<OpipeDispatch> _dispatch;
         std::unique_ptr<OlaGraph> _graph;
         Context *_context = nullptr;
         bool _isInit = false;
         bool _segEnable = false;
+        bool _useBeautyV2 = false;
         NormalizedLandmarkList _lastLandmark;
         std::shared_ptr<FaceMeshCallFrameDelegate> _delegate;
         FaceMeshBeautyRender *_render = nullptr;
         OlaContext *_olaContext = nullptr;
         Timestamp _lastTs = Timestamp::Unset();
         OMat _omat;
+        OMat _grayMat;
         OlaCameraSource *_inputSource = nullptr; // 处理输入
         SourceCamera *_outputSource = nullptr; //处理输出
     };

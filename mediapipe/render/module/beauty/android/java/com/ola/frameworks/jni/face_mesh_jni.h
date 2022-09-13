@@ -63,8 +63,7 @@ namespace OpipeJNI {
         JNIEXPORT void JNICALL OLA_METHOD(nativeProcessVideoFrameBytes) (JNIEnv* env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
                                                                         jbyteArray data, jint width, jint height, jlong frameTime);
 
-
-
+        JNIEXPORT jfloat JNICALL OLA_METHOD(nativeGetAvgRenderTime)(JNIEnv *env, jobject javaObject, NativeId<Opipe::FaceMeshModule> instance);
 
 
         /////////美颜参数相关

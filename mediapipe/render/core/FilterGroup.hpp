@@ -46,7 +46,7 @@ public:
     // Most often, it's not necessary to specify the terminal filter manually,
     // as the terminal filter will be specified automatically.
     void setTerminalFilter(Filter* filter) { _terminalFilter = filter; }
-    
+    virtual void setFramebufferScale(float framebufferScale) override;
     virtual Source* addTarget(Target* target) override;
     virtual Source* addTarget(Target* target, int texIdx) override;
 #if defined(__APPLE__)

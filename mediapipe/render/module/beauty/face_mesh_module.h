@@ -17,10 +17,19 @@
 
 namespace Opipe
 {
+    
+
+        typedef struct OpipeProfile {
+            int64_t renderCount = 0; //提交渲染帧的个数
+            float avgRenderTime = 0.0; //提交渲染平均耗时
+            int64_t maxRenderDuration = 0; //最大提交渲染耗时
+            int64_t minRenderDuration = 99999999999; //最小提价渲染耗时
+        } OpipeProfile;
+
         class Source;
         class Filter;
-        struct OMat
-        {
+
+        typedef struct OMat {
                 int width = 0;
                 int height = 0;
                 void *data = 0;
@@ -93,6 +102,7 @@ namespace Opipe
                 }
         };
 
+        
         class FaceMeshModule
         {
         public:
@@ -109,7 +119,11 @@ namespace Opipe
                 // 恢复渲染
                 virtual void resume() = 0;
 
-                virtual bool init(GLThreadDispatch *glDispatch, long glcontext, void *binaryData, int size) = 0;
+                virtual void initLut(OMat &mat, OMat &grayMat) = 0;
+
+                virtual bool init(GLThreadDispatch *glDispatch, long glcontext, 
+                                  void *binaryData, 
+                                  int size, bool useBeautyV2) = 0;
 
                 virtual void startModule() = 0;
 
@@ -129,12 +143,16 @@ namespace Opipe
                 /// 瘦鼻
                 virtual float getNose() = 0;
             
+                virtual float getSharpness() = 0;
+            
                 virtual void setSlim(float slim) = 0;
             
             
                 virtual void setNose(float nose) = 0;
             
                 virtual void setEye(float eye) = 0;
+            
+                virtual void setSharpness(float sharpness) = 0;
                 
                 /// 磨皮
                 /// @param smoothing 磨皮 0.0 - 1.0
@@ -176,7 +194,7 @@ namespace Opipe
 
                 virtual Filter* getOutputFilter() = 0;
 
-                virtual void initLut(OMat &mat) = 0;
+                virtual OpipeProfile currentProfile() = 0;
         };
 }
 #endif

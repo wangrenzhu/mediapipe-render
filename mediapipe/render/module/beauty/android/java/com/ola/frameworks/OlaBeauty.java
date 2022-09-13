@@ -202,6 +202,10 @@ public class OlaBeauty {
         }
     }
 
+    public float getAvgRenderTime(){
+        return mNativeHandler.nativeGetAvgRenderTime(mNativeHandler.getNative());
+    }
+
 
     public float getSmoothing(){
         return mNativeHandler.nativeGetSmoothing(mNativeHandler.getNative());

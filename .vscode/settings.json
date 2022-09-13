@@ -144,7 +144,8 @@
       "source_location": "cpp",
       "syncstream": "cpp",
       "jni.h": "c",
-      "propagate_const": "cpp"
+      "propagate_const": "cpp",
+      "framebuffercache.hpp": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled",
     "search.followSymlinks": false

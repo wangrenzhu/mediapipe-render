@@ -53,7 +53,7 @@ public:
     virtual void setFramebuffer(Framebuffer* fb, RotationMode outputRotation = RotationMode::NoRotation);
     virtual Framebuffer* getFramebuffer() const;
     
-    void setFramebufferScale(float framebufferScale) { _framebufferScale = framebufferScale; }
+    virtual void setFramebufferScale(float framebufferScale) { _framebufferScale = framebufferScale; }
     int getRotatedFramebufferWidth() const;
     int getRotatedFramebufferHeight() const;
     

@@ -13,7 +13,11 @@
 #import <AVFoundation/AVFoundation.h>
 NS_ASSUME_NONNULL_BEGIN
 
+@interface OlaFURenderView()
 
+@property (nonatomic) dispatch_semaphore_t cameraFrameRenderingSemaphore;
+
+@end
 @implementation OlaFURenderView
 
 + (Class)layerClass
@@ -57,7 +61,12 @@ NS_ASSUME_NONNULL_BEGIN
     [self setBackgroundColorRed:0.0 green:0.0 blue:0.0 alpha:0.0];
     _fillMode = Opipe::TargetView::FillMode::PreserveAspectRatioAndFill;
     [self createDisplayFramebuffer];
-        
+#if snapshotMode
+    _link = [CADisplayLink displayLinkWithTarget:self selector:@selector(presentFramebuffer)];
+    [_link addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    self.cameraFrameRenderingSemaphore = dispatch_semaphore_create(1);
+    dispatch_semaphore_wait(self.cameraFrameRenderingSemaphore, DISPATCH_TIME_NOW);
+#endif
     
 }
 
@@ -127,6 +136,30 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)presentFramebuffer;
 {
+#if snapshotMode
+    if (!self.cameraFrameRenderingSemaphore) {
+        return;
+    }
+    if (dispatch_semaphore_wait(self.cameraFrameRenderingSemaphore, DISPATCH_TIME_NOW) != 0)
+    {
+        return;
+    }
+    _context->useAsCurrent();
+    _context->setActiveShaderProgram(displayProgram);
+
+    [self setDisplayFramebuffer];
+    glClearColor(backgroundColorRed, backgroundColorGreen, backgroundColorBlue, backgroundColorAlpha);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, _inputFramebuffer->getTexture());
+    glUniform1i(_colorMapUniformLocation, 0);
+    glVertexAttribPointer(_positionAttribLocation, 2, GL_FLOAT, 0, 0, displayVertices);
+    glVertexAttribPointer(_texCoordAttribLocation, 2, GL_FLOAT, 0, 0, [self textureCoordinatesForRotation:inputRotation] );
+        
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+#endif
+    
     glBindRenderbuffer(GL_RENDERBUFFER, displayRenderbuffer);
     _context->presentBufferForDisplay();
 }
@@ -141,6 +174,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)update:(float)frameTime {
     
+    
+#if snapshotMode
+    dispatch_semaphore_signal(self.cameraFrameRenderingSemaphore);
+#else
     _context->setActiveShaderProgram(displayProgram);
 
     [self setDisplayFramebuffer];
@@ -154,8 +191,8 @@ NS_ASSUME_NONNULL_BEGIN
     glVertexAttribPointer(_texCoordAttribLocation, 2, GL_FLOAT, 0, 0, [self textureCoordinatesForRotation:inputRotation] );
         
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-        
     [self presentFramebuffer];
+#endif
 }
 
 - (void)setInputFramebuffer:(Opipe::Framebuffer*)newInputFramebuffer withRotation:(Opipe::RotationMode)rotation atIndex:(NSInteger)texIdx {

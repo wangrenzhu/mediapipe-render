@@ -13,11 +13,6 @@ namespace Opipe {
             _lutImage->release();
             _lutImage = nullptr;
         }
-
-        // if (_segmentationFilter) {
-        //     _segmentationFilter->release();
-        //     _segmentationFilter = nullptr;
-        // }
         
         if (_bilateralFilter) {
             _bilateralFilter->release();
@@ -78,6 +73,7 @@ namespace Opipe {
         _alphaBlendFilter = AlphaBlendFilter::create(context);
 
         _bilateralFilter = BilateralFilter::create(context);
+        _bilateralFilter->setFramebufferScale(0.5);
         _lookUpGroupFilter = FilterGroup::create(context);
         
     
@@ -96,7 +92,7 @@ namespace Opipe {
 
         _bilateralFilter->addTarget(_bilateralAdjustFilter, 1)->addTarget(_alphaBlendFilter, 0);
 
-        _alphaBlendFilter->setMix(0.8);
+        _alphaBlendFilter->setMix(0.6);
 
 
         _bilateralAdjustFilter->setOpacityLimit(0.6);
@@ -104,19 +100,19 @@ namespace Opipe {
         _bilateralFilter->setTexelSpacingMultiplier(2.7);
         _unSharpMaskFilter->setBlurRadiusInPixel(4.0f, true);
         _unSharpMaskFilter->setBlurRadiusInPixel(2.0f, false);
-        _unSharpMaskFilter->setIntensity(2.365);
-        
-        // _segmentationFilter = SegmentationFilter::create(context);
-        // _segmentationFilter->setEnable(false);
+        _unSharpMaskFilter->setIntensity(1.365);
 
-
-        // _alphaBlendFilter->addTarget(_segmentationFilter)->addTarget(_faceDistortFilter);
         _alphaBlendFilter->addTarget(_faceDistortFilter);
 
         setTerminalFilter(_faceDistortFilter);
         std::vector<Vec2> defaultFace;
         
         registerProperty("face", defaultFace, "人脸点", [this](std::vector<Vec2> facePoints) {
+            if (facePoints.size() == 0) {
+                _faceDistortFilter->setEnable(false);
+                return;
+            }
+            _faceDistortFilter->setEnable(true);
             _faceDistortFilter->setFacePoints(facePoints);
         });
 
@@ -176,24 +172,4 @@ namespace Opipe {
             filter->setInputFramebuffer(framebuffer, rotationMode, texIdx, ignoreForPrepared);
         }
     }
-
-    void OlaBeautyFilter::setUseSegmentation(bool useSegmentation) {
-        // if (_segmentationFilter) {
-        //     _segmentationFilter->setEnable(useSegmentation);
-        // }
-    }
-
-    void OlaBeautyFilter::setSegmentationBackground(SourceImage *background) {
-        // if (_segmentationFilter) {
-        //     _segmentationFilter->setBackgroundImage(background);
-        // }
-    }
-
-    void OlaBeautyFilter::setSegmentationMask(Framebuffer *maskbuffer) {
-        // if (_segmentationFilter) {
-        //     // 有个异步问题 需要外部处理WaitOnGPU
-        //     _segmentationFilter->updateSegmentationMask(maskbuffer);
-        // }
-    }
-
 }

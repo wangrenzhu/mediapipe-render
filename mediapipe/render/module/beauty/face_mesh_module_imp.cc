@@ -10,6 +10,8 @@
 #include "mediapipe/render/core/CVFramebuffer.hpp"
 #endif
 
+#define PRESTREAMING_FRAMETIME 1
+
 static const char *kNumFacesInputSidePacket = "num_faces";
 static const char *kVFlipInputSidePacket = "vflip";
 static const char *kLandmarksOutputStream = "multi_face_landmarks";
@@ -21,6 +23,14 @@ static const char *kUseSegmentation = "use_segmentation";
 
 namespace Opipe
 {
+    time_t getTimeStampValue()
+    {
+            std::chrono::time_point<std::chrono::system_clock, std::chrono::microseconds> tp =
+                    std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::system_clock::now());
+            auto tmp = std::chrono::duration_cast<std::chrono::microseconds>(tp.time_since_epoch());
+            time_t timestamp = tmp.count();
+            return timestamp;
+    }
 
     FaceMeshCallFrameDelegate::FaceMeshCallFrameDelegate()
     {
@@ -40,6 +50,8 @@ namespace Opipe
         }
 
         _imp->currentDispatch()->runAsync([&, packetType, streamName, packet, graph] {
+
+             int64_t currentTime = getTimeStampValue();
 
             if (streamName == kLandmarksOutputStream)
             {
@@ -133,6 +145,26 @@ namespace Opipe
 #endif
                 }
             }
+
+#ifdef PRESTREAMING_FRAMETIME
+        int64_t renderSubmitTimeStamp = getTimeStampValue();
+        float renderSubmitDuration = (float)(renderSubmitTimeStamp - currentTime) / 1000.0;
+        
+        if (renderSubmitDuration > _profile.maxRenderDuration) {
+            _profile.maxRenderDuration = renderSubmitDuration;
+        }
+        
+        if (renderSubmitDuration < _profile.minRenderDuration) {
+            _profile.minRenderDuration = renderSubmitDuration;
+        }
+        
+        _profile.renderCount = _profile.renderCount + 1;
+        _profile.avgRenderTime = renderSubmitDuration / (float)_profile.renderCount +
+        _profile.avgRenderTime * ((float)(_profile.renderCount - 1) /
+                                        (float)_profile.renderCount);
+        
+#endif
+
         });
     }
 
@@ -147,12 +179,11 @@ namespace Opipe
 
         if (_inputSource)
         {
-            _dispatch->runSync([&]
-                               {
+            _dispatch->runSync([&] {
                 _inputSource->removeAllTargets();
                 delete _inputSource;
-                _inputSource = nullptr; },
-                               Context::IOContext);
+                _inputSource = nullptr; 
+            }, Context::IOContext);
         }
 
         if (_olaContext)
@@ -165,15 +196,15 @@ namespace Opipe
 
         if (_render)
         {
-            _dispatch->runSync([&]
-                               {
+            _dispatch->runSync([&] {
                 _outputSource->removeAllTargets();
                 delete _render;
                 _render = nullptr;
                 if (_outputSource) {
                     delete _outputSource;
                     _outputSource = nullptr;
-                } });
+                } 
+            });
         }
         delete _context;
         _context = nullptr;
@@ -195,13 +226,16 @@ namespace Opipe
         }
     }
 
-    void FaceMeshModuleIMP::initLut(OMat &mat)
+    void FaceMeshModuleIMP::initLut(OMat &mat, OMat &grayMat)
     {
         _omat = std::move(mat);
+        _grayMat = std::move(grayMat);
     }
 
-    bool FaceMeshModuleIMP::init(GLThreadDispatch *glDispatch, long glcontext, void *binaryData, int size)
+    bool FaceMeshModuleIMP::init(GLThreadDispatch *glDispatch, long glcontext, void *binaryData, 
+                                 int size, bool useBeautyV2)
     {
+        _useBeautyV2 = useBeautyV2;
         _delegate = std::make_shared<FaceMeshCallFrameDelegate>();
         _delegate->attach(this);
         mediapipe::CalculatorGraphConfig config;
@@ -241,7 +275,7 @@ namespace Opipe
         _isInit = true;
         if (_render == nullptr)
         {
-            LOG(INFO) << "###### before init _render" << _render;
+            LOG(INFO) << "###### before init _render:" << _render;
 #if defined(__APPLE__)
             _dispatch->runSync([&] {
 #else
@@ -249,12 +283,20 @@ namespace Opipe
 #endif
             if (_render == nullptr)
             {
-                _render = new FaceMeshBeautyRender(_context, _omat.width, _omat.height, _omat.data);
+                if (_useBeautyV2)
+                {
+                     _render = new FaceMeshBeautyRender(_context, _omat, _grayMat);
+                }
+                else
+                {
+                     _render = new FaceMeshBeautyRender(_context, _omat);
+                }
+               
                 _outputSource = SourceCamera::create(_context); // mediapipe 的输出source
                 _render->setInputSource(_outputSource);         //作为渲染管线的源头
-                LOG(INFO) << "###### after init _render" << _render;
+                LOG(INFO) << "###### after init _render:" << _render;
             }
-            LOG(INFO) << "###### before init _inputSource" << _inputSource;
+            LOG(INFO) << "###### before init _inputSource:" << _inputSource;
 #if defined(__APPLE__)
             });
 #endif
@@ -331,10 +373,6 @@ namespace Opipe
     void FaceMeshModuleIMP::setSegmentationEnable(bool segEnable)
     {
         _segEnable = segEnable;
-        if (_render)
-        {
-            _render->setUseSegmentation(_segEnable);
-        }
     }
 
 #if defined(__APPLE__)
@@ -378,24 +416,13 @@ namespace Opipe
 
     void FaceMeshModuleIMP::setSegmentationBackground(UIImage *image)
     {
-        if (_render)
-        {
-            _context->useAsCurrent();
-            SourceImage *sourceImage = SourceImage::create(_context, image);
-            _render->setSegmentationBackground(std::move(sourceImage));
-        }
+
     }
 
 #else
     void FaceMeshModuleIMP::setSegmentationBackground(OMat background)
     {
-        LOG(INFO) << "setSegmentationBackground begin";
-        if (_render)
-        {
-            SourceImage *image = SourceImage::create(_context, background.width, background.height, background.data);
-            _render->setSegmentationBackground(std::move(image));
-            LOG(INFO) << "setSegmentationBackground end width:" << background.width << " height:" << background.height;
-        }
+
     }
 #endif
 
@@ -442,6 +469,7 @@ namespace Opipe
         LOG(INFO) << "###### before FaceMeshModuleIMP renderTexture:" << inputTexture.textureId;
         textureInfo = _render->outputRenderTexture(inputTexture);
         LOG(INFO) << "###### after FaceMeshModuleIMP renderTexture:" << textureInfo.textureId;
+
         return textureInfo;
     }
 

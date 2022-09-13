@@ -228,4 +228,10 @@ void FilterGroup::unPrepear() {
     //}
 }
 
+void FilterGroup::setFramebufferScale(float framebufferScale) {
+    for (auto& filter : _filters) {
+        filter->setFramebufferScale(framebufferScale);
+    }
+}
+
 NS_GI_END

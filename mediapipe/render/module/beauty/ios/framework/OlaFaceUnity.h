@@ -20,9 +20,11 @@ typedef struct {
 @property (nonatomic) CGFloat slim;
 @property (nonatomic) CGFloat nose;
 @property (nonatomic) CGFloat eyeFactor;
+@property (nonatomic) CGFloat sharpness;
 @property (nonatomic, weak) OlaFURenderView *renderView;
 @property (nonatomic) BOOL useGLRender; //测试用开关
 @property (nonatomic) BOOL useSegmentation; //是否打开背景分割
+@property (nonatomic) BOOL useNewBeauty; //默认NO 在initModule之前调用 如果为YES则为新版美颜
 
 - (void)initModule;
 

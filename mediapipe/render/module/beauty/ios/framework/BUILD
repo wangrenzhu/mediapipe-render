@@ -44,9 +44,11 @@ objc_library(
 #       "//mediapipe/graphs/face_mesh:face_mesh_mobile_landmark_gpu.binarypb",
         "//mediapipe/modules/face_detection:face_detection_short_range.tflite",
         "//mediapipe/modules/face_landmark:face_landmark_with_attention.tflite",
-        "//mediapipe/modules/face_landmark:face_landmark.tflite",
+#        "//mediapipe/modules/face_landmark:face_landmark.tflite",
         "//mediapipe/modules/selfie_segmentation:selfie_segmentation.tflite",
         "//mediapipe/render/module/beauty:whiten.png",
+        "//mediapipe/render/module/beauty:skinGray.png",
+        "//mediapipe/render/module/beauty:skinLookup.png",
     ],
      copts = select({
         "//mediapipe:apple": [

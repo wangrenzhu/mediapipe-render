@@ -8,7 +8,7 @@
 
 namespace Opipe
 {
-    FaceMeshBeautyRender::FaceMeshBeautyRender(Context *context, int width, int height, void* data)
+    FaceMeshBeautyRender::FaceMeshBeautyRender(Context *context, OMat lutMat)
     {
         _context = context;
         _olaBeautyFilter = OlaBeautyFilter::create(context);
@@ -23,18 +23,49 @@ namespace Opipe
         _lutImage = SourceImage::create(context, lutURL);
         
 #else 
-        _lutImage = SourceImage::create(context, width, height, data);
+        _lutImage = SourceImage::create(context, lutMat.width, lutMat.height, lutMat.data);
 
 #endif
         _olaBeautyFilter->setLUTImage(_lutImage);
     }
 
+    FaceMeshBeautyRender::FaceMeshBeautyRender(Context *context, OMat lutMat, OMat grayMat)
+    {
+        _context = context;
+        _olaBeautyFilterV2 = OlaBeautyFilterV2::create(context);
+        _isRendering = false;
+        
+        _outputFilter = OlaShareTextureFilter::create(context);
+        _olaBeautyFilterV2->addTarget(_outputFilter);
+#if defined(__APPLE__)
+        
+        NSBundle *bundle = [NSBundle bundleForClass:NSClassFromString(@"OlaFaceUnity")];
+        NSURL *lutURL = [bundle URLForResource:@"skinLookup" withExtension:@"png"];
+        _lutImage = SourceImage::create(context, lutURL);
+        NSURL *grayURL = [bundle URLForResource:@"skinGray" withExtension:@"png"];
+        _grayImage = SourceImage::create(context, grayURL);
+        
+#else 
+        _lutImage = SourceImage::create(context, lutMat.width, lutMat.height, lutMat.data);
+        _grayImage = SourceImage::create(context, grayMat.width, grayMat.height, grayMat.grayData);
+
+#endif
+        _olaBeautyFilterV2->setLUTImage(_lutImage);
+        _olaBeautyFilterV2->setGrayImage(_grayImage);
+    }
+
     FaceMeshBeautyRender::~FaceMeshBeautyRender()
     {
-        _olaBeautyFilter->removeAllTargets();
+        if (_olaBeautyFilterV2)
+        {
+            _olaBeautyFilterV2->removeAllTargets();
+            _olaBeautyFilterV2->release();
+            _olaBeautyFilterV2 = nullptr;
+        }        
    
         if (_olaBeautyFilter)
         {
+            _olaBeautyFilter->removeAllTargets();
             _olaBeautyFilter->release();
             _olaBeautyFilter = nullptr;
         }
@@ -101,8 +132,14 @@ namespace Opipe
                                                 inputTexture.textureId);
         }
         _inputFramebuffer->lock();
-        _olaBeautyFilter->setInputFramebuffer(_inputFramebuffer, NoRotation, 0, true);
-        _olaBeautyFilter->update(inputTexture.frameTime);
+        
+        if (_olaBeautyFilter) {
+            _olaBeautyFilter->setInputFramebuffer(_inputFramebuffer, NoRotation, 0, true);
+            _olaBeautyFilter->update(inputTexture.frameTime);
+        } else if (_olaBeautyFilterV2) {
+            _olaBeautyFilterV2->setInputFramebuffer(_inputFramebuffer, NoRotation, 0, true);
+            _olaBeautyFilterV2->update(inputTexture.frameTime);
+        }
         _inputFramebuffer->unlock();
     }
 
@@ -140,27 +177,9 @@ namespace Opipe
     void FaceMeshBeautyRender::setFacePoints(std::vector<Vec2> facePoints) {
         if (_olaBeautyFilter) {
             _olaBeautyFilter->setProperty("face", facePoints);
-
-        }
-    }
-
-    void FaceMeshBeautyRender::setUseSegmentation(bool useSegmentation) {
-        if (_olaBeautyFilter) {
-            _useSegmentation = useSegmentation;
-            _olaBeautyFilter->setUseSegmentation(_useSegmentation);
-        }
-    }
-
-    void FaceMeshBeautyRender::setSegmentationBackground(SourceImage *background) {
-        if (_olaBeautyFilter) {
-            _olaBeautyFilter->setSegmentationBackground(background);
-        }
-    }
-
-    void FaceMeshBeautyRender::setSegmentationMask(Framebuffer *maskbuffer) {
-        if (_olaBeautyFilter) {
-            // 有个异步问题 需要外部处理WaitOnGPU
-            _olaBeautyFilter->setSegmentationMask(maskbuffer);
+ 
+        } else if (_olaBeautyFilterV2) {
+            _olaBeautyFilterV2->setProperty("face", facePoints);
         }
     }
 
@@ -180,6 +199,8 @@ namespace Opipe
         if (_olaBeautyFilter)
         {
             _olaBeautyFilter->setProperty("skin", smoothing);
+        } else if (_olaBeautyFilterV2) {
+            _olaBeautyFilterV2->setProperty("skin", smoothing);
         }
     }
 
@@ -189,6 +210,8 @@ namespace Opipe
         if (_olaBeautyFilter)
         {
             _olaBeautyFilter->setProperty("whiten", whitening);
+        } else if (_olaBeautyFilterV2) {
+            _olaBeautyFilterV2->setProperty("whiten", whitening);
         }
     }
 
@@ -196,6 +219,8 @@ namespace Opipe
         _noseFactor = noseFactor;
         if (_olaBeautyFilter) {
             _olaBeautyFilter->setProperty("nose", noseFactor);
+        } else if (_olaBeautyFilterV2) {
+            _olaBeautyFilterV2->setProperty("nose", noseFactor);
         }
     }
     
@@ -203,6 +228,8 @@ namespace Opipe
         _faceFactor = slimFactor;
         if (_olaBeautyFilter) {
             _olaBeautyFilter->setProperty("slim", slimFactor);
+        } else if (_olaBeautyFilterV2) {
+            _olaBeautyFilterV2->setProperty("slim", slimFactor);
         }
     }
 
@@ -210,13 +237,30 @@ namespace Opipe
         _eyeFactor = eyeFactor;
         if (_olaBeautyFilter) {
             _olaBeautyFilter->setProperty("eye", eyeFactor);
+        } else if (_olaBeautyFilterV2) {
+            _olaBeautyFilterV2->setProperty("eye", eyeFactor);
         }
     }
     
     void FaceMeshBeautyRender::setInputSource(Source *source) {
-        source->addTarget(_olaBeautyFilter);
+        FilterGroup *filterGroup = nullptr;
+
+        if (_olaBeautyFilter) {
+            filterGroup = _olaBeautyFilter;
+        } else if (_olaBeautyFilterV2) {
+            filterGroup = _olaBeautyFilterV2;
+        }
+
+        source->addTarget(filterGroup);
         _source = source;
         _source->retain();
+    }
+    
+    void FaceMeshBeautyRender::setSharpness(float sharpnessFactor) {
+        if (_olaBeautyFilterV2) {
+            _sharpnessFactor = sharpnessFactor;
+            _olaBeautyFilterV2->setProperty("sharpness", sharpnessFactor);
+        }
     }
 
 }
