@@ -69,11 +69,9 @@ objc_library(
     copts = [
         "-Wno-shorten-64-to-32",
     ],
-    sdk_frameworks = [
-        # Needed for OpenCV.
-        "Accelerate",
-    ],
-    visibility = ["//mediapipe/framework:mediapipe_internal"],
+    sdk_frameworks = ["Accelerate"],
+    # This build rule is public to allow external customers to build their own iOS apps.
+    visibility = ["//visibility:public"],
     deps = [
         ":CFHolder",
         ":util",
@@ -124,16 +122,12 @@ objc_library(
         "//conditions:default": [],
     }),
     sdk_frameworks = [
+        "AVFoundation",
         "CoreVideo",
+        "Foundation",
     ],
-    visibility = ["//mediapipe/framework:mediapipe_internal"],
-    deps = [
-    ] + select({
-        "//mediapipe:ios": [
-        ],
-        "//mediapipe:macos": [
-        ],
-    }),
+    # This build rule is public to allow external customers to build their own iOS apps.
+    visibility = ["//visibility:public"],
 )
 
 objc_library(
@@ -146,6 +140,10 @@ objc_library(
     ],
     copts = [
         "-Wno-shorten-64-to-32",
+    ],
+    sdk_frameworks = [
+        "Foundation",
+        "GLKit",
     ],
     visibility = ["//mediapipe/framework:mediapipe_internal"],
     deps = [
@@ -167,7 +165,12 @@ objc_library(
     copts = [
         "-Wno-shorten-64-to-32",
     ],
-    visibility = ["//mediapipe/framework:mediapipe_internal"],
+    sdk_frameworks = [
+        "Foundation",
+        "GLKit",
+    ],
+    # This build rule is public to allow external customers to build their own iOS apps.
+    visibility = ["//visibility:public"],
     deps = [
         ":mediapipe_framework_ios",
         ":mediapipe_gl_view_renderer",
@@ -188,6 +191,7 @@ objc_library(
     ],
     sdk_frameworks = [
         "CoreVideo",
+        "Foundation",
     ],
     visibility = ["//mediapipe/framework:mediapipe_internal"],
     deps = [
@@ -209,11 +213,11 @@ objc_library(
         "-Wno-shorten-64-to-32",
     ],
     sdk_frameworks = [
-        "Accelerate",
         "AVFoundation",
-        "CoreVideo",
+        "Accelerate",
         "CoreGraphics",
         "CoreMedia",
+        "CoreVideo",
         "GLKit",
         "OpenGLES",
         "QuartzCore",
@@ -243,11 +247,11 @@ objc_library(
         "testdata/googlelogo_color_272x92dp.png",
     ],
     sdk_frameworks = [
-        "Accelerate",
         "AVFoundation",
-        "CoreVideo",
+        "Accelerate",
         "CoreGraphics",
         "CoreMedia",
+        "CoreVideo",
         "GLKit",
         "QuartzCore",
         "UIKit",

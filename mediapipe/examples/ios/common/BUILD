@@ -12,6 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+<<<<<<< HEAD
 licenses(["notice"])  # Apache 2.0
 load("@build_bazel_rules_apple//apple:ios.bzl", "ios_framework")
 
@@ -37,6 +38,9 @@ ios_framework(
         ],
     }),
 )
+=======
+licenses(["notice"])
+>>>>>>> mediapipe_origin
 
 objc_library(
     name = "CommonMediaPipeAppLibrary",
