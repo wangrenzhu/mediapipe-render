@@ -43,7 +43,7 @@ using namespace Opipe;
 {
     _face_module = Opipe::FaceMeshModule::create();
     NSBundle *bundle = [NSBundle bundleForClass:[self class]];
-    NSURL* graphURL = [bundle URLForResource:@"face_mesh_mobile_vFlip" withExtension:@"binarypb"];
+    NSURL* graphURL = [bundle URLForResource:@"face_mesh_mobile_gpu_prestream" withExtension:@"binarypb"];
     NSData* data = [NSData dataWithContentsOfURL:graphURL options:0 error:nil];
     if (data) {
         _face_module->init(nullptr, 0, (void *)data.bytes, data.length, _useNewBeauty);
