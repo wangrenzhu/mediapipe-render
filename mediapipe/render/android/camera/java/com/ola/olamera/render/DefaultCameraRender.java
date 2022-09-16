@@ -1,9 +1,4 @@
 package com.ola.olamera.render;
-/*
- *
- *  Creation    :  2021/1/26
- *  Author      : jiaming.wjm@
- */
 
 import android.opengl.EGLContext;
 import android.os.Build;

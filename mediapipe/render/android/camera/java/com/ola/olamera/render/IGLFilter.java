@@ -1,9 +1,5 @@
 package com.ola.olamera.render;
-/*
- *
- *  Creation    :  2021/1/28
- *  Author      : jiaming.wjm@
- */
+
 
 public interface IGLFilter {
 

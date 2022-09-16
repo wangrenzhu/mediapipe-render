@@ -1,9 +1,5 @@
 package com.ola.olamera.camera.session;
-/*
- *
- *  Creation    :  20-11-23
- *  Author      : jiaming.wjm@
- */
+
 
 import android.os.Build;
 

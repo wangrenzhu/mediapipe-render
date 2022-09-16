@@ -38,6 +38,10 @@ namespace Opipe {
 
         ~OpipeDispatch();
 
+        Context *currentContext() {
+            return _context;
+        }
+
     private:
     #if defined(__APPLE__)
         dispatch_queue* _contextQueue;

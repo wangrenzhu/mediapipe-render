@@ -13,6 +13,7 @@ namespace Opipe
         bool init(Opipe::Context *context);
 
         virtual bool proceed(float frameTime = 0, bool bUpdateTargets = true) override;
+//        void update(float frameTime = 0) override;
         float getOpacityLimit() { return _opacityLimit; };
         void setOpacityLimit(float opacityLimit)
         {

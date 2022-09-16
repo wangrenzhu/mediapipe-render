@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.session;
-/*
- *
- *  Creation    :  2021/5/26
- *  Author      : jiaming.wjm@
- */
 
 import androidx.annotation.NonNull;
 

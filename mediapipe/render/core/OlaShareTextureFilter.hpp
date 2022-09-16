@@ -25,6 +25,11 @@ namespace Opipe {
         
         GLuint targetTextureId;
         
+        void setTargetSize(Vector2 targetSize) {
+            _targetSize = targetSize;
+            _resize = true;
+        }
+        
         
     public:
         OlaShareTextureFilter(Opipe::Context *context);
@@ -33,6 +38,8 @@ namespace Opipe {
         TextureAttributes targetTextureAttr = Framebuffer::defaultTextureAttribures;
     private:
         bool _targetFramebuffer = false;
+        bool _resize = false;
+        Vector2 _targetSize;
     };
 }
 

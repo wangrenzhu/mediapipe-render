@@ -97,21 +97,17 @@ namespace Opipe {
             rotatedFramebufferHeight = int(rotatedFramebufferHeight * _framebufferScale);
         }
         
-        
-        if (_framebuffer != nullptr && (_framebuffer->getWidth() != rotatedFramebufferWidth ||
-                                        _framebuffer->getHeight() != rotatedFramebufferHeight)) {
-            _framebuffer = 0;
+        if (_resize) {
+            rotatedFramebufferWidth = _targetSize.x;
+            rotatedFramebufferHeight = _targetSize.y;
         }
         
-        if (_framebuffer == nullptr || _framebuffer->isDealloc) {
-            _framebuffer = getContext()->getFramebufferCache()->
-            fetchFramebuffer(_context,
-                             rotatedFramebufferWidth,
-                             rotatedFramebufferHeight,
-                             false,
-                             targetTextureAttr);
-            _framebuffer->lock();
-        }
+        _framebuffer = getContext()->getFramebufferCache()->
+        fetchFramebuffer(_context,
+                         rotatedFramebufferWidth,
+                         rotatedFramebufferHeight,
+                         false,
+                         targetTextureAttr);
 
         if (_framebuffer) {
             targetTextureId = _framebuffer->getTexture();

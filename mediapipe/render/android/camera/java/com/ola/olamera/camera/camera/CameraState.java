@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.camera;
-/*
- *
- *  Creation    :  20-11-18
- *  Author      : jiaming.wjm@
- */
 
 public enum CameraState {
     /**

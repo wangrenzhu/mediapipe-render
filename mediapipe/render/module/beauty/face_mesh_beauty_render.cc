@@ -47,7 +47,7 @@ namespace Opipe
         
 #else 
         _lutImage = SourceImage::create(context, lutMat.width, lutMat.height, lutMat.data);
-        _grayImage = SourceImage::create(context, grayMat.width, grayMat.height, grayMat.grayData);
+        _grayImage = SourceImage::create(context, grayMat.width, grayMat.height, grayMat.data);
 
 #endif
         _olaBeautyFilterV2->setLUTImage(_lutImage);

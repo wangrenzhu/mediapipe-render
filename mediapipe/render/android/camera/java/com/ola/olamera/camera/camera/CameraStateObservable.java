@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.camera;
-/*
- *
- *  Creation    :  2021/6/6
- *  Author      : jiaming.wjm@
- */
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;

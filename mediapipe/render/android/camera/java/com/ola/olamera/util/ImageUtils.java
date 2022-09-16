@@ -1,9 +1,4 @@
 package com.ola.olamera.util;
-/*
- *
- *  Creation    :  2021/7/13
- *  Author      : jiaming.wjm@
- */
 
 import android.graphics.ImageFormat;
 import android.graphics.Rect;

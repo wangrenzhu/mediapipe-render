@@ -97,15 +97,15 @@ public class OlaBeautyJNI {
 
     public native long nativeCreate();
 
-    public native long nativeInitLut(long context, Bitmap bitmap);
+    public native long nativeInitLut(long context, Bitmap bitmap, Bitmap greyBitmap);
 
-    public native long nativeInitLutBytes(long context, byte[] data);
+    public native long nativeInitLutBytes(long context, byte[] data, byte[] greyData);
 
     public native void nativeRelease(long context);
 
     private native void nativeDoTask(long nativeContext, long taskId);
 
-    public native void nativeInit(long context, byte[] data, long eglContext);
+    public native void nativeInit(long context, byte[] data, long eglContext, boolean useBeautyV2);
 
     public native void nativeStartModule(long context);
 
@@ -135,8 +135,9 @@ public class OlaBeautyJNI {
     public native void nativeSetEye(long context, float eye);
     public native void nativeSetSmoothing(long context, float smoothing);
     public native void nativeSetWhitening(long context, float whitening);
-    public native void nativeSegmentationEnable(long context, boolean segEnable);
+    public native void nativeUseSegmentation(long context, boolean segEnable);
     public native void nativeSetSegmentationBackgroud(long context, byte[] data);
+    public native void nativeUseLandmarks(long context, boolean landmarksEnable);
 
 
 }

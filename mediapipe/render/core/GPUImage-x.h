@@ -27,7 +27,6 @@
 #include "GPUImageMacros.h"
 #include "math.hpp"
 #include "Ref.hpp"
-#include "util.h"
 #include "Source.hpp"
 #include "SourceImage.hpp"
 #include "SourceCamera.hpp"

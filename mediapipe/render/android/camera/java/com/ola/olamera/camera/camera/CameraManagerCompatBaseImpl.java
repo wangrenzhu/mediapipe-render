@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.camera;
-/*
- *
- *  Creation    :  2021/3/29
- *  Author      : jiaming.wjm@
- */
 
 import android.annotation.SuppressLint;
 import android.content.Context;

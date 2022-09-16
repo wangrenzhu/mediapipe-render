@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.imagereader;
-/*
- *
- *  Creation    :  20-11-26
- *  Author      : jiaming.wjm@
- */
 
 import android.media.ImageReader;
 import android.os.Build;

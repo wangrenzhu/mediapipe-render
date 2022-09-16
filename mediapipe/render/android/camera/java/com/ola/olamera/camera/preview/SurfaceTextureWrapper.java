@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.preview;
-/*
- *
- *  Creation    :  2020/4/15
- *  Author      : jiaming.wjm@
- */
 
 import android.graphics.SurfaceTexture;
 import android.util.Log;

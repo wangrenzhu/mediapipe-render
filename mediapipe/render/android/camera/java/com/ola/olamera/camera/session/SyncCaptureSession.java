@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.session;
-/*
- *
- *  Creation    :  20-11-23
- *  Author      : jiaming.wjm@
- */
 
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;

@@ -1,9 +1,4 @@
 package com.ola.olamera.camerax;
-/*
- *
- *  Creation    :  2021/11/15
- *  Author      : jiaming.wjm@
- */
 
 import android.annotation.SuppressLint;
 import android.hardware.camera2.CameraCharacteristics;

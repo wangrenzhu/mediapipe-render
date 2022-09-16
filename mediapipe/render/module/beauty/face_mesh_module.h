@@ -166,6 +166,7 @@ namespace Opipe
                 virtual bool getSegmentation() = 0;
             
                 virtual void setSegmentationEnable(bool segEnable) = 0;
+                virtual void setLandmarksEnable(bool landmarksEnable) = 0;
 
                 virtual TextureInfo renderTexture(TextureInfo inputTexture) = 0;
             

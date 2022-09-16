@@ -13,6 +13,8 @@ namespace Opipe {
         virtual bool proceed(float fraAlpmeTime = 0.0,
                              bool bUpdateTargets = true) override;
         
+        void update(float frameTime = 0) override;
+        
         float getMix() {
             return _mix;
         };

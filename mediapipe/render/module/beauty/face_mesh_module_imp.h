@@ -137,6 +137,7 @@ namespace Opipe
         }
         
         void setSlim(float slim) override {
+            _landmarksEnable = slim != 0.0;
             _render->setFaceSlim(slim);
         }
         
@@ -153,6 +154,8 @@ namespace Opipe
         }
         
         void setSegmentationEnable(bool segEnable) override;
+
+        void setLandmarksEnable(bool landmarksEnable) override;
         
         OpipeDispatch* currentDispatch() {
             return _dispatch.get();
@@ -162,8 +165,12 @@ namespace Opipe
 
         Filter* getOutputFilter() override;
 
-        SourceCamera *getOutputSource() {
+        SourceCamera* getOutputSource() {
             return _outputSource;
+        }
+        
+        OlaCameraSource* getInputSource() {
+            return _inputSource;
         }
 
         virtual OpipeProfile currentProfile() override {
@@ -176,6 +183,7 @@ namespace Opipe
         Context *_context = nullptr;
         bool _isInit = false;
         bool _segEnable = false;
+        bool _landmarksEnable = false;
         bool _useBeautyV2 = false;
         NormalizedLandmarkList _lastLandmark;
         std::shared_ptr<FaceMeshCallFrameDelegate> _delegate;

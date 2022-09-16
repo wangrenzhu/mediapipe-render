@@ -214,6 +214,11 @@ using namespace Opipe;
     _face_module->setSegmentationEnable(useSegmentation);
 }
 
+- (void)setUseLandmarks:(BOOL)useLandmarks
+{
+    _face_module->setLandmarksEnable(useLandmarks);
+}
+
 - (void)resume
 {
     if (!_face_module) {

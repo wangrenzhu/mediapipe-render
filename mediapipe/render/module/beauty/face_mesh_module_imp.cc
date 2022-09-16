@@ -17,9 +17,11 @@ static const char *kVFlipInputSidePacket = "vflip";
 static const char *kLandmarksOutputStream = "multi_face_landmarks";
 static const char *kDetectionsOutputStream = "face_detections";
 static const char *kOutputVideo = "output_video";
-static const char *kInputVideo = "input_video";
+static const char *kInputVideo = "pre_stream_landmark_video";
+static const char *kSegmentInputVideo = "segment_input_video";
 static const char *kSegmentation = "segment_video";
 static const char *kUseSegmentation = "use_segmentation";
+static const char *kUseLandmarks = "use_landmarks";
 
 namespace Opipe
 {
@@ -122,14 +124,23 @@ namespace Opipe
                     if (packetType != MPPPacketTypePixelBuffer) {
                         return;
                     }
-                    const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
-                    CVPixelBufferRef pixelbuffer = mediapipe::GetCVPixelBufferRef(video);
-                    IOSurfaceRef ioSurface = CVPixelBufferGetIOSurface(pixelbuffer);
-                    IOSurfaceLock(ioSurface, kIOSurfaceLockReadOnly, 0);
-                    int ioSurfaceId = IOSurfaceGetID(ioSurface);
-                    cameraSource->setIOSurfaceSource(ioSurfaceId, video.width(), video.height());
-                    cameraSource->updateTargets(packet.Timestamp().Value());
-                    IOSurfaceUnlock(ioSurface, kIOSurfaceLockReadOnly, 0);
+                    
+                    OlaCameraSource *inputSource = _imp->getInputSource();
+                    Framebuffer* framebuffer = inputSource->getRenderFramebuffer();
+                    if (framebuffer) {
+                        cameraSource->setRenderTexture(framebuffer->getTexture(), framebuffer->getWidth(), framebuffer->getHeight());
+                        cameraSource->updateTargets(packet.Timestamp().Value());
+                    }
+                    
+                    
+//                    const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
+//                    CVPixelBufferRef pixelbuffer = mediapipe::GetCVPixelBufferRef(video);
+//                    IOSurfaceRef ioSurface = CVPixelBufferGetIOSurface(pixelbuffer);
+//                    IOSurfaceLock(ioSurface, kIOSurfaceLockReadOnly, 0);
+//                    int ioSurfaceId = IOSurfaceGetID(ioSurface);
+//                    cameraSource->setIOSurfaceSource(ioSurfaceId, video.width(), video.height());
+//                    cameraSource->updateTargets(packet.Timestamp().Value());
+//                    IOSurfaceUnlock(ioSurface, kIOSurfaceLockReadOnly, 0);
 #else
                     if (packetType != MPPPacketTypeGpuBuffer) {
                         return;
@@ -374,6 +385,11 @@ namespace Opipe
     {
         _segEnable = segEnable;
     }
+    
+    void FaceMeshModuleIMP::setLandmarksEnable(bool landmarksEnable)
+    {
+        _landmarksEnable = landmarksEnable;
+    }
 
 #if defined(__APPLE__)
     void FaceMeshModuleIMP::processVideoFrame(CVPixelBufferRef pixelbuffer,
@@ -404,6 +420,9 @@ namespace Opipe
             if (framebuffer && framebuffer->renderTarget) {
                 Timestamp ts(timeStamp * 1000);
                 _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
+
+                _graph->sendPacket(mediapipe::MakePacket<bool>(_landmarksEnable).At(ts), kUseLandmarks);
+
                 CVPixelBufferLockBaseAddress(framebuffer->renderTarget, 0);
                 _graph->sendPixelBuffer(framebuffer->renderTarget, kInputVideo,
                                         MPPPacketTypePixelBuffer,
@@ -440,6 +459,7 @@ namespace Opipe
             }
             Timestamp ts(timeStamp);
             _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
+            _graph->sendPacket(mediapipe::MakePacket<bool>(_landmarksEnable).At(ts), kUseLandmarks);
             _graph->sendPacket(pixelbuffer, width, height, kInputVideo, timeStamp);
         }, Context::IOContext);
     }
@@ -453,7 +473,11 @@ namespace Opipe
                 return;
             }
             Timestamp ts(timeStamp);
+            _inputSource->setRenderTexture(textureId, width, height);
+            _inputSource->updateTargets(timeStamp);
+            
             _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
+            _graph->sendPacket(mediapipe::MakePacket<bool>(_landmarksEnable).At(ts), kUseLandmarks);
             _graph->sendPacket(textureId, width, height, kInputVideo, timeStamp);
         }, Context::IOContext);
     }

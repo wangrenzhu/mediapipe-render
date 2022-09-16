@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.camera;
-/*
- *
- *  Creation    :  20-11-23
- *  Author      : jiaming.wjm@
- */
 
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;

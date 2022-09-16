@@ -1,9 +1,5 @@
 package com.ola.olamera.render.detector;
-/*
- *
- *  Creation    :  2021/1/26
- *  Author      : jiaming.wjm@
- */
+
 
 import android.content.Context;
 import android.opengl.GLES20;

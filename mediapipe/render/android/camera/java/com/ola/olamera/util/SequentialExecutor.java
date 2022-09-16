@@ -1,9 +1,4 @@
 package com.ola.olamera.util;
-/*
- *
- *  Creation    :  20-11-13
- *  Author      : jiaming.wjm@
- */
 
 import android.os.Handler;
 import android.os.HandlerThread;

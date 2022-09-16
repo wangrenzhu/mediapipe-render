@@ -10,6 +10,8 @@ input_side_packet: "vflip"
 
 input_stream: "use_segmentation"
 
+input_stream: "use_landmarks"
+
 # Output image with rendered results. (GpuBuffer)
 # output_stream: "output_video"
 # Collection of detected/processed faces, each represented as a list of
@@ -47,6 +49,13 @@ node {
       in_flight_timeout: 300000
     }
   }
+}
+
+node {
+  calculator: "GateCalculator"
+  input_stream: "ALLOW:use_landmarks"
+  input_stream: "throttled_input_video"
+  output_stream: "throttled_landmarks_video"
 }
 
 node {
@@ -97,7 +106,7 @@ node {
 
 node: {
   calculator: "ImageTransformationCalculator"
-  input_stream: "IMAGE_GPU:throttled_input_video"
+  input_stream: "IMAGE_GPU:throttled_landmarks_video"
   input_side_packet: "FLIP_VERTICALLY:vflip"
   output_stream: "IMAGE_GPU:transformed_input_video"
 }

@@ -199,7 +199,7 @@ Filter* Filter::createWithFragmentShaderString(Context *context,
                                                const std::string& fragmentShaderSource,
                                                int inputNumber/* = 1*/) {
     Filter* filter = new Filter(context);
-    if (!filter->initWithFragmentShaderString(context, fragmentShaderSource,inputNumber)) {
+    if (!filter->initWithFragmentShaderString(context, fragmentShaderSource, inputNumber)) {
         delete filter;
         filter = 0;
         return 0;
@@ -495,7 +495,8 @@ void Filter::update(float frameTime) {
             rotatedFramebufferHeight = int(rotatedFramebufferHeight * _framebufferScale);
         }
 
-        _framebuffer = getContext()->getFramebufferCache()->fetchFramebuffer(_context, rotatedFramebufferWidth, rotatedFramebufferHeight);
+        _framebuffer = getContext()->getFramebufferCache()->fetchFramebuffer(_context, rotatedFramebufferWidth,
+                                                                             rotatedFramebufferHeight, onlyTexture());
         proceed(frameTime);
     }
 //    _context->getFramebufferCache()->returnFramebuffer(_framebuffer);

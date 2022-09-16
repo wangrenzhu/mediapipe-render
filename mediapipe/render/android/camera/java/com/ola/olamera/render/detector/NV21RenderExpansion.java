@@ -1,9 +1,5 @@
 package com.ola.olamera.render.detector;
-/*
- *
- *  Creation    :  2021/12/22
- *  Author      : jiaming.wjm@
- */
+
 
 import static com.ola.olamera.render.detector.IAlgDetector.InputDataType.NV21;
 

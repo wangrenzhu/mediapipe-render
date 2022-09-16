@@ -1,9 +1,4 @@
 package com.ola.olamera.util;
-/*
- *
- *  Creation    :  2021/2/20
- *  Author      : jiaming.wjm@
- */
 
 import androidx.annotation.RestrictTo;
 

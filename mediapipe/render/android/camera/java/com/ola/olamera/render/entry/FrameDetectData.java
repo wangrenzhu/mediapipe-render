@@ -1,9 +1,4 @@
 package com.ola.olamera.render.entry;
-/*
- *
- *  Creation    :  2021/3/15
- *  Author      : jiaming.wjm@
- */
 
 public class FrameDetectData {
 

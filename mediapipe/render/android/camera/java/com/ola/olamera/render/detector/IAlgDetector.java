@@ -1,9 +1,4 @@
 package com.ola.olamera.render.detector;
-/*
- *
- *  Creation    :  2021/1/29
- *  Author      : jiaming.wjm@
- */
 
 public interface IAlgDetector<T> {
 

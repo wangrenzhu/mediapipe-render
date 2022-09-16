@@ -32,7 +32,9 @@ namespace Opipe
     {
         private:
             Filter *_yuvTexture = nullptr;
-            OlaShareTextureFilter *_scaleTexture = nullptr;
+            OlaShareTextureFilter *_faceTexture = nullptr;
+            OlaShareTextureFilter *_segmentTexture = nullptr;
+            OlaShareTextureFilter *_renderTexture = nullptr;
             SourceType _sourceType;
             int _lastIOSurface = -1;
             #if defined(__APPLE__)
@@ -67,7 +69,12 @@ namespace Opipe
                                     const TextureAttributes textureAttributes = Framebuffer::defaultTextureAttribures) override;
             #endif
             // 获取相机渲染后缩小的Framebuffer
-            Framebuffer* getScaleFramebuffer();
+            Framebuffer* getFaceFramebuffer();
+        
+            Framebuffer* getSegmentationFramebuffer();
+        
+            // 用于渲染的Framebuffer
+            Framebuffer* getRenderFramebuffer();
 
             virtual Opipe::Source* addTarget(Opipe::Target* target) override;
 

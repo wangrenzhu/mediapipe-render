@@ -109,6 +109,10 @@ public:
     }
     std::string getFilterClassName() const { return _filterClassName; };
     
+    virtual bool onlyTexture() {
+        return false;
+    }
+    
     virtual void update(float frameTime) override;
     virtual bool proceed(float frameTime = 0.0,
                          bool bUpdateTargets = true) override;

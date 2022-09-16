@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.session;
-/*
- *
- *  Creation    :  20-12-19
- *  Author      : jiaming.wjm@
- */
 
 import android.hardware.Camera;
 import android.hardware.camera2.CaptureRequest;

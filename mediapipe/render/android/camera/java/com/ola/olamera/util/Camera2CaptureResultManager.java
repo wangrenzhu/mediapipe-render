@@ -1,9 +1,4 @@
 package com.ola.olamera.util;
-/*
- *
- *  Creation    :  2021/5/26
- *  Author      : jiaming.wjm@
- */
 
 import android.hardware.camera2.CaptureResult;
 import android.os.Build;

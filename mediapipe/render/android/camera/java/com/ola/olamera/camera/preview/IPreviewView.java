@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.preview;
-/*
- *
- *  Creation    :  2021/7/12
- *  Author      : jiaming.wjm@
- */
 
 import android.graphics.RectF;
 import android.util.Rational;

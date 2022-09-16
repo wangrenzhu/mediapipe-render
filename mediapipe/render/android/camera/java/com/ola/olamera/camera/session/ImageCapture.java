@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.session;
-/*
- *
- *  Creation    :  2021/4/19
- *  Author      : jiaming.wjm@
- */
 
 import android.graphics.Matrix;
 import android.graphics.Rect;

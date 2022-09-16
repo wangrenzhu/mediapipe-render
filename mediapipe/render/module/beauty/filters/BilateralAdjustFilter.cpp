@@ -130,4 +130,25 @@ namespace Opipe
         _filterProgram->setUniformValue("filterOpacity", _opacityLimit);
         return Filter::proceed(frameTime, bUpdateTargets);
     }
+
+//    void BilateralAdjustFilter::update(float frameTime) {
+//        if (_inputFramebuffers.empty()) return;
+//        
+//        if (!_enable) {
+//            _framebuffer = _inputFramebuffers.begin()->second.frameBuffer;
+//            Source::updateTargets(frameTime);
+//            _framebuffer = 0;
+//            return;
+//        }
+//
+//        Framebuffer* firstInputFramebuffer = _inputFramebuffers.begin()->second.frameBuffer;
+//        RotationMode firstInputRotation = _inputFramebuffers.begin()->second.rotationMode;
+//        if (!firstInputFramebuffer) return;
+//        
+//        _framebuffer = firstInputFramebuffer;
+//        _framebuffer->lock();
+//        proceed(frameTime);
+//        _framebuffer->unlock();
+//        _framebuffer = 0;
+//    }
 }

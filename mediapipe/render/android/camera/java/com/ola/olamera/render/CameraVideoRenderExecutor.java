@@ -1,9 +1,5 @@
 package com.ola.olamera.render;
-/*
- *
- *  Creation    :  2021/4/13
- *  Author      : jiaming.wjm@
- */
+
 
 import com.ola.olamera.render.view.AndroidGLSurfaceView;
 

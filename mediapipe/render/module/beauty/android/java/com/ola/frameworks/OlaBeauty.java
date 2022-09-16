@@ -3,6 +3,7 @@ import android.opengl.EGL14;
 import android.opengl.EGLContext;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.lang.RuntimeException;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -35,11 +36,16 @@ public class OlaBeauty {
     private String mCacheDir;
 
     private String mGaphPath;
-    private String mLutPath;
+    private String mLutWhitenPath ="whiten.png";
+    private String mLutPath ="skinLookup.png";
+    private String mGreyLutPath ="skinGray.png";
+
     private String mBgPath;
 
-
     private Bitmap mBitmap;
+    private Bitmap mGreyBitmap;
+
+    private boolean mUseBeautyV2 = false;
 
      /**
      * TODO
@@ -62,6 +68,14 @@ public class OlaBeauty {
         mGaphPath = path;
     }
 
+    public void setBitmap(Bitmap bitmap){
+        this.mBitmap = bitmap;
+    }
+
+    public void setUseBeautyV2(boolean useBeautyV2){
+        this.mUseBeautyV2 = useBeautyV2;
+    }
+
     public ListenableFuture<Boolean> doInit() {
         if (mDoInitFuture != null) {
             return mDoInitFuture;
@@ -76,22 +90,43 @@ public class OlaBeauty {
         return mDoInitFuture;
     }
 
-    public OlaBeauty(Context context, String graphPath, Bitmap bitmap) {
+    public OlaBeauty(Context context, String graphPath){
+        this(context, graphPath, false);
+    }
+    public OlaBeauty(Context context, String graphPath, boolean useBeautyV2) {
         this.mContext = context;
         this.mCacheDir = context.getCacheDir().getAbsolutePath();
         this.mGaphPath = graphPath;
-        this.mBitmap = bitmap;
+        this.mUseBeautyV2 = useBeautyV2;
     }
 
-    public OlaBeauty(Context context, String graphPath, String lutPath) {
-        this(context, graphPath, lutPath, null);
+    public OlaBeauty(Context context, String graphPath, String lutPath, String greyLutPath) {
+        this(context, graphPath,lutPath, greyLutPath, false);
     }
 
-    public OlaBeauty(Context context, String graphPath, String lutPath, String bgPath) {
+    public OlaBeauty(Context context, String graphPath, String lutPath, String greyLutPath, boolean useBeautyV2) {
         this.mContext = context;
         this.mCacheDir = context.getCacheDir().getAbsolutePath();
         this.mGaphPath = graphPath;
         this.mLutPath = lutPath;
+        this.mGreyLutPath = greyLutPath;
+        this.mUseBeautyV2 = useBeautyV2;
+    }
+
+    public OlaBeauty(Context context, String graphPath, Bitmap bitmap, Bitmap greyBitmap) {
+        this(context, graphPath, bitmap, greyBitmap, false);
+    }
+
+    public OlaBeauty(Context context, String graphPath, Bitmap bitmap, Bitmap greyBitmap, boolean useBeautyV2) {
+        this.mContext = context;
+        this.mCacheDir = context.getCacheDir().getAbsolutePath();
+        this.mGaphPath = graphPath;
+        this.mBitmap = bitmap;
+        this.mGreyBitmap = greyBitmap;
+        this.mUseBeautyV2 = useBeautyV2;
+    }
+
+    public void setBgPath(String bgPath){
         this.mBgPath = bgPath;
     }
 
@@ -153,6 +188,26 @@ public class OlaBeauty {
         }
     }
 
+    private void initResource(){
+        if(mUseBeautyV2){
+            if(mBitmap != null && mGreyBitmap != null) {
+                mNativeHandler.nativeInitLut(mNativeHandler.getNative(), mBitmap, mGreyBitmap);
+            }  else if(mLutPath != null &&mGreyLutPath !=null ) {
+                mNativeHandler.nativeInitLutBytes(mNativeHandler.getNative(), getAssetBytes(mLutPath),  getAssetBytes(mGreyLutPath));
+            }else{
+                throw new RuntimeException("params error");
+            }
+        }else{
+            if(mBitmap != null) {
+                mNativeHandler.nativeInitLut(mNativeHandler.getNative(), mBitmap, null);
+            }  else if(mLutWhitenPath != null) {
+                mNativeHandler.nativeInitLutBytes(mNativeHandler.getNative(), getAssetBytes(mLutWhitenPath), null);
+            }else{
+                throw new RuntimeException("params error");
+            }
+        }
+    }
+
     private synchronized boolean initInner() {
         EGLContext eglContext = EGL14.eglGetCurrentContext();
         
@@ -164,13 +219,8 @@ public class OlaBeauty {
         if (result != 0) {
             mNativeHandler = beautyJNI;
             mNativeHandler.nativeInitAssertManager(mContext, mCacheDir);
-            if(mBitmap != null) {
-                mNativeHandler.nativeInitLut(mNativeHandler.getNative(), mBitmap);
-            }  else if(mLutPath != null) {
-                mNativeHandler.nativeInitLutBytes(mNativeHandler.getNative(), getAssetBytes(mLutPath));
-            }
-
-            mNativeHandler.nativeInit(mNativeHandler.getNative(), getAssetBytes(mGaphPath), eglContext.getNativeHandle());
+            initResource();
+            mNativeHandler.nativeInit(mNativeHandler.getNative(), getAssetBytes(mGaphPath), eglContext.getNativeHandle(), mUseBeautyV2);
 
             if(mBgPath != null) {
                 mNativeHandler.nativeSetSegmentationBackgroud(mNativeHandler.getNative(), getAssetBytes(mBgPath));
@@ -242,7 +292,10 @@ public class OlaBeauty {
     public  void setWhitening(float whitening){
         mNativeHandler.nativeSetWhitening(mNativeHandler.getNative(),whitening);
     }
-    public  void segmentationEnable( boolean segEnable){
-        mNativeHandler.nativeSegmentationEnable(mNativeHandler.getNative(),segEnable);
+    public  void useSegmentation( boolean segEnable){
+        mNativeHandler.nativeUseSegmentation(mNativeHandler.getNative(),segEnable);
+    }
+    public  void useLandmarks( boolean landmarksEnable){
+        mNativeHandler.nativeUseLandmarks(mNativeHandler.getNative(),landmarksEnable);
     }
 }

@@ -31,6 +31,8 @@ opipe_aar(
         "//mediapipe/modules/face_landmark:face_landmark.tflite",
         "//mediapipe/modules/selfie_segmentation:selfie_segmentation.tflite",
         "//mediapipe/render/module/beauty:whiten.png",
+        "//mediapipe/render/module/beauty:skinGray.png",
+        "//mediapipe/render/module/beauty:skinLookup.png",
     ],
     assets_dir = "",
     proguard_specs = ["proguard.pgcfg"],

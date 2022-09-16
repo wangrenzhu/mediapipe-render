@@ -1,9 +1,4 @@
 package com.ola.olamera.camera.camera;
-/*
- *
- *  Creation    :  20-11-23
- *  Author      : jiaming.wjm@
- */
 
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;

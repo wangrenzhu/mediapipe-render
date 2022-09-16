@@ -1,10 +1,4 @@
 package com.ola.olamera.camera.concurrent;
-/*
- *
- *  Creation    :  2021/2/8
- *  Author      : jiaming.wjm@
- */
-
 
 import android.os.Handler;
 

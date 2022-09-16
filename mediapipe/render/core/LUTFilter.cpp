@@ -85,50 +85,31 @@ namespace Opipe
             return;
         }
 
-        if (getContext()->isCapturingFrame && this == getContext()->captureUpToFilter) {
-            int captureWidth = getContext()->captureWidth;
-            int captureHeight = getContext()->captureHeight;
-
-            _framebuffer = getContext()->getFramebufferCache()->fetchFramebuffer(_context, captureWidth, captureHeight);
-    #if DEBUG
-            _framebuffer->lock(typeid(*this).name());
-    #else
-            _framebuffer->lock();
-    #endif
-            proceed(false);
-            
-            _framebuffer->active();
-            getContext()->capturedFrameData = new unsigned char[captureWidth * captureHeight * 4];
-            CHECK_GL(glReadPixels(0, 0, captureWidth, captureHeight, GL_RGBA, GL_UNSIGNED_BYTE, getContext()->capturedFrameData));
-            _framebuffer->inactive();
-    #if DEBUG
-            _framebuffer->unlock(typeid(*this).name());
-    #else
-            _framebuffer->unlock();
-    #endif
-        } else {
-            // todo
-            Framebuffer* firstInputFramebuffer = _inputFramebuffers.begin()->second.frameBuffer;
-            RotationMode firstInputRotation = _inputFramebuffers.begin()->second.rotationMode;
-            if (!firstInputFramebuffer) return;
-
-            int rotatedFramebufferWidth = firstInputFramebuffer->getWidth();
-            int rotatedFramebufferHeight = firstInputFramebuffer->getHeight();
-            if (rotationSwapsSize(firstInputRotation))
-            {
-                rotatedFramebufferWidth = firstInputFramebuffer->getHeight();
-                rotatedFramebufferHeight = firstInputFramebuffer->getWidth();
-            }
-
-            if (_framebufferScale !=  1.0) {
-                rotatedFramebufferWidth = int(rotatedFramebufferWidth * _framebufferScale);
-                rotatedFramebufferHeight = int(rotatedFramebufferHeight * _framebufferScale);
-            }
-
-            _framebuffer = getContext()->getFramebufferCache()->fetchFramebuffer(_context, rotatedFramebufferWidth, rotatedFramebufferHeight);
-            proceed(frameTime);
+        
+        // todo
+        Framebuffer* firstInputFramebuffer = _inputFramebuffers.begin()->second.frameBuffer;
+        RotationMode firstInputRotation = _inputFramebuffers.begin()->second.rotationMode;
+        if (!firstInputFramebuffer) return;
+        
+        int rotatedFramebufferWidth = firstInputFramebuffer->getWidth();
+        int rotatedFramebufferHeight = firstInputFramebuffer->getHeight();
+        if (rotationSwapsSize(firstInputRotation))
+        {
+            rotatedFramebufferWidth = firstInputFramebuffer->getHeight();
+            rotatedFramebufferHeight = firstInputFramebuffer->getWidth();
         }
-    //    _context->getFramebufferCache()->returnFramebuffer(_framebuffer);
+        
+        if (_framebufferScale !=  1.0) {
+            rotatedFramebufferWidth = int(rotatedFramebufferWidth * _framebufferScale);
+            rotatedFramebufferHeight = int(rotatedFramebufferHeight * _framebufferScale);
+        }
+        
+        _framebuffer = getContext()->getFramebufferCache()->fetchFramebuffer(_context, rotatedFramebufferWidth, rotatedFramebufferHeight);
+        
+//        _framebuffer = firstInputFramebuffer;
+        
+        proceed(frameTime);
+       
         _framebuffer = 0;
     }
 }

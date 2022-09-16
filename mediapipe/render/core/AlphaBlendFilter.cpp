@@ -1,4 +1,5 @@
 #include "AlphaBlendFilter.hpp"
+#include "Context.hpp"
 
 namespace Opipe {
     const std::string kAlphaBlendFragmentShaderString = SHADER_STRING
@@ -47,4 +48,57 @@ namespace Opipe {
         _filterProgram->setUniformValue("mixturePercent", _mix);
         return Filter::proceed(frameTime, bUpdateTargets);
     }
+
+    void AlphaBlendFilter::update(float frameTime) {
+        if (_inputFramebuffers.empty()) return;
+
+        if (!_enable) {
+            _framebuffer = _inputFramebuffers.begin()->second.frameBuffer;
+            Source::updateTargets(frameTime);
+            _framebuffer = 0;
+            return;
+        }
+
+        Framebuffer* firstInputFramebuffer = _inputFramebuffers.begin()->second.frameBuffer;
+        RotationMode firstInputRotation = _inputFramebuffers.begin()->second.rotationMode;
+        if (!firstInputFramebuffer) return;
+
+        int rotatedFramebufferWidth = firstInputFramebuffer->getWidth();
+        int rotatedFramebufferHeight = firstInputFramebuffer->getHeight();
+        if (rotationSwapsSize(firstInputRotation))
+        {
+            rotatedFramebufferWidth = firstInputFramebuffer->getHeight();
+            rotatedFramebufferHeight = firstInputFramebuffer->getWidth();
+        }
+
+        if (_framebufferScale !=  1.0) {
+            rotatedFramebufferWidth = int(rotatedFramebufferWidth * _framebufferScale);
+            rotatedFramebufferHeight = int(rotatedFramebufferHeight * _framebufferScale);
+        }
+        _framebuffer = getContext()->getFramebufferCache()->fetchFramebuffer(_context, rotatedFramebufferWidth, rotatedFramebufferHeight);
+
+        proceed(frameTime);
+        _framebuffer = 0;
+    }
+//
+//    void AlphaBlendFilter::update(float frameTime) {
+//        if (_inputFramebuffers.empty()) return;
+//
+//        if (!_enable) {
+//            _framebuffer = _inputFramebuffers.begin()->second.frameBuffer;
+//            Source::updateTargets(frameTime);
+//            _framebuffer = 0;
+//            return;
+//        }
+//
+//        Framebuffer* firstInputFramebuffer = _inputFramebuffers.begin()->second.frameBuffer;
+//        RotationMode firstInputRotation = _inputFramebuffers.begin()->second.rotationMode;
+//        if (!firstInputFramebuffer) return;
+//
+//        _framebuffer = firstInputFramebuffer;
+//        _framebuffer->lock();
+//        proceed(frameTime);
+//        _framebuffer->unlock();
+//        _framebuffer = 0;
+//    }
 }

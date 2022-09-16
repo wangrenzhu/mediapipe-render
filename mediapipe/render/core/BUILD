@@ -119,6 +119,28 @@ cc_library(
     ],
 )
 
+OLARENDER_ANDROID_SRCS = [
+    "android_hardware_buffer_compat.cc",
+    "AndroidDirectAccessFrameBuffer.cpp",
+    "EGLAndroid.cpp",
+    "GLUtils.cpp",
+    "OlaHardwarePreStreamingFilter.cpp",
+    "PlatformEGLAndroidCompat.cpp",
+]
+
+OLARENDER_ANDROID_HDRS = [
+    "android_hardware_buffer_compat.h",
+    "android_macros.h",
+    "AndroidDirectAccessFrameBuffer.h",
+    "EGLAndroid.h",
+    "GLUtils.h",
+    "macros.h",
+    "no_destructor.h",
+    "OlaHardwarePreStreamingFilter.hpp",
+    "PlatformEGLAndroidCompat.h",
+    "base_export.h",
+]
+
 OLARENDER_SRCS = [
     "FramebufferCache.cpp",
     "Framebuffer.cpp",
@@ -146,7 +168,10 @@ OLARENDER_SRCS = [
     "OlaYUVTexture.cpp",
     "OlaYUVTexture420P.cpp",
     "OlaCameraSource.cpp",
-
+    "OlaImageFrame.cpp",
+    "OlaPreStreamingFilter.cpp",
+    "OlaPreStreaming.cpp",
+    "OlaPreStreamingIMP.cpp",
 ]
 
 OLARENDER_HDRS = [
@@ -178,14 +203,32 @@ OLARENDER_HDRS = [
     "OlaYUVTexture.hpp",
     "OlaYUVTexture420P.hpp",
     "OlaCameraSource.hpp",
+    "OlaImageFrame.hpp",
+    "OlaPreStreamingFilter.hpp",
+    "OlaPreStreaming.hpp",
+    "OlaPreStreamingIMP.hpp",
 ]
 
+#  hdrs = select({
+#         "//conditions:default": [],
+#         "//mediapipe:android": ["logging.h"],
+#     }),
 
+# hdrs = select({
+#         "//mediapipe:apple": ["CFHolder.h"],
+#         "//conditions:default": [],
+#     }),
 
 cc_library(
     name = "core",
-    srcs = OLARENDER_SRCS,
-    hdrs = OLARENDER_HDRS,
+    srcs = OLARENDER_SRCS + select({
+        "//conditions:default": [],
+        "//mediapipe:android": OLARENDER_ANDROID_SRCS,
+    }),
+    hdrs = OLARENDER_HDRS + select({
+        "//conditions:default": [],
+        "//mediapipe:android": OLARENDER_ANDROID_HDRS,
+    }),
     visibility = ["//visibility:public"],
     deps = [
         ":gpuimageutil",

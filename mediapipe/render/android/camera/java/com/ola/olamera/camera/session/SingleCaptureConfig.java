@@ -1,9 +1,5 @@
 package com.ola.olamera.camera.session;
-/*
- *
- *  Creation    :  2021/6/18
- *  Author      : jiaming.wjm@
- */
+
 
 import android.graphics.RectF;
 import android.view.View;

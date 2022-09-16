@@ -1,9 +1,5 @@
 package com.ola.olamera.util;
-/*
- *
- *  Creation    :  20-11-19
- *  Author      : jiaming.wjm@
- */
+
 
 import android.hardware.camera2.CameraDevice;
 import android.os.Build;

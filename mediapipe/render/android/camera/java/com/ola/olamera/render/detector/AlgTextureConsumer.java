@@ -1,11 +1,5 @@
 package com.ola.olamera.render.detector;
 
-/*
- *
- *  Creation    :  2021/1/25
- *  Author      : jiaming.wjm@
- */
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PixelFormat;

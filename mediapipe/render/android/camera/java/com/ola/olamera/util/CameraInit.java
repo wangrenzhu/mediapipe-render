@@ -1,9 +1,4 @@
 package com.ola.olamera.util;
-/*
- *
- *  Creation    :  2021/4/15
- *  Author      : jiaming.wjm@
- */
 
 import androidx.annotation.NonNull;
 
