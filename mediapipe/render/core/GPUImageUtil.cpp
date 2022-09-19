@@ -23,7 +23,11 @@
 
 
 #include "GPUImageUtil.h"
+#if DEBUG
 #define openLog 1
+#else
+#define openLog 0
+#endif
 #define ANDROID_LOG_INFO 'gpu_log_info'
 
 #include "mediapipe/framework/port/logging.h"

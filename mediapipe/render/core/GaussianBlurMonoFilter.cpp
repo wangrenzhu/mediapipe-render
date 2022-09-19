@@ -166,7 +166,7 @@ std::string GaussianBlurMonoFilter::_generateFragmentShaderString(int radius, fl
     std::string shaderStr =
             str_format("\
            uniform sampler2D colorMap;\n\
-           varying highp vec2 blurCoordinates[%d];\n\
+           varying lowp vec2 blurCoordinates[%d];\n\
            void main()\n\
            {\n\
                gl_FragColor = vec4(0.0);\n", radius * 2 + 1);
@@ -284,9 +284,9 @@ std::string GaussianBlurMonoFilter::_generateOptimizedFragmentShaderString(int r
     std::string shaderStr =
     str_format("\
                uniform sampler2D colorMap;\n\
-               uniform highp float texelWidthOffset;\n\
-               uniform highp float texelHeightOffset;\n\
-               varying highp vec2 blurCoordinates[%d];\n\
+               uniform lowp float texelWidthOffset;\n\
+               uniform lowp float texelHeightOffset;\n\
+               varying lowp vec2 blurCoordinates[%d];\n\
                void main()\n\
                {\n\
                gl_FragColor = vec4(0.0);\n", numberOfOptimizedOffsets * 2 + 1);
@@ -304,7 +304,7 @@ std::string GaussianBlurMonoFilter::_generateOptimizedFragmentShaderString(int r
     // If the number of required samples exceeds the amount we can pass in via varyings, we have to do dependent texture reads in the fragment shader
     if (trueNumberOfOptimizedOffsets > numberOfOptimizedOffsets)
     {
-        shaderStr += str_format("highp vec2 texelSpacing = vec2(texelWidthOffset, texelHeightOffset);\n");
+        shaderStr += str_format("lowp vec2 texelSpacing = vec2(texelWidthOffset, texelHeightOffset);\n");
         
         for (int i = numberOfOptimizedOffsets; i < trueNumberOfOptimizedOffsets; i++)
         {

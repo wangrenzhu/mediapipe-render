@@ -4,8 +4,8 @@
 namespace Opipe {
     const std::string kAlphaBlendFragmentShaderString = SHADER_STRING
     (
-         varying highp vec2 vTexCoord;
-         varying highp vec2 vTexCoord1;
+         varying lowp vec2 vTexCoord;
+         varying lowp vec2 vTexCoord1;
          uniform sampler2D colorMap;
          uniform sampler2D colorMap1;
          uniform lowp float mixturePercent;

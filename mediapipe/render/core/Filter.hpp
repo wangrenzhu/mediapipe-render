@@ -51,7 +51,7 @@ const std::string kDefaultVertexShader = SHADER_STRING
 
 const std::string kDefaultFragmentShader = SHADER_STRING
 (
- varying highp vec2 vTexCoord;
+ varying lowp vec2 vTexCoord;
  uniform sampler2D colorMap;
 
  void main()
@@ -62,8 +62,8 @@ const std::string kDefaultFragmentShader = SHADER_STRING
 
 const std::string kDefaultDisplayFragmentShader = SHADER_STRING
 (
- precision highp float;
- varying highp vec2 vTexCoord;
+ precision lowp float;
+ varying lowp vec2 vTexCoord;
  uniform sampler2D colorMap;
  void main()
  {
@@ -74,8 +74,8 @@ const std::string kDefaultDisplayFragmentShader = SHADER_STRING
 
 const std::string kDefaultCaptureFragmentShader = SHADER_STRING
 (
- precision highp float;
- varying highp vec2 vTexCoord;
+ precision lowp float;
+ varying lowp vec2 vTexCoord;
  uniform sampler2D colorMap;
  void main()
  {

@@ -5,9 +5,9 @@ NS_GI_BEGIN
 #if defined(__APPLE__)
 const std::string kYUVTextureFragmentShaderString = SHADER_STRING
 (
- varying highp vec2 vTexCoord;
+ varying lowp vec2 vTexCoord;
 
- varying highp vec2 vTexCoord1;
+ varying lowp vec2 vTexCoord1;
  
  uniform sampler2D colorMap;
  uniform sampler2D colorMap1;
@@ -35,8 +35,8 @@ const std::string kYUVTextureFragmentShaderString = SHADER_STRING
 const std::string kYUVTextureFragmentShaderString = SHADER_STRING
 (
         precision mediump float;
-        varying highp vec2 vTexCoord;
-        varying highp vec2 vTexCoord1;
+        varying lowp vec2 vTexCoord;
+        varying lowp vec2 vTexCoord1;
 
 
         uniform sampler2D colorMap;

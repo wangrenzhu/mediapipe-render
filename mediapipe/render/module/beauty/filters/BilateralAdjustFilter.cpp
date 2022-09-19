@@ -4,7 +4,7 @@ namespace Opipe
 {
 
     const std::string kbilateralAdjustFragmentShaderString = SHADER_STRING(
-        varying highp vec2 vTexCoord;
+        varying lowp vec2 vTexCoord;
         uniform sampler2D colorMap;
         uniform sampler2D colorMap1;
         lowp float factor1 = 2.782;
@@ -14,16 +14,16 @@ namespace Opipe
         lowp float factor5 = 0.979;
         lowp float factor6 = 0.639;
         lowp float factor7 = 0.963;
-        highp float blurOpacity = 0.460;
+        lowp float blurOpacity = 0.460;
         uniform lowp float filterOpacity;
-        precision highp float;
+        precision lowp float;
 
         lowp vec3 rgb2hsv(lowp vec3 c) {
             lowp vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);
-            highp vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
-            highp vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
-            highp float d = q.x - min(q.w, q.y);
-            highp float e = 1.0e-10;
+            lowp vec4 p = mix(vec4(c.bg, K.wz), vec4(c.gb, K.xy), step(c.b, c.g));
+            lowp vec4 q = mix(vec4(p.xyw, c.r), vec4(c.r, p.yzx), step(p.x, c.r));
+            lowp float d = q.x - min(q.w, q.y);
+            lowp float e = 1.0e-10;
             lowp vec3 hsv = vec3(abs(q.z + (q.w - q.y) / (6.0 * d + e)), d / (q.x + e), q.x);
             return hsv;
         }

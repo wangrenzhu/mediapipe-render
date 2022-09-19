@@ -1,5 +1,5 @@
-precision highp float;
-precision highp int;
+precision lowp float;
+precision lowp int;
 varying vec2 textureCoordinate;
 uniform sampler2D inputImageTexture;
 uniform float inputImageTextureWidth;

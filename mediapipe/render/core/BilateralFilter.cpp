@@ -31,7 +31,7 @@ const std::string kBilateralBlurFragmentShaderString = SHADER_STRING
  
  const lowp int GAUSSIAN_SAMPLES = 9;
  
- varying highp vec2 blurCoordinates[GAUSSIAN_SAMPLES];
+ varying lowp vec2 blurCoordinates[GAUSSIAN_SAMPLES];
  
  uniform mediump float distanceNormalizationFactor;
  

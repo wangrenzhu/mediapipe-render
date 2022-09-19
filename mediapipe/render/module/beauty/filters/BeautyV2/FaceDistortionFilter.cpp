@@ -3,7 +3,7 @@
 namespace Opipe
 {
     const std::string kFaceDistortionVertexShaderString = SHADER_STRING(
-        precision highp float;
+        precision lowp float;
         attribute vec4 texCoord;
         varying vec2 vTexCoord;
         uniform float aspectRatio;
@@ -75,7 +75,7 @@ namespace Opipe
         });
 
     const std::string kFaceDistortionFragmentShaderString = SHADER_STRING(
-        precision highp float;
+        precision lowp float;
         uniform sampler2D colorMap;
         varying vec2 vTexCoord;
         uniform vec2 facePoints[106];

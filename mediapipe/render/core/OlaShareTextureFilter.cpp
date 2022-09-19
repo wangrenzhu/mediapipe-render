@@ -13,7 +13,7 @@ namespace Opipe {
     
     const std::string kOnScreenFragmentShaderString = SHADER_STRING
     (
-     varying highp vec2 vTexCoord;
+     varying lowp vec2 vTexCoord;
      uniform sampler2D colorMap;
      void main() {
         lowp
