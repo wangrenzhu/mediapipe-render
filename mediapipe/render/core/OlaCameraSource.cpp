@@ -1,3 +1,6 @@
+#ifndef OPIPE_OlaCameraSource
+#define OPIPE_OlaCameraSource
+
 #include "OlaCameraSource.hpp"
 #include "Context.hpp"
 #if defined(__APPLE__)
@@ -17,6 +20,7 @@ namespace Opipe
         switch (_sourceType)
         {
             case SourceType_RGBA:
+                _framebufferScale = 0.75;
                 _yuvTexture = nullptr;
                 break;
             case SourceType_YUV420SP:
@@ -241,3 +245,4 @@ namespace Opipe
     }
     #endif
 }
+#endif

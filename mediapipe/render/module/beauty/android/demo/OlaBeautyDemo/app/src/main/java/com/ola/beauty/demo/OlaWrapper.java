@@ -31,11 +31,11 @@ public class OlaWrapper extends RenderExpansion {
     private boolean mIsSurfaceReady;
 
     public OlaWrapper(Context context, String graphPath, Bitmap bitmap) {
-        this.mBeauty = new OlaBeauty(context, graphPath, bitmap);
+        this.mBeauty = new OlaBeauty(context, graphPath, false);
     }
 
     public OlaWrapper(Context context, String graphPath, String bitmap) {
-        this.mBeauty = new OlaBeauty(context, graphPath, bitmap);
+        this.mBeauty = new OlaBeauty(context, graphPath, false);
     }
 
     public OlaWrapper(Context context, String graphPath, String bitmap, String bgPath) {

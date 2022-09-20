@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
 
 //        byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
 //        mOlaWrapper = new OlaWrapper(getApplicationContext(), "face_mesh_mobile_gpu.binarypb",getImageFromAssetsFile("whiten.png"));
-        mOlaWrapper = new OlaWrapper(getApplicationContext(), "face_mesh_mobile_vFlip.binarypb", "whiten.png", "bg.png");
+        mOlaWrapper = new OlaWrapper(getApplicationContext(), "face_mesh_mobile_gpu_prestream.binarypb", "whiten.png", "bg.png");
 
         mCameraVideoView = new CameraVideoView(this, null);
 
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements SeekBar.OnSeekBar
         mNoseSeekBar = findViewById(R.id.nose);
 //        ((Switch)findViewById(R.id.seg))
         ((Switch)findViewById(R.id.seg)).setOnCheckedChangeListener((buttonView, isChecked) -> {
-            mOlaWrapper.unWrap().segmentationEnable(isChecked);
+            mOlaWrapper.unWrap().useSegmentation(isChecked);
         });
 
     }

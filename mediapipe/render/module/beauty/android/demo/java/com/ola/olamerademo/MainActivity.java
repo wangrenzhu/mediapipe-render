@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         mQStreamWrapper.doAfterSurfaceReady(()->{
             OlaBeauty.nativeInitAssertManager(this, getCacheDir().getAbsolutePath());
-            byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu.binarypb");
+            byte[] data = getAssetBytes(getAssets(), "face_mesh_mobile_gpu_prestream.binarypb");
             OlaBeauty.nativeInit(graph, data, EGL14.eglGetCurrentContext());
         });
     }

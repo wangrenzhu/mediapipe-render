@@ -475,7 +475,7 @@ namespace Opipe
             {
                 _graph->sendPacket(faceFramebuffer->getTexture(), width, height, kInputVideo, timeStamp);
             }
-
+            LOG(INFO) << "processVideoFrame:" << "before getSegmentationFramebuffer";
             Framebuffer *segFramebuffer = _inputSource->getSegmentationFramebuffer();
 
             if (_segEnable && segFramebuffer)
