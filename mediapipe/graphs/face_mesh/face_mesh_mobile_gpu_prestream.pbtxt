@@ -1,8 +1,9 @@
 # MediaPipe graph that performs face mesh with TensorFlow Lite on GPU.
-max_queue_size: 3
-num_threads: 3
+max_queue_size: 1
+num_threads: 1
 # GPU buffer. (GpuBuffer)
-input_stream: "segment_input_video" # 256x256
+# 256x256
+input_stream: "segment_input_video" 
 # 192x192 根据平台分流
 input_stream: "pre_stream_landmark_video"
 
@@ -119,24 +120,24 @@ node {
 
 # Converts the incoming segmentation mask represented as an Image into the
 # corresponding GpuBuffer type.
-# node {
-#   calculator: "AnnotationOverlayCalculator"
-#   input_stream: "IMAGE_GPU:throttled_pre_stream_landmark_video"
-#   # input_stream: "detections_render_data"
-#   # input_stream: "VECTOR:0:multi_face_landmarks_render_data"
-#   # input_stream: "rects_render_data"
-#   output_stream: "IMAGE_GPU:output_video"
-# }
+node {
+  calculator: "AnnotationOverlayCalculator"
+  input_stream: "IMAGE_GPU:throttled_pre_stream_landmark_video"
+  # input_stream: "detections_render_data"
+  # input_stream: "VECTOR:0:multi_face_landmarks_render_data"
+  # input_stream: "rects_render_data"
+  output_stream: "IMAGE_GPU:output_video"
+}
 
 
 # Subgraph that renders face-landmark annotation onto the input image.  //画标记 用于调试
-node {
-  calculator: "FaceRendererGpu"
-  input_stream: "IMAGE:throttled_pre_stream_landmark_video"
-  input_stream: "LANDMARKS:multi_face_landmarks"
-  input_stream: "NORM_RECTS:face_rects_from_landmarks"
-  input_stream: "DETECTIONS:face_detections"
-  output_stream: "IMAGE:output_video"
-}
+# node {
+#   calculator: "FaceRendererGpu"
+#   input_stream: "IMAGE:throttled_pre_stream_landmark_video"
+#   input_stream: "LANDMARKS:multi_face_landmarks"
+#   input_stream: "NORM_RECTS:face_rects_from_landmarks"
+#   input_stream: "DETECTIONS:face_detections"
+#   output_stream: "IMAGE:output_video"
+# }
 
 # Draws annotations and overlays them on top of the input images.

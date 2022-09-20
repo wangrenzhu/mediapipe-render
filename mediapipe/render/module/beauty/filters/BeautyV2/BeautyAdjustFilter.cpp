@@ -6,7 +6,7 @@ namespace Opipe
     const std::string kBeautyAdjustFilterFragmentShaderString =
     SHADER_STRING
     (
-     precision mediump float;
+     precision lowp float;
      varying highp vec2 vTexCoord;
      uniform sampler2D colorMap;
      uniform sampler2D colorMap1;

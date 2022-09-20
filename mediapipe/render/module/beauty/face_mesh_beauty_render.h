@@ -79,6 +79,25 @@ namespace Opipe {
             }
         
             void setInputSource(Source *source);
+        
+            void updateSegmentMarkTexture(GLuint maskTexture, int width, int height) {
+                if (_olaBeautyFilter) {
+                    _olaBeautyFilter->updateSegmentMarkTexture(maskTexture, width, height);
+                }
+            }
+        
+#if defined(__APPLE__)
+            void updateSegmentMarkIOSurfaceId(IOSurfaceID surfaceId, int width, int height) {
+                if (_olaBeautyFilter) {
+                    _olaBeautyFilter->updateSegmentMarkIOSurfaceId(surfaceId, width, height);
+                }
+            }
+#endif
+            void setSegmentEnable(bool segmentEnable) {
+                if (_olaBeautyFilter) {
+                    _olaBeautyFilter->setSegmentEnable(segmentEnable);
+                }
+            }
 
         private:
             Source *_source = nullptr;

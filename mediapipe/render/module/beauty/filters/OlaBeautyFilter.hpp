@@ -7,6 +7,10 @@
 #include "mediapipe/render/module/beauty/filters/BeautyV2/FaceDistortionFilter.hpp"
 #include "BilateralAdjustFilter.hpp"
 #include "UnSharpMaskFilter.hpp"
+#include "OlaSegmentOutlineFilter.hpp"
+#if defined(__APPLE__)
+#include "mediapipe/render/core/CVFramebuffer.hpp"
+#endif
 
 namespace Opipe
 {
@@ -33,6 +37,46 @@ namespace Opipe
         OlaBeautyFilter(Context *context);
 
         virtual ~OlaBeautyFilter();
+        
+#if defined(__APPLE__)
+        void updateSegmentMarkIOSurfaceId(IOSurfaceID surfaceId, int width, int height) {
+             _segmentOutlineFilter->setEnable(true);
+            if (_segmentMask == nullptr) {
+                _segmentMask = new CVFramebuffer(_context, width, height, surfaceId);
+                _segmentOutlineFilter->setInputFramebuffer(_segmentMask, NoRotation, 1, true);
+            }
+            IOSurfaceID sId = ((CVFramebuffer *)_segmentMask)->_ioSurfaceId;
+            
+            if (sId != surfaceId) {
+                _segmentOutlineFilter->setInputFramebuffer(nullptr, NoRotation, 1);
+                delete _segmentMask;
+                _segmentMask = new CVFramebuffer(_context, width, height, surfaceId);
+                _segmentOutlineFilter->setInputFramebuffer(_segmentMask, NoRotation, 1, true);
+            }
+            
+            
+        }
+#endif
+        
+        // 更新分割的纹理
+        // @param segmentTex 分割纹理 
+        void updateSegmentMarkTexture(GLuint maskTexture, int width, int height) {
+            _segmentOutlineFilter->setEnable(true);
+            if (_segmentMask == nullptr) {
+                _segmentMask = new Framebuffer(_context, width, height, 
+                                               Framebuffer::defaultTextureAttribures, maskTexture);
+            }
+            GLuint texture = _segmentMask->getTexture();
+            if (texture != maskTexture) {
+                _segmentOutlineFilter->setInputFramebuffer(nullptr, NoRotation, 1);
+                _segmentMask->setTexture(maskTexture);
+                _segmentOutlineFilter->setInputFramebuffer(_segmentMask, NoRotation, 1, true);
+            }
+        }
+
+        void setSegmentEnable(bool enable) {
+            _segmentOutlineFilter->setEnable(enable);
+        }
 
     private:
         BilateralFilter *_bilateralFilter = 0;
@@ -43,5 +87,7 @@ namespace Opipe
         FaceDistortionFilter *_faceDistortFilter = 0;
         FilterGroup *_lookUpGroupFilter = 0;
         SourceImage *_lutImage = 0;
+        OlaSegmentOutlineFilter *_segmentOutlineFilter = 0;
+        Framebuffer *_segmentMask = 0;
     };
 }

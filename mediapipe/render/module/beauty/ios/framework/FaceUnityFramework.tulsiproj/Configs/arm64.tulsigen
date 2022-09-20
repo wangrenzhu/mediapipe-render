@@ -52,8 +52,10 @@
   },
   "projectName" : "FaceUnityFramework",
   "sourceFilters" : [
+    "mediapipe/render",
     "mediapipe/render/core",
     "mediapipe/render/core/math",
+    "mediapipe/render/module",
     "mediapipe/render/module/beauty",
     "mediapipe/render/module/beauty/filters",
     "mediapipe/render/module/beauty/filters/BeautyV2",

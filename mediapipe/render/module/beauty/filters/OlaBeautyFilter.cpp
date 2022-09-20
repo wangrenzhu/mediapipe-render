@@ -48,6 +48,16 @@ namespace Opipe {
             _lookUpGroupFilter->release();
             _lookUpGroupFilter = nullptr;
         }
+
+        if (_segmentOutlineFilter) {
+            _segmentOutlineFilter->release();
+            _segmentOutlineFilter = nullptr;
+        }
+
+        if (_segmentMask) {
+            delete _segmentMask;
+            _segmentMask = nullptr;
+        }
     }
 
     OlaBeautyFilter *OlaBeautyFilter::create(Context *context)
@@ -69,6 +79,8 @@ namespace Opipe {
         _unSharpMaskFilter = UnSharpMaskFilter::create(context);
         
         _faceDistortFilter = FaceDistortionFilter::create(context);
+        _segmentOutlineFilter = OlaSegmentOutlineFilter::create(context);
+        _segmentOutlineFilter->setEnable(false);
         _bilateralAdjustFilter = BilateralAdjustFilter::create(context);
         _alphaBlendFilter = AlphaBlendFilter::create(context);
 
@@ -102,7 +114,7 @@ namespace Opipe {
         _unSharpMaskFilter->setBlurRadiusInPixel(2.0f, false);
         _unSharpMaskFilter->setIntensity(1.365);
 
-        _alphaBlendFilter->addTarget(_faceDistortFilter);
+        _alphaBlendFilter->addTarget(_segmentOutlineFilter)->addTarget(_faceDistortFilter);
 
         setTerminalFilter(_faceDistortFilter);
         std::vector<Vec2> defaultFace;

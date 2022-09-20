@@ -63,9 +63,6 @@ namespace Opipe {
         void _generateFramebuffer(bool needGenerateTexture = true) override;
         
         CVOpenGLESTextureRef _glTexture = 0;
-       
-        
-        
     };
     
 }

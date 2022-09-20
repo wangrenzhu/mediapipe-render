@@ -90,30 +90,34 @@ namespace Opipe
                 LOG(INFO) << "######  FaceMeshCallFrameDelegate kSegmentation:" << streamName << " packetType:" << packetType;
                 SourceCamera *cameraSource = _imp->getOutputSource();
 #if defined(__APPLE__)
-                    if (packetType != MPPPacketTypePixelBuffer) {
-                        return;
-                    }
-                    const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
-                    CVPixelBufferRef pixelbuffer = mediapipe::GetCVPixelBufferRef(video);
-                    IOSurfaceRef ioSurface = CVPixelBufferGetIOSurface(pixelbuffer);
-                    IOSurfaceLock(ioSurface, kIOSurfaceLockReadOnly, 0);
-                    int ioSurfaceId = IOSurfaceGetID(ioSurface);
-                    cameraSource->setIOSurfaceSource(ioSurfaceId, video.width(), video.height());
-                    cameraSource->updateTargets(packet.Timestamp().Value());
-                    IOSurfaceUnlock(ioSurface, kIOSurfaceLockReadOnly, 0);
+                if (packetType != MPPPacketTypePixelBuffer) {
+                    return;
+                }
+                const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
+                CVPixelBufferRef pixelbuffer = mediapipe::GetCVPixelBufferRef(video);
+                IOSurfaceRef ioSurface = CVPixelBufferGetIOSurface(pixelbuffer);
+                IOSurfaceLock(ioSurface, kIOSurfaceLockReadOnly, 0);
+                int ioSurfaceId = IOSurfaceGetID(ioSurface);
+                _imp->getRender()->updateSegmentMarkIOSurfaceId(ioSurfaceId, video.width(), video.height());
+                
+                LOG(INFO) << "###### kSegmentation ioSurfaceId:" << ioSurfaceId;
 #else
-                    if (packetType != MPPPacketTypeGpuBuffer) {
-                        return;
-                    }
-                    const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
-                    mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
-                    ptr->WaitUntilComplete();
-                    int textureId = ptr->name();
-                    LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;
-                    cameraSource->setRenderTexture(textureId, video.width(), video.height());
-                    cameraSource->updateTargets(packet.Timestamp().Value());
-                    LOG(INFO) << "###### FaceMeshCallFrameDelegate::updateTargets:" << cameraSource;
+                if (packetType != MPPPacketTypeGpuBuffer) {
+                    return;
+                }
+                const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
+                mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
+                ptr->WaitUntilComplete();
+                int textureId = ptr->name();
+                LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;
+                _imp->getRender()->updateSegmentMarkTexture(textureId, video.width(), video.height());
 #endif
+                OlaCameraSource *inputSource = _imp->getInputSource();
+                Framebuffer* framebuffer = inputSource->getRenderFramebuffer();
+                if (framebuffer) {
+                    cameraSource->setRenderTexture(framebuffer->getTexture(), framebuffer->getWidth(), framebuffer->getHeight());
+                    cameraSource->updateTargets(packet.Timestamp().Value());
+                }
             }
 
             if (streamName == kOutputVideo && !_imp->getSegmentation()) {
@@ -142,21 +146,21 @@ namespace Opipe
             }
 
 #ifdef PRESTREAMING_FRAMETIME
-        int64_t renderSubmitTimeStamp = getTimeStampValue();
-        float renderSubmitDuration = (float)(renderSubmitTimeStamp - currentTime) / 1000.0;
-        
-        if (renderSubmitDuration > _profile.maxRenderDuration) {
-            _profile.maxRenderDuration = renderSubmitDuration;
-        }
-        
-        if (renderSubmitDuration < _profile.minRenderDuration) {
-            _profile.minRenderDuration = renderSubmitDuration;
-        }
-        
-        _profile.renderCount = _profile.renderCount + 1;
-        _profile.avgRenderTime = renderSubmitDuration / (float)_profile.renderCount +
-        _profile.avgRenderTime * ((float)(_profile.renderCount - 1) /
-                                        (float)_profile.renderCount);
+            int64_t renderSubmitTimeStamp = getTimeStampValue();
+            float renderSubmitDuration = (float)(renderSubmitTimeStamp - currentTime) / 1000.0;
+            
+            if (renderSubmitDuration > _profile.maxRenderDuration) {
+                _profile.maxRenderDuration = renderSubmitDuration;
+            }
+            
+            if (renderSubmitDuration < _profile.minRenderDuration) {
+                _profile.minRenderDuration = renderSubmitDuration;
+            }
+            
+            _profile.renderCount = _profile.renderCount + 1;
+            _profile.avgRenderTime = renderSubmitDuration / (float)_profile.renderCount +
+            _profile.avgRenderTime * ((float)(_profile.renderCount - 1) /
+                                            (float)_profile.renderCount);
         
 #endif
 
@@ -247,7 +251,7 @@ namespace Opipe
 #else
         _dispatch = std::make_unique<OpipeDispatch>(_context, nullptr, nullptr);
         _graph = std::make_unique<OlaGraph>(config, _context->getEglContext());
-
+        _landmarksEnable = true;
 #endif
 
         _graph->setDelegate(_delegate);
@@ -368,6 +372,7 @@ namespace Opipe
     void FaceMeshModuleIMP::setSegmentationEnable(bool segEnable)
     {
         _segEnable = segEnable;
+        _render->setSegmentEnable(segEnable);
     }
     
     void FaceMeshModuleIMP::setLandmarksEnable(bool landmarksEnable)
@@ -402,12 +407,11 @@ namespace Opipe
             _inputSource->updateTargets(timeStamp);
             CVFramebuffer *faceFramebuffer = dynamic_cast<CVFramebuffer *>(_inputSource->getFaceFramebuffer());
             Timestamp ts(timeStamp * 1000);
+            
+            _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
+            _graph->sendPacket(mediapipe::MakePacket<bool>(_landmarksEnable).At(ts), kUseLandmarks);
+            
             if (faceFramebuffer && faceFramebuffer->renderTarget) {
-                
-                
-                _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
-                _graph->sendPacket(mediapipe::MakePacket<bool>(_landmarksEnable).At(ts), kUseLandmarks);
-
                 CVPixelBufferLockBaseAddress(faceFramebuffer->renderTarget, 0);
                 _graph->sendPixelBuffer(faceFramebuffer->renderTarget, kInputVideo,
                                         MPPPacketTypePixelBuffer,
@@ -426,10 +430,6 @@ namespace Opipe
                     CVPixelBufferUnlockBaseAddress(segFramebuffer->renderTarget, 0);
                 }
             }
-            
-
-
-            
         }, Context::IOContext);
     }
 
@@ -469,11 +469,10 @@ namespace Opipe
 
             Framebuffer *faceFramebuffer = _inputSource->getFaceFramebuffer();
 
+            _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
+            _graph->sendPacket(mediapipe::MakePacket<bool>(_landmarksEnable).At(ts), kUseLandmarks);
             if (faceFramebuffer)
             {
-                _graph->sendPacket(mediapipe::MakePacket<bool>(_segEnable).At(ts), kUseSegmentation);
-                _graph->sendPacket(mediapipe::MakePacket<bool>(_landmarksEnable).At(ts), kUseLandmarks);
-                
                 _graph->sendPacket(faceFramebuffer->getTexture(), width, height, kInputVideo, timeStamp);
             }
 

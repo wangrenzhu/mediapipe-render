@@ -5,12 +5,14 @@ BEAUTYFILTERS_SRCS = [
         "BilateralAdjustFilter.cpp",
         "OlaBeautyFilter.cpp",
         "UnSharpMaskFilter.cpp",
+        "OlaSegmentOutlineFilter.cpp",
 ]
 
 BEAUTYFILTERS_HDRS = [
         "BilateralAdjustFilter.hpp",
         "OlaBeautyFilter.hpp",
         "UnSharpMaskFilter.hpp",
+        "OlaSegmentOutlineFilter.hpp",
 ]
 
 cc_library(

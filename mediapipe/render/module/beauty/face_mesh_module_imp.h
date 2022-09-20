@@ -137,7 +137,6 @@ namespace Opipe
         }
         
         void setSlim(float slim) override {
-            _landmarksEnable = slim != 0.0;
             _render->setFaceSlim(slim);
         }
         
@@ -175,6 +174,10 @@ namespace Opipe
 
         virtual OpipeProfile currentProfile() override {
              return _delegate->currentProfile();
+        }
+        
+        FaceMeshBeautyRender* getRender() {
+            return _render;
         }
 
     private:
