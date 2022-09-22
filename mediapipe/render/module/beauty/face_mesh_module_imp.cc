@@ -52,8 +52,11 @@ namespace Opipe
         }
 
         _imp->currentDispatch()->runAsync([&, packetType, streamName, packet, graph] {
+            bool useSegment = _imp->getSegmentation();
 
-             int64_t currentTime = getTimeStampValue();
+            _imp->getRender()->setSegmentEnable(useSegment);
+
+            int64_t currentTime = getTimeStampValue();
 
             if (streamName == kLandmarksOutputStream)
             {
@@ -89,6 +92,7 @@ namespace Opipe
                 // 人脸分割的数据 这里需要重写
                 LOG(INFO) << "######  FaceMeshCallFrameDelegate kSegmentation:" << streamName << " packetType:" << packetType;
                 SourceCamera *cameraSource = _imp->getOutputSource();
+                
 #if defined(__APPLE__)
                 if (packetType != MPPPacketTypePixelBuffer) {
                     return;
@@ -243,7 +247,7 @@ namespace Opipe
         _context = _olaContext->glContext();
 #if defined(__ANDROID__)
         _context->initEGLContext((EGLContext)glcontext);
-        LOG(INFO) << "---------------111111  glThreadDispatch std::this_thread::get_id()  " << std::this_thread::get_id();
+        LOG(INFO) << "###### glThreadDispatch std::this_thread::get_id()  " << std::this_thread::get_id();
         _dispatch = std::make_unique<OpipeDispatch>(_context, this, std::move(glDispatch));
         _dispatch->setGLThreadDispatch(glDispatch);
 
@@ -271,7 +275,7 @@ namespace Opipe
 #else
         _graph->addFrameOutputStream(kSegmentation, MPPPacketTypeGpuBuffer);
 #endif
-        _isInit = true;
+  
         if (_render == nullptr)
         {
             LOG(INFO) << "###### before init _render:" << _render;
@@ -309,7 +313,7 @@ namespace Opipe
                     LOG(INFO) << "###### after init _inputSource" << _inputSource; 
             }, Context::IOContext);
         }
-
+        _isInit = true;
         return true;
     }
 
@@ -354,7 +358,7 @@ namespace Opipe
         LOG(INFO) << "###### before start";
         _isInit = _graph->start();
         _graph->setUseVideoOutput(false);
-        LOG(INFO) << "###### after start";
+        LOG(INFO) << "###### after start" << _isInit;
     }
 
     void FaceMeshModuleIMP::stopModule()
@@ -372,12 +376,12 @@ namespace Opipe
     void FaceMeshModuleIMP::setSegmentationEnable(bool segEnable)
     {
         _segEnable = segEnable;
-        _render->setSegmentEnable(segEnable);
     }
     
     void FaceMeshModuleIMP::setLandmarksEnable(bool landmarksEnable)
     {
         _landmarksEnable = landmarksEnable;
+        _render->setFaceLandmarkEnable(_landmarksEnable);
     }
 
 #if defined(__APPLE__)

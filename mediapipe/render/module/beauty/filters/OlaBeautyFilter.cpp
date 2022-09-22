@@ -79,8 +79,6 @@ namespace Opipe {
         _unSharpMaskFilter = UnSharpMaskFilter::create(context);
         
         _faceDistortFilter = FaceDistortionFilter::create(context);
-        _segmentOutlineFilter = OlaSegmentOutlineFilter::create(context);
-        _segmentOutlineFilter->setEnable(false);
         _bilateralAdjustFilter = BilateralAdjustFilter::create(context);
         _alphaBlendFilter = AlphaBlendFilter::create(context);
 
@@ -114,16 +112,11 @@ namespace Opipe {
         _unSharpMaskFilter->setBlurRadiusInPixel(2.0f, false);
         _unSharpMaskFilter->setIntensity(1.365);
 
-        _alphaBlendFilter->addTarget(_segmentOutlineFilter)->addTarget(_faceDistortFilter);
-
+        _alphaBlendFilter->addTarget(_faceDistortFilter);
         setTerminalFilter(_faceDistortFilter);
         std::vector<Vec2> defaultFace;
         
         registerProperty("face", defaultFace, "人脸点", [this](std::vector<Vec2> facePoints) {
-            if (facePoints.size() == 0) {
-                _faceDistortFilter->setEnable(false);
-                return;
-            }
             _faceDistortFilter->setEnable(true);
             _faceDistortFilter->setFacePoints(facePoints);
         });
@@ -156,6 +149,34 @@ namespace Opipe {
         
         return true;
         
+    }
+
+    void OlaBeautyFilter::setSegmentEnable(bool enable) {
+        if (_useSegment != enable) {
+            if (enable) {
+                if (_segmentOutlineFilter) {
+                    _segmentOutlineFilter->removeAllTargets();
+                    _segmentOutlineFilter->release();
+                    _segmentOutlineFilter = nullptr;
+                }
+                _segmentOutlineFilter = OlaSegmentOutlineFilter::create(_context);
+                _alphaBlendFilter->removeAllTargets();
+                _alphaBlendFilter->addTarget(_segmentOutlineFilter)->addTarget(_faceDistortFilter);
+            } else {
+                
+                _alphaBlendFilter->removeAllTargets();
+                _alphaBlendFilter->addTarget(_faceDistortFilter);
+                if (_segmentOutlineFilter) {
+                    _segmentOutlineFilter->removeAllTargets();
+                    _segmentOutlineFilter->release();
+                    _segmentOutlineFilter = nullptr;
+                }
+                delete _segmentMask;
+                _segmentMask = nullptr;
+            }
+            setTerminalFilter(_faceDistortFilter);
+        }
+        _useSegment = enable;
     }
 
     bool OlaBeautyFilter::proceed(float frameTime, bool bUpdateTargets) {

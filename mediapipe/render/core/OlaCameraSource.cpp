@@ -1,6 +1,3 @@
-#ifndef OPIPE_OlaCameraSource
-#define OPIPE_OlaCameraSource
-
 #include "OlaCameraSource.hpp"
 #include "Context.hpp"
 #if defined(__APPLE__)
@@ -212,6 +209,7 @@ namespace Opipe
             
         }
     }
+    #endif
 
     Framebuffer* OlaCameraSource::getSegmentationFramebuffer() {
         if (_segmentTexture && _segmentTexture->getFramebuffer()) {
@@ -243,6 +241,4 @@ namespace Opipe
         }
         return nullptr;
     }
-    #endif
 }
-#endif

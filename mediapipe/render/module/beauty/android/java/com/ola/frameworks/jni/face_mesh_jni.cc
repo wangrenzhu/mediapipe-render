@@ -215,7 +215,7 @@ namespace OpipeJNI {
     JNIEXPORT jint JNICALL OLA_METHOD(nativeRenderTexture) (JNIEnv *env, jobject thiz, NativeId<Opipe::FaceMeshModule> instance, 
     jint width, jint height, jint textureId, jlong frameTime) 
     {
-        LOG(INFO) << "###### nativeRenderTexture texture:" << textureId;
+        LOG(INFO) << "###### before nativeRenderTexture texture:" << textureId;
         Opipe::FaceMeshModule *faceModule = (Opipe::FaceMeshModule *)instance.p;
         TextureInfo info;
         info.width = width;

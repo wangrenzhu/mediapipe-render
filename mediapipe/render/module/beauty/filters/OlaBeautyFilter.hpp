@@ -45,14 +45,20 @@ namespace Opipe
                 _segmentMask = new CVFramebuffer(_context, width, height, surfaceId);
                 _segmentOutlineFilter->setInputFramebuffer(_segmentMask, NoRotation, 1, true);
             }
+            
             IOSurfaceID sId = ((CVFramebuffer *)_segmentMask)->_ioSurfaceId;
             
             if (sId != surfaceId) {
+                Log("BeautyFilter", " surfaceIdChanged: old:%d new:%d", sId, surfaceId);
                 _segmentOutlineFilter->setInputFramebuffer(nullptr, NoRotation, 1);
                 delete _segmentMask;
                 _segmentMask = new CVFramebuffer(_context, width, height, surfaceId);
+            }
+            
+            if (_segmentMask) {
                 _segmentOutlineFilter->setInputFramebuffer(_segmentMask, NoRotation, 1, true);
             }
+            
             
             
         }
@@ -73,9 +79,11 @@ namespace Opipe
                 _segmentOutlineFilter->setInputFramebuffer(_segmentMask, NoRotation, 1, true);
             }
         }
+        
+        void setSegmentEnable(bool enable);
 
-        void setSegmentEnable(bool enable) {
-            _segmentOutlineFilter->setEnable(enable);
+        void setFaceLandmarkEnable(bool enable) {
+            _faceDistortFilter->setEnable(enable);
         }
 
     private:
@@ -89,5 +97,6 @@ namespace Opipe
         SourceImage *_lutImage = 0;
         OlaSegmentOutlineFilter *_segmentOutlineFilter = 0;
         Framebuffer *_segmentMask = 0;
+        bool _useSegment = false;
     };
 }

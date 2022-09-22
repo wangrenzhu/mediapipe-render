@@ -99,6 +99,12 @@ namespace Opipe {
                 }
             }
 
+            void setFaceLandmarkEnable(bool faceLandmarkEnable) {
+                if (_olaBeautyFilter) {
+                    _olaBeautyFilter->setFaceLandmarkEnable(faceLandmarkEnable);
+                }
+            }
+
         private:
             Source *_source = nullptr;
             OlaBeautyFilter *_olaBeautyFilter = nullptr;

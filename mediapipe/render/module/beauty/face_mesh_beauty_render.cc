@@ -163,6 +163,8 @@ namespace Opipe
             IOSurfaceRef surface = cvFramebuffer->renderIOSurface;
             outputTexture.ioSurfaceId = IOSurfaceGetID(surface);
             #endif
+            LOG(INFO) << "###### FaceMeshModuleIMP _outputFilter outputbuffer:" << outputTexture.textureId 
+            << " width:" << outputTexture.width;
         } else {
             LOG(INFO) << "###### FaceMeshModuleIMP _outputFilter null outputbuffer";
             outputTexture.width = inputTexture.width;
@@ -170,7 +172,7 @@ namespace Opipe
             outputTexture.textureId = inputTexture.textureId;
             outputTexture.ioSurfaceId = inputTexture.ioSurfaceId;
         }
-        LOG(INFO) << "###### FaceMeshModuleIMP _outputFilter outputbuffer" << outputTexture.textureId << " width:" << outputTexture.width;
+        
         return outputTexture;
     }
 

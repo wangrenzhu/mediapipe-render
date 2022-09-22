@@ -11,8 +11,7 @@
 #import <OpenGLES/ES3/gl.h>
 #import <OpenGLES/ES3/glext.h>
 #import <CoreVideo/CoreVideo.h>
-#elif defined(__ANDROID__) || defined(ANDROID)
-#if defined(__ANDROID__) || defined(ANDROID)
+#else
 // for EGL calls
 #define EGL_EGLEXT_PROTOTYPES
 #include "EGL/egl.h"
@@ -22,7 +21,6 @@
 #include "GLES/glext.h"
 #include "android/hardware_buffer.h"
 
-#endif
 #endif
 
 using namespace Opipe;

@@ -142,38 +142,28 @@ void SourceCamera::setRenderTexture(GLuint texture, int width, int height,
                                     TextureAttributes textureAttributes)
 {
 
-    // //纹理发生变化，使用新的framebuffer
-    // if(_inputTexture != texture) {
-    //     this->setFramebuffer(nullptr);
-    // }
-
-    // if(_framebuffer == nullptr || (_framebuffer && _framebuffer->getTexture() != texture)) {
-    //     if (_framebuffer) {
-    //         delete _framebuffer;
-    //         _framebuffer = 0;
-    //     }
-    //     //相机输入的FBO不要回收回去,回收回去会导致相机纹理ID不对
-    //     /**
-    //      * TODO：还存在坑 ,输入的纹理其实没有必要使用FBCache和FBO
-    //      * 目前这种方式（CameraSource销毁的时候,才将FB返回FBCache）依旧存在坑
-    //      * 因为一般Filter使用FBO，是希望能够直接绘制里面的内容，那个如果这个输入的texture的FBO给其他绘制filter使用（非Source），那么就会导致输入的texture的纹理给覆盖了
-    //      */
-
-    //     _inputTexture = texture;
-    //     Framebuffer *framebuffer =  getContext()->getFramebufferCache()->fetchFramebufferUseTextureId(
-    //             _context, width, height, texture);
-    //     _customTexture = true;
-    //     this->setFramebuffer(framebuffer, outputRotation);
-    // }
-    if (_framebuffer) {
-        delete _framebuffer;
-        _framebuffer = 0;
+    if(_framebuffer == nullptr) {
+        if (_framebuffer) {
+            delete _framebuffer;
+            _framebuffer = 0;
+        }
+        //相机输入的FBO不要回收回去,回收回去会导致相机纹理ID不对
+        /**
+         * TODO：还存在坑 ,输入的纹理其实没有必要使用FBCache和FBO
+         * 目前这种方式（CameraSource销毁的时候,才将FB返回FBCache）依旧存在坑
+         * 因为一般Filter使用FBO，是希望能够直接绘制里面的内容，那个如果这个输入的texture的FBO给其他绘制filter使用（非Source），那么就会导致输入的texture的纹理给覆盖了
+         */
+        
+        _inputTexture = texture;
+        Framebuffer *framebuffer =  new Framebuffer(_context, width, height, textureAttributes, texture);
+        
+        _customTexture = true;
+        this->setFramebuffer(framebuffer, outputRotation);
+    } else {
+        _framebuffer->setTexture(texture);
     }
-
     _inputTexture = texture;
-    _customTexture = true;
-    Framebuffer *framebuffer = new Framebuffer(_context, width, height, textureAttributes, texture);
-    this->setFramebuffer(framebuffer, outputRotation);
+    this->setFramebuffer(_framebuffer, outputRotation);
     CHECK_GL(glBindTexture(GL_TEXTURE_2D, this->getFramebuffer()->getTexture()));
     // CHECK_GL(glBindTexture(GL_TEXTURE_2D, texture));
 }

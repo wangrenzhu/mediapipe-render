@@ -267,25 +267,25 @@ namespace Opipe
             //瘦左脸
             {
 
-                Vector2 point1 = _positionAt(136);
+                Vector2 point1 = _positionAt(172);
                 Vector2 point2 = _positionAt(19);
                 Vector2 point3 = _positionAt(234);
                 Vector2 point4 = _positionAt(152);
 
                 float angle = getRadius(point2, point1);
-                addPoint(point1, point1.distance(point3), point1.distance(point4), 0.02, 2, angle,
+                addPoint(point1, point1.distance(point3), point1.distance(point4), 0.025, 2, angle,
                          0.0f,
                          0.02);
             }
             //瘦右脸
             {
-                Vector2 point1 = _positionAt(379);
+                Vector2 point1 = _positionAt(365);
                 Vector2 point2 = _positionAt(19);
                 Vector2 point3 = _positionAt(454);
                 Vector2 point4 = _positionAt(152);
 
                 float angle = getRadius(point2, point1);
-                addPoint(point1, point1.distance(point3), point1.distance(point4), 0.02, 2, angle,
+                addPoint(point1, point1.distance(point3), point1.distance(point4), 0.025, 2, angle,
                          0.0f,
                          0.02);
             }

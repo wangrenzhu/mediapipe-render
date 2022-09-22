@@ -103,11 +103,12 @@ namespace Opipe
         absl::Status status;
         if (gpu_resources_) {
             status = _graph->SetGpuResources(gpu_resources_);
+            LOG(INFO) << "###### SetGpuResources" << status << " message:" << status.message();
         }
 
         if (status.ok()) {
             status = performStart();
-            
+            LOG(INFO) << "###### performStart Done" << status << " message:" << status.message();
             _started = status.ok();
             if (!status.ok()) {
                 LOG(ERROR) << "###### start failed: " << status.message();
@@ -120,7 +121,9 @@ namespace Opipe
 
     absl::Status OlaGraph::performStart()
     {
+        LOG(INFO) << "###### performStart Initialize Before";
         absl::Status status = _graph->Initialize(_config);
+         LOG(INFO) << "###### performStart Initialize After:" << status << status.message();
         if (!status.ok())
         {
             return status;
@@ -136,7 +139,7 @@ namespace Opipe
         status = _graph->StartRun(_inputSidePackets, _streamHeaders);
         if (!status.ok())
         {
-            LOG(ERROR) << "###### performStart failed" << status.message();
+            LOG(ERROR) << "###### performStart failed:" << status.message() << status;
             return status;
         }
         return status;
@@ -149,7 +152,7 @@ namespace Opipe
         bool rs = status.ok();
         if (!status.ok())
         {
-            LOG(ERROR) << "###### sendPacket failed" << status.message() << " streamName:" << streamName;
+            LOG(ERROR) << "###### sendPacket failed" << status << " streamName:" << streamName;
             return rs;
         }
         

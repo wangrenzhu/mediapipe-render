@@ -102,17 +102,23 @@ namespace Opipe {
             rotatedFramebufferHeight = _targetSize.y;
         }
         
-        _framebuffer = getContext()->getFramebufferCache()->
-        fetchFramebuffer(_context,
-                         rotatedFramebufferWidth,
-                         rotatedFramebufferHeight,
-                         false,
-                         targetTextureAttr);
-
-        if (_framebuffer) {
-            targetTextureId = _framebuffer->getTexture();
+        bool createFramebuffer = false;
+        if (_framebuffer == nullptr) {
+            createFramebuffer = true;
+        } else if (_framebuffer && _framebuffer->getWidth() != rotatedFramebufferWidth
+                   && _framebuffer->getHeight() != rotatedFramebufferHeight) {
+            createFramebuffer = true;
         }
         
+        if (createFramebuffer) {
+            _framebuffer = getContext()->getFramebufferCache()->
+            fetchFramebuffer(_context,
+                             rotatedFramebufferWidth,
+                             rotatedFramebufferHeight,
+                             false,
+                             targetTextureAttr);
+            targetTextureId = _framebuffer->getTexture();
+        }
         proceed(frameTime);
     }
     
