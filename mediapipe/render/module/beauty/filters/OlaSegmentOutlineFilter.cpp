@@ -73,4 +73,11 @@ namespace Opipe
     {
         return Filter::proceed(frameTime, bUpdateTargets);
     }
+
+    void OlaSegmentOutlineFilter::setInputFramebuffer(Framebuffer* framebuffer,
+                                                      RotationMode rotationMode,
+                                                      int texIdx,
+                                                      bool ignoreForPrepared) {
+        Target::setInputFramebuffer(framebuffer, rotationMode, texIdx, ignoreForPrepared);
+    }
 }

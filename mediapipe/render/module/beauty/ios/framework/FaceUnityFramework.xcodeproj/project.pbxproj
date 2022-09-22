@@ -815,9 +815,9 @@
 			dependencies = (
 				CFE52E69FF39A92100000000 /* PBXTargetDependency */,
 				CFE52E6978E2467300000000 /* PBXTargetDependency */,
+				CFE52E6978E2467300000000 /* PBXTargetDependency */,
 				CFE52E69802EA1F100000000 /* PBXTargetDependency */,
 				CFE52E694985D7DB00000000 /* PBXTargetDependency */,
-				CFE52E6978E2467300000000 /* PBXTargetDependency */,
 			);
 			name = "_idx_core_core-ios_D088DCE0_ios_min15.5";
 			productName = "_idx_core_core-ios_D088DCE0_ios_min15.5";
@@ -850,10 +850,10 @@
 			);
 			dependencies = (
 				CFE52E69FF39A92100000000 /* PBXTargetDependency */,
-				CFE52E69478C1B0500000000 /* PBXTargetDependency */,
-				CFE52E6923B67CCD00000000 /* PBXTargetDependency */,
-				CFE52E6923B67CCD00000000 /* PBXTargetDependency */,
 				CFE52E69E033AA9900000000 /* PBXTargetDependency */,
+				CFE52E6923B67CCD00000000 /* PBXTargetDependency */,
+				CFE52E6923B67CCD00000000 /* PBXTargetDependency */,
+				CFE52E69478C1B0500000000 /* PBXTargetDependency */,
 			);
 			name = "_idx_core_core-ios_D088DCE0_ios_min11.0";
 			productName = "_idx_core_core-ios_D088DCE0_ios_min11.0";
@@ -864,7 +864,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 54F613CC593D8FE200000000 /* Build configuration list for PBXNativeTarget "_idx_gpuimageutil_8CD34168_ios_min11.0" */;
 			buildPhases = (
-				758BDDB10000000000000002 /* Sources */,
+				758BDDB10000000000000004 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -1000,9 +1000,9 @@
 			);
 			dependencies = (
 				CFE52E69FF39A92100000000 /* PBXTargetDependency */,
-				CFE52E6937C8D68900000000 /* PBXTargetDependency */,
-				CFE52E69B696FBBB00000000 /* PBXTargetDependency */,
 				CFE52E6930D886CB00000000 /* PBXTargetDependency */,
+				CFE52E69B696FBBB00000000 /* PBXTargetDependency */,
+				CFE52E6937C8D68900000000 /* PBXTargetDependency */,
 			);
 			name = _idx_OlaFaceUnityLibrary_FaceMeshGPULibrary_A6BBE4D0_ios_min11.0;
 			productName = _idx_OlaFaceUnityLibrary_FaceMeshGPULibrary_A6BBE4D0_ios_min11.0;
@@ -1029,7 +1029,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 54F613CC3F01D54500000000 /* Build configuration list for PBXNativeTarget "_idx_math_199114BB_ios_min11.0" */;
 			buildPhases = (
-				758BDDB10000000000000004 /* Sources */,
+				758BDDB10000000000000002 /* Sources */,
 			);
 			buildRules = (
 			);
@@ -1051,8 +1051,8 @@
 			);
 			dependencies = (
 				CFE52E69FF39A92100000000 /* PBXTargetDependency */,
-				CFE52E69AE7635BD00000000 /* PBXTargetDependency */,
 				CFE52E6925C0EABF00000000 /* PBXTargetDependency */,
+				CFE52E69AE7635BD00000000 /* PBXTargetDependency */,
 				CFE52E69AA3CBCBB00000000 /* PBXTargetDependency */,
 			);
 			name = _idx_OlaFaceUnityLibrary_FaceMeshGPULibrary_A6BBE4D0_ios_min15.5;
@@ -1225,7 +1225,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				70F4569B16D74F3E00000000 /* GPUImageUtil.cpp in core */,
+				70F4569BA1523FA600000000 /* mat4.cpp in math */,
+				70F4569BDAE57D8100000000 /* math_utils.cpp in math */,
+				70F4569BAEDD049F00000000 /* vec2.cpp in math */,
+				70F4569BF149FC2000000000 /* vec3.cpp in math */,
+				70F4569B06DD907A00000000 /* vec4.cpp in math */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1242,11 +1246,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				70F4569BA1523FA600000000 /* mat4.cpp in math */,
-				70F4569BDAE57D8100000000 /* math_utils.cpp in math */,
-				70F4569BAEDD049F00000000 /* vec2.cpp in math */,
-				70F4569BF149FC2000000000 /* vec3.cpp in math */,
-				70F4569B06DD907A00000000 /* vec4.cpp in math */,
+				70F4569B16D74F3E00000000 /* GPUImageUtil.cpp in core */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1542,7 +1542,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "--version";
 				OTHER_LDFLAGS = "--version";
@@ -1635,7 +1635,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "--version";
 				OTHER_LDFLAGS = "--version";
@@ -1735,10 +1735,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_github_glog_glog_no_gflags/_virtual_includes/default_glog_headers $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/com_github_glog_glog_no_gflags $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_github_glog_glog_no_gflags $(TULSI_OUTPUT_BASE)/external/com_google_absl $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_google_absl ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_gpuimageutil_8CD34168_ios_min11.0;
+				OTHER_CFLAGS = "-D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_math_199114BB_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -1761,10 +1761,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_github_glog_glog_no_gflags/_virtual_includes/default_glog_headers $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/com_github_glog_glog_no_gflags $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_github_glog_glog_no_gflags $(TULSI_OUTPUT_BASE)/external/com_google_absl $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_google_absl ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "-D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_math_199114BB_ios_min11.0;
+				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_gpuimageutil_8CD34168_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -1897,7 +1897,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PREPROCESSOR_DEFINITIONS = "NDEBUG=1";
 				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				PRODUCT_NAME = "mediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary";
 				SDKROOT = iphoneos;
 				TULSI_BUILD_PATH = mediapipe/render/module/beauty/ios/framework;
@@ -1991,10 +1991,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_github_glog_glog_no_gflags/_virtual_includes/default_glog_headers $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/com_github_glog_glog_no_gflags $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_github_glog_glog_no_gflags $(TULSI_OUTPUT_BASE)/external/com_google_absl $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_google_absl ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_gpuimageutil_8CD34168_ios_min11.0;
+				OTHER_CFLAGS = "-D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_math_199114BB_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -2017,10 +2017,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
-				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_WR)/mediapipe/render/core/math $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/mediapipe/render/core/math ";
+				HEADER_SEARCH_PATHS = "$(inherited) $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_github_glog_glog_no_gflags/_virtual_includes/default_glog_headers $(TULSI_WR)/. $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/ $(TULSI_OUTPUT_BASE)/external/com_github_glog_glog_no_gflags $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_github_glog_glog_no_gflags $(TULSI_OUTPUT_BASE)/external/com_google_absl $(TULSI_EXECUTION_ROOT)/bazel-tulsi-includes/x/x/external/com_google_absl ";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				OTHER_CFLAGS = "-D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
-				PRODUCT_NAME = _idx_math_199114BB_ios_min11.0;
+				OTHER_CFLAGS = "-x objective-c++ -fobjc-arc -D_FORTIFY_SOURCE=1 -D__DATE__=\"redacted\" -D__TIMESTAMP__=\"redacted\" -D__TIME__=\"redacted\"";
+				PRODUCT_NAME = _idx_gpuimageutil_8CD34168_ios_min11.0;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = "$(TULSI_WR)";
 			};
@@ -2153,7 +2153,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				INFOPLIST_FILE = "${PROJECT_FILE_PATH}/.tulsi/Resources/StubInfoPlist.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				PRODUCT_NAME = "mediapipe-render-module-beauty-ios-framework-OlaFaceUnityLibrary";
 				SDKROOT = iphoneos;
 				TULSI_BUILD_PATH = mediapipe/render/module/beauty/ios/framework;
@@ -2207,8 +2207,8 @@
 		54F613CC3F01D54500000000 /* Build configuration list for PBXNativeTarget "_idx_math_199114BB_ios_min11.0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C9CFC8F5D106904B00000006 /* Debug */,
-				C9CFC8F5BD34FCE100000006 /* Release */,
+				C9CFC8F5D106904B00000004 /* Debug */,
+				C9CFC8F5BD34FCE100000004 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
@@ -2223,8 +2223,8 @@
 		54F613CC593D8FE200000000 /* Build configuration list for PBXNativeTarget "_idx_gpuimageutil_8CD34168_ios_min11.0" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C9CFC8F5D106904B00000004 /* Debug */,
-				C9CFC8F5BD34FCE100000004 /* Release */,
+				C9CFC8F5D106904B00000006 /* Debug */,
+				C9CFC8F5BD34FCE100000006 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};

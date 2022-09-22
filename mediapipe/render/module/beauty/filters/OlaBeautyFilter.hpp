@@ -40,22 +40,25 @@ namespace Opipe
         
 #if defined(__APPLE__)
         void updateSegmentMarkIOSurfaceId(IOSurfaceID surfaceId, int width, int height) {
-             _segmentOutlineFilter->setEnable(true);
             if (_segmentMask == nullptr) {
                 _segmentMask = new CVFramebuffer(_context, width, height, surfaceId);
-                _segmentOutlineFilter->setInputFramebuffer(_segmentMask, NoRotation, 1, true);
+                if (_segmentOutlineFilter) {
+                    _segmentOutlineFilter->setInputFramebuffer(_segmentMask, NoRotation, 1, true);
+                }
             }
             
             IOSurfaceID sId = ((CVFramebuffer *)_segmentMask)->_ioSurfaceId;
             
             if (sId != surfaceId) {
                 Log("BeautyFilter", " surfaceIdChanged: old:%d new:%d", sId, surfaceId);
-                _segmentOutlineFilter->setInputFramebuffer(nullptr, NoRotation, 1);
+                if (_segmentOutlineFilter) {
+                    _segmentOutlineFilter->setInputFramebuffer(nullptr, NoRotation, 1);
+                }
                 delete _segmentMask;
                 _segmentMask = new CVFramebuffer(_context, width, height, surfaceId);
             }
             
-            if (_segmentMask) {
+            if (_segmentMask && _segmentOutlineFilter) {
                 _segmentOutlineFilter->setInputFramebuffer(_segmentMask, NoRotation, 1, true);
             }
             

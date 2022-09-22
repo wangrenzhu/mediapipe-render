@@ -52,9 +52,6 @@ namespace Opipe
         }
 
         _imp->currentDispatch()->runAsync([&, packetType, streamName, packet, graph] {
-            bool useSegment = _imp->getSegmentation();
-
-            _imp->getRender()->setSegmentEnable(useSegment);
 
             int64_t currentTime = getTimeStampValue();
 
@@ -119,6 +116,7 @@ namespace Opipe
                 OlaCameraSource *inputSource = _imp->getInputSource();
                 Framebuffer* framebuffer = inputSource->getRenderFramebuffer();
                 if (framebuffer) {
+                    _imp->getRender()->setSegmentEnable(true);
                     cameraSource->setRenderTexture(framebuffer->getTexture(), framebuffer->getWidth(), framebuffer->getHeight());
                     cameraSource->updateTargets(packet.Timestamp().Value());
                 }
@@ -148,7 +146,7 @@ namespace Opipe
                     }
                 }
             }
-
+ 
 #ifdef PRESTREAMING_FRAMETIME
             int64_t renderSubmitTimeStamp = getTimeStampValue();
             float renderSubmitDuration = (float)(renderSubmitTimeStamp - currentTime) / 1000.0;
@@ -376,6 +374,11 @@ namespace Opipe
     void FaceMeshModuleIMP::setSegmentationEnable(bool segEnable)
     {
         _segEnable = segEnable;
+        _dispatch->runAsync([&] {
+            if (!segEnable) {
+                _render->setSegmentEnable(false);
+            }
+        });
     }
     
     void FaceMeshModuleIMP::setLandmarksEnable(bool landmarksEnable)
