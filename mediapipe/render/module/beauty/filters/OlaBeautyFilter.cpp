@@ -152,6 +152,7 @@ namespace Opipe {
     }
 
     void OlaBeautyFilter::setSegmentEnable(bool enable) {
+        Log("setSegmentEnable", "setSegmentEnable:%d", enable);
         if (_useSegment != enable) {
             if (enable) {
                 if (_segmentOutlineFilter) {
@@ -174,7 +175,7 @@ namespace Opipe {
                 delete _segmentMask;
                 _segmentMask = nullptr;
             }
-            setTerminalFilter(_faceDistortFilter);
+//            setTerminalFilter(_faceDistortFilter);
         }
         _useSegment = enable;
     }

@@ -276,7 +276,7 @@ bool Filter::proceed(float frameTime, bool bUpdateTargets/* = true*/) {
     if (_framebuffer->isDealloc) {
         return false;
     }
-    auto logstr = str_format(" QuarameraLayerGLRender:%s渲染耗时", typeid(*this).name());
+    Log("Filter", str_format(" 开始渲染:%s", typeid(*this).name()));
     {
 #if DEBUG
         _framebuffer->lock(typeid(*this).name());
@@ -341,8 +341,6 @@ bool Filter::proceed(float frameTime, bool bUpdateTargets/* = true*/) {
         CHECK_GL(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0));
         filter_externDraw();
         _framebuffer->inactive();
-       Log("Filter", "%s渲染完毕，准备开始Unlock Framebuffer:%s", typeid(*this).name(),
-           _framebuffer->_hashCode.c_str());
 #if DEBUG
 		_framebuffer->unlock(typeid(*this).name());
 #else
@@ -350,7 +348,10 @@ bool Filter::proceed(float frameTime, bool bUpdateTargets/* = true*/) {
 #endif
         unPrepear();
     }
-    return Source::proceed(frameTime, bUpdateTargets);
+
+    bool result = Source::proceed(frameTime, bUpdateTargets);
+    Log("Filter", str_format(" Targets渲染完毕:%s", typeid(*this).name()));
+    return result;
 }
 
 void Filter::filter_externDraw()

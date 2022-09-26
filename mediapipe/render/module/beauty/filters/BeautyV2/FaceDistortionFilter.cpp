@@ -233,9 +233,9 @@ namespace Opipe
 
     void FaceDistortionFilter::setUniform()
     {
+        Log("FacePoints", " setUniform _facePoints:%d", _facePoints.size());
         if (_facePoints.size() > 60)
         {
-
             _count = 0;
             float width = (float)getFramebuffer()->getWidth();
             float height = (float)getFramebuffer()->getHeight();

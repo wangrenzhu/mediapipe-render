@@ -50,7 +50,7 @@ namespace Opipe
         {
             return;
         }
-
+        LOG(INFO) << "######  FaceMeshCallFrameDelegate::outputPacket:" << streamName << " packetType:" << packetType;
         _imp->currentDispatch()->runAsync([&, packetType, streamName, packet, graph] {
 
             int64_t currentTime = getTimeStampValue();
@@ -108,6 +108,7 @@ namespace Opipe
                 }
                 const mediapipe::GpuBuffer& video = packet.Get<GpuBuffer>();
                 mediapipe::GlTextureBufferSharedPtr ptr = video.internal_storage<mediapipe::GlTextureBuffer>();
+                
                 ptr->WaitUntilComplete();
                 int textureId = ptr->name();
                 LOG(INFO) << "###### FaceMeshCallFrameDelegate::textureId:" << textureId;
@@ -120,6 +121,7 @@ namespace Opipe
                     cameraSource->setRenderTexture(framebuffer->getTexture(), framebuffer->getWidth(), framebuffer->getHeight());
                     cameraSource->updateTargets(packet.Timestamp().Value());
                 }
+
             }
 
             if (streamName == kOutputVideo && !_imp->getSegmentation()) {
@@ -141,6 +143,7 @@ namespace Opipe
                     OlaCameraSource *inputSource = _imp->getInputSource();
                     Framebuffer* framebuffer = inputSource->getRenderFramebuffer();
                     if (framebuffer) {
+                        LOG(INFO) << "###### getRenderFramebuffer FaceMeshCallFrameDelegate::textureId:" << framebuffer->getTexture();
                         cameraSource->setRenderTexture(framebuffer->getTexture(), framebuffer->getWidth(), framebuffer->getHeight());
                         cameraSource->updateTargets(packet.Timestamp().Value());
                     }
@@ -384,7 +387,10 @@ namespace Opipe
     void FaceMeshModuleIMP::setLandmarksEnable(bool landmarksEnable)
     {
         _landmarksEnable = landmarksEnable;
-        _render->setFaceLandmarkEnable(_landmarksEnable);
+        _dispatch->runAsync([&] {
+            
+            _render->setFaceLandmarkEnable(_landmarksEnable);
+        });
     }
 
 #if defined(__APPLE__)
@@ -464,15 +470,14 @@ namespace Opipe
 
     void FaceMeshModuleIMP::processVideoFrame(int textureId, int width, int height, int64_t timeStamp)
     {
-        _dispatch->runSync([&]
-                           {
+         Timestamp ts(timeStamp);
+        _inputSource->setRenderTexture(textureId, width, height);
+        _inputSource->updateTargets(timeStamp);
+        _dispatch->runSync([&] {
             if (!_isInit)
             {
                 return;
             }
-            Timestamp ts(timeStamp);
-            _inputSource->setRenderTexture(textureId, width, height);
-            _inputSource->updateTargets(timeStamp);
 
             Framebuffer *faceFramebuffer = _inputSource->getFaceFramebuffer();
 
@@ -482,7 +487,7 @@ namespace Opipe
             {
                 _graph->sendPacket(faceFramebuffer->getTexture(), width, height, kInputVideo, timeStamp);
             }
-            LOG(INFO) << "processVideoFrame:" << "before getSegmentationFramebuffer";
+            LOG(INFO) << "processVideoFrame:" << "before getSegmentationFramebuffer " << "_landmarksEnable:" << _landmarksEnable;
             Framebuffer *segFramebuffer = _inputSource->getSegmentationFramebuffer();
 
             if (_segEnable && segFramebuffer)

@@ -14,6 +14,7 @@ input_side_packet: "num_faces"
 input_stream: "use_segmentation"
 
 input_stream: "use_landmarks"
+input_side_packet: "vflip"
 
 # Output image with rendered results. (GpuBuffer)
 # output_stream: "output_video"
@@ -102,7 +103,7 @@ node {
 # Subgraph that detects faces and corresponding landmarks.
 node {
   calculator: "FaceLandmarkFrontGpu"
-  input_stream: "IMAGE:throttled_landmarks_video"
+  input_stream: "IMAGE:transformed_input_video"
   input_side_packet: "NUM_FACES:num_faces"
   input_side_packet: "WITH_ATTENTION:with_attention"
   output_stream: "LANDMARKS:multi_face_landmarks"
@@ -121,9 +122,16 @@ node {
 # through FlowLimiterCaculator).
 
 
+node: {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:throttled_segmentation_video2"
+  input_side_packet: "FLIP_VERTICALLY:vflip"
+  output_stream: "IMAGE_GPU:throttled_segmentation_video3"
+}
+
 node {
   calculator: "SelfieSegmentationGpu"
-  input_stream: "IMAGE:throttled_segmentation_video2"
+  input_stream: "IMAGE:throttled_segmentation_video3"
   output_stream: "SEGMENTATION_MASK:segment_video_gpu"
   # output_stream: "SEGMENTATION_MASK:filtered_segmentation_mask"
 }
@@ -141,10 +149,18 @@ node {
 }
 
 
+node: {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:throttled_landmarks_video"
+  input_side_packet: "FLIP_VERTICALLY:vflip"
+  output_stream: "IMAGE_GPU:transformed_input_video"
+}
+
+
 # Subgraph that renders face-landmark annotation onto the input image.  //画标记 用于调试
 # node {
 #   calculator: "FaceRendererGpu"
-#   input_stream: "IMAGE:throttled_pre_stream_landmark_video"
+#   input_stream: "IMAGE:transformed_input_video"
 #   input_stream: "LANDMARKS:multi_face_landmarks"
 #   input_stream: "NORM_RECTS:face_rects_from_landmarks"
 #   input_stream: "DETECTIONS:face_detections"
@@ -169,5 +185,15 @@ node {
 node: {
   calculator: "FromImageCalculator"
   input_stream: "IMAGE:filtered_segmentation_mask"
+  output_stream: "IMAGE_GPU:filtered_segmentation_mask_out"
+}
+
+node: {
+  calculator: "ImageTransformationCalculator"
+  input_stream: "IMAGE_GPU:filtered_segmentation_mask_out"
+  input_side_packet: "FLIP_VERTICALLY:vflip"
   output_stream: "IMAGE_GPU:segment_video"
 }
+
+
+

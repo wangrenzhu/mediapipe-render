@@ -88,9 +88,6 @@ Framebuffer* FramebufferCache::fetchFramebuffer(Context *context,
                 forceCleanFramebuffer(framebuffer);
                 framebuffer = 0;
             } else if (framebuffer->framebufferRetainCount() == 0 && !framebuffer->isDealloc) {
-               Log("Framebuffer 【命中缓存】", "hashcode:%s count:%d",
-                   framebufferHashCodeKey.first.c_str(),
-                   framebuffer->framebufferRetainCount());
                 return framebuffer;
             }
         }
@@ -121,9 +118,6 @@ Framebuffer* FramebufferCache::fetchFramebuffer(Context *context,
     
     std::string framebufferHash = str_format("%s-%ld", lookupHash.c_str(),
                                              framebufferFromCache->getTexture());
-    Log("Framebuffer 创建新的Framebuffer", "hashcode:%s numberOfMatchingFramebuffers:%d",
-        framebufferHash.c_str(),
-        matchFramebuffersHashCode.size());
     framebufferFromCache->_hashCode = framebufferHash;
     framebufferFromCache->_typeCode = lookupHash;
     _framebuffers[framebufferHash] = framebufferFromCache;
@@ -147,9 +141,6 @@ void FramebufferCache::forceCleanFramebuffer(Framebuffer *framebuffer) {
 
 void FramebufferCache::returnFramebuffer(Framebuffer* framebuffer, int maxCacheSize) {
     if (framebuffer->framebufferRetainCount() == 0) {
-        Log("准备回收 retainCount == 0 的Framebuffer", "cacheHash:%s cacheReferenceCount:%d",
-            framebuffer->_hashCode.c_str(),
-            framebuffer->framebufferRetainCount());
         if (_framebuffers.find(framebuffer->_hashCode) != _framebuffers.end()) {
             
             if (_framebufferTypeMap[framebuffer->_typeCode].size() > maxCacheSize) {
