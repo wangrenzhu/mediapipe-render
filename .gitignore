@@ -161,3 +161,4 @@ mediapipe/render/module/beauty/android/demo/OlaBeautyDemo/.idea
 /.aswb/.idea/
 /.aswb/
 mediapipe/render/android/.idea
+mediapipe/examples/android/solutions/.gradle
